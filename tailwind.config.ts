@@ -4,6 +4,18 @@ export default {
   content: [],
   theme: {
     extend: {
+      keyframes: {
+        progress: {
+          '0%':   { backgroundPosition: '200% 0' },
+          '100%': { backgroundPosition: '-200% 0' },
+        },
+      },
+      animation: {
+        progress: 'progress 2s linear infinite',
+      },
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
       colors: {
         // ─── Paleta base ──────────────────────────────────────────────
         green: {

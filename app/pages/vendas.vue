@@ -43,6 +43,15 @@
             </button>
             <button
               type="button"
+              class="inline-flex items-center gap-2 text-sm font-semibold px-3 sm:px-5 py-2.5 rounded-xl bg-white/10 text-white hover:bg-white/20 border border-white/15 backdrop-blur-sm transition-all duration-200 hover:scale-[1.02]"
+              title="Exportar relatório em PDF"
+              @click="exportarPDF"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+              <span class="hidden sm:inline">Exportar PDF</span>
+            </button>
+            <button
+              type="button"
               class="inline-flex items-center gap-2 text-sm font-bold px-3 sm:px-5 py-2.5 rounded-xl bg-white text-green-800 hover:bg-green-50 shadow-lg shadow-green-900/25 transition-all duration-200 hover:scale-[1.02]"
               @click="abrirAdicionar"
             >
@@ -543,6 +552,8 @@
 import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
 import AppButton from '~/components/AppButton.vue'
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 interface ClienteOpcao { id: number; nome: string }
 interface ProdutoOpcao  { id: number; nome: string; categoria: string | null; preco_venda: number }
@@ -885,6 +896,88 @@ async function executarExclusao() {
   if (deleteErr) { deleteError.value = deleteErr.message; return }
   excluindo.value = null
   await fetchVendas()
+}
+
+function exportarPDF() {
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' })
+  const now = new Date()
+  const dataGeracao = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+
+  // Cabeçalho
+  doc.setFillColor(20, 83, 45)
+  doc.rect(0, 0, doc.internal.pageSize.getWidth(), 56, 'F')
+  doc.setTextColor(255, 255, 255)
+  doc.setFontSize(20)
+  doc.setFont('helvetica', 'bold')
+  doc.text('ZooCultura — Relatório de Vendas', 40, 34)
+  doc.setFontSize(9)
+  doc.setFont('helvetica', 'normal')
+  doc.text(`Gerado em: ${dataGeracao}`, 40, 48)
+
+  if (filtrosAtivos.value > 0) {
+    const parts: string[] = []
+    if (filtros.status) parts.push(`Status: ${statusLabel(filtros.status)}`)
+    if (filtros.formaPagamento) parts.push(`Pagamento: ${filtros.formaPagamento}`)
+    if (filtros.busca) parts.push(`Busca: "${filtros.busca}"`)
+    doc.text(`Filtros aplicados: ${parts.join(' · ')}`, doc.internal.pageSize.getWidth() - 40, 48, { align: 'right' })
+  }
+
+  // Resumo
+  doc.setTextColor(20, 83, 45)
+  doc.setFontSize(9)
+  doc.setFont('helvetica', 'bold')
+  const resumoY = 74
+  const totalVendasFiltradas = vendasFiltradas.value.length
+  const faturamentoFiltrado = vendasFiltradas.value.reduce((s, v) => s + (v.valor_total ?? 0), 0)
+  const ticketFiltrado = totalVendasFiltradas ? faturamentoFiltrado / totalVendasFiltradas : 0
+  doc.text(
+    `Total: ${totalVendasFiltradas} venda(s)   |   Faturamento: ${formatCurrency(faturamentoFiltrado)}   |   Ticket Médio: ${formatCurrency(ticketFiltrado)}`,
+    40, resumoY
+  )
+
+  // Tabela
+  autoTable(doc, {
+    startY: resumoY + 14,
+    head: [['#', 'Cliente', 'Produto', 'Qtd', 'Preço Unit.', 'Subtotal', 'Pagamento', 'Status', 'Data']],
+    body: vendasFiltradas.value.map(v => [
+      String(v.id),
+      v.clientes?.nome ?? '—',
+      v.produtos_casa_racao?.nome ?? '—',
+      String(v.quantidade),
+      formatCurrency(v.preco_unitario),
+      formatCurrency(v.valor_total ?? v.quantidade * v.preco_unitario),
+      v.forma_pagamento ?? '—',
+      statusLabel(v.status),
+      formatDate(v.data_venda),
+    ]),
+    headStyles: { fillColor: [20, 83, 45], textColor: 255, fontStyle: 'bold', fontSize: 8 },
+    bodyStyles: { fontSize: 8, textColor: [30, 30, 30] },
+    alternateRowStyles: { fillColor: [240, 253, 244] },
+    columnStyles: {
+      0: { cellWidth: 28, halign: 'center' },
+      3: { cellWidth: 30, halign: 'center' },
+      4: { cellWidth: 68, halign: 'right' },
+      5: { cellWidth: 68, halign: 'right' },
+      7: { cellWidth: 60, halign: 'center' },
+      8: { cellWidth: 90 },
+    },
+    margin: { left: 40, right: 40 },
+    tableLineColor: [220, 252, 231],
+    tableLineWidth: 0.5,
+  })
+
+  // Rodapé
+  const pageCount = (doc.internal as any).getNumberOfPages()
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i)
+    doc.setFontSize(8)
+    doc.setFont('helvetica', 'normal')
+    doc.setTextColor(150, 150, 150)
+    doc.text(`Página ${i} de ${pageCount}`, doc.internal.pageSize.getWidth() / 2, doc.internal.pageSize.getHeight() - 16, { align: 'center' })
+  }
+
+  const filename = `vendas_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}.pdf`
+  doc.save(filename)
 }
 </script>
 

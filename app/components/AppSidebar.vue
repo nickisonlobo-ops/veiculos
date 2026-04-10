@@ -84,6 +84,7 @@ const allNavSections = [
     items: [
       { to: '/produtos', icon: 'package', label: 'Produtos', adminOnly: false },
       { to: '/funcionarios', icon: 'users', label: 'Funcionários', adminOnly: true },
+      { to: '/atividades', icon: 'clipboard', label: 'Atividades', adminOnly: true },
     ],
   },
   {
