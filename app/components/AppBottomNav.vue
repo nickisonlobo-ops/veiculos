@@ -20,19 +20,19 @@ import AppNavIcon from '~/components/AppNavIcon.vue'
 
 defineOptions({ name: 'AppBottomNav' })
 
-const { isAdmin } = useAdmin()
+const { isAdminOrGerente } = useAdmin()
 
 const allNavItems = [
-  { to: '/',             icon: 'home',    label: 'Início',       adminOnly: false },
-  { to: '/clientes',     icon: 'identification', label: 'Clientes',     adminOnly: false },
-  { to: '/produtos',     icon: 'package',        label: 'Produtos',     adminOnly: false },
-  { to: '/funcionarios', icon: 'users',   label: 'Funcionários', adminOnly: true  },
-  { to: '/atividades',   icon: 'clipboard', label: 'Atividades',   adminOnly: true  },
-  { to: '/contas-pagar', icon: 'wallet',  label: 'Contas',       adminOnly: true  },
-  { to: '/vendas',       icon: 'receipt',        label: 'Vendas',       adminOnly: false },
+  { to: '/',             icon: 'home',      label: 'Início',       minPerfil: 'all' },
+  { to: '/clientes',     icon: 'identification', label: 'Clientes',  minPerfil: 'all' },
+  { to: '/produtos',     icon: 'package',   label: 'Produtos',     minPerfil: 'all' },
+  { to: '/funcionarios', icon: 'users',     label: 'Funcionários', minPerfil: 'all' },
+  { to: '/atividades',   icon: 'clipboard', label: 'Atividades',   minPerfil: 'all' },
+  { to: '/contas-pagar', icon: 'wallet',    label: 'Contas',       minPerfil: 'manager' },
+  { to: '/vendas',       icon: 'receipt',   label: 'Vendas',       minPerfil: 'all' },
 ]
 
 const navItems = computed(() =>
-  allNavItems.filter(item => !item.adminOnly || isAdmin.value)
+  allNavItems.filter(item => item.minPerfil === 'all' || isAdminOrGerente.value)
 )
 </script>

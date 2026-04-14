@@ -2,7 +2,8 @@ import { useState } from '#app'
 import { createSupabaseClient } from '~/lib/supabase'
 
 export function useEmpresa() {
-  const empresaId = useState<number | null>('empresa_id', () => null)
+  const empresaId  = useState<number | null>('empresa_id',   () => null)
+  const userPerfil = useState<string | null>('user_perfil',  () => null)
 
   async function loadEmpresa() {
     if (empresaId.value !== null) return
@@ -13,12 +14,13 @@ export function useEmpresa() {
     // Try to load existing profile
     const { data: profile } = await supabase
       .from('profiles')
-      .select('empresa_id')
+      .select('empresa_id, perfil')
       .eq('id', session.user.id)
       .single()
 
     if (profile?.empresa_id) {
-      empresaId.value = profile.empresa_id
+      empresaId.value  = profile.empresa_id
+      userPerfil.value = profile.perfil ?? 'funcionario'
       return
     }
 
@@ -40,8 +42,9 @@ export function useEmpresa() {
       perfil: 'admin',
     })
 
-    empresaId.value = empresa.id
+    empresaId.value  = empresa.id
+    userPerfil.value = 'admin'
   }
 
-  return { empresaId, loadEmpresa }
+  return { empresaId, userPerfil, loadEmpresa }
 }

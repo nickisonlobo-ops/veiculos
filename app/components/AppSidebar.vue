@@ -63,34 +63,34 @@ import AppNavIcon from '~/components/AppNavIcon.vue'
 defineOptions({ name: 'AppSidebar' })
 
 const expanded = ref(false)
-const { isAdmin } = useAdmin()
+const { isAdminOrGerente } = useAdmin()
 
 const allNavSections = [
   {
     title: 'Geral',
     items: [
-      { to: '/', icon: 'home', label: 'Início', adminOnly: false },
+      { to: '/', icon: 'home', label: 'Início', minPerfil: 'all' },
     ],
   },
   {
     title: 'Comercial',
     items: [
-      { to: '/clientes', icon: 'identification', label: 'Clientes', adminOnly: false },
-      { to: '/vendas', icon: 'receipt', label: 'Vendas', adminOnly: false },
+      { to: '/clientes', icon: 'identification', label: 'Clientes', minPerfil: 'all' },
+      { to: '/vendas', icon: 'receipt', label: 'Vendas', minPerfil: 'all' },
     ],
   },
   {
     title: 'Operação',
     items: [
-      { to: '/produtos', icon: 'package', label: 'Produtos', adminOnly: false },
-      { to: '/funcionarios', icon: 'users', label: 'Funcionários', adminOnly: true },
-      { to: '/atividades', icon: 'clipboard', label: 'Atividades', adminOnly: true },
+      { to: '/produtos', icon: 'package', label: 'Produtos', minPerfil: 'all' },
+      { to: '/funcionarios', icon: 'users', label: 'Funcionários', minPerfil: 'all' },
+      { to: '/atividades', icon: 'clipboard', label: 'Atividades', minPerfil: 'all' },
     ],
   },
   {
     title: 'Financeiro',
     items: [
-      { to: '/contas-pagar', icon: 'wallet', label: 'Contas a Pagar', adminOnly: true },
+      { to: '/contas-pagar', icon: 'wallet', label: 'Contas a Pagar', minPerfil: 'manager' },
     ],
   },
 ]
@@ -99,7 +99,7 @@ const navSections = computed(() =>
   allNavSections
     .map(section => ({
       ...section,
-      items: section.items.filter(item => !item.adminOnly || isAdmin.value),
+      items: section.items.filter(item => item.minPerfil === 'all' || isAdminOrGerente.value),
     }))
     .filter(section => section.items.length > 0)
 )

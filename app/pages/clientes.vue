@@ -42,6 +42,7 @@
               <span v-if="filtrosAtivos > 0" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full bg-white text-orange-600 text-xs font-black ring-2 ring-orange-400">{{ filtrosAtivos }}</span>
             </button>
             <button
+              v-if="isAdminOrGerente"
               type="button"
               class="inline-flex items-center gap-2 text-sm font-bold px-3 sm:px-5 py-2.5 rounded-xl bg-white text-green-800 hover:bg-green-50 shadow-lg shadow-green-900/25 transition-all duration-200 hover:scale-[1.02]"
               @click="abrirAdicionar"
@@ -222,6 +223,7 @@
               <td class="px-7 py-4 text-right sm:sticky sm:right-0 bg-white group-hover:bg-violet-50/40 transition-colors">
                 <div class="flex items-center justify-end gap-1">
                   <button
+                    v-if="isAdminOrGerente"
                     type="button"
                     class="w-8 h-8 flex items-center justify-center rounded-xl text-violet-500 hover:text-violet-700 hover:bg-violet-100 transition-colors"
                     title="Editar"
@@ -230,6 +232,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.125L18 8.625"/></svg>
                   </button>
                   <button
+                    v-if="isAdminOrGerente"
                     type="button"
                     class="w-8 h-8 flex items-center justify-center rounded-xl text-red-400 hover:text-red-600 hover:bg-red-50 transition-colors"
                     title="Excluir"
@@ -386,6 +389,9 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
+import { useAdmin } from '~/composables/useAdmin'
+import { useAdmin } from '~/composables/useAdmin'
+import { useAdmin } from '~/composables/useAdmin'
 import { useEmpresa } from '~/composables/useEmpresa'
 import AppInput from '~/components/AppInput.vue'
 import AppButton from '~/components/AppButton.vue'

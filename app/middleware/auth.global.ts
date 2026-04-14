@@ -1,6 +1,7 @@
 import { createSupabaseClient } from '~/lib/supabase'
 
-const ADMIN_ROUTES = ['/funcionarios', '/contas-pagar', '/atividades']
+// Routes that require admin or gerente perfil
+const MANAGER_ROUTES = ['/contas-pagar']
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const supabase = createSupabaseClient()
@@ -15,8 +16,16 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return navigateTo('/login')
   }
 
-  const isAdmin = session.user?.email === 'admin@zoocultura.com'
-  if (ADMIN_ROUTES.includes(to.path) && !isAdmin) {
-    return navigateTo('/')
+  if (MANAGER_ROUTES.includes(to.path)) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('perfil')
+      .eq('id', session.user.id)
+      .single()
+
+    const perfil = profile?.perfil
+    if (perfil !== 'admin' && perfil !== 'gerente') {
+      return navigateTo('/')
+    }
   }
 })

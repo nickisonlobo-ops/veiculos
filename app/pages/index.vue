@@ -2,7 +2,7 @@
   <div class="min-h-full bg-gray-50/60 p-3 sm:p-8">
 
     <!-- �.��.��.��.��.��.��.��.��.��.��.� VIS�fO FUNCIONÁRIO �.��.��.��.��.��.��.��.��.��.��.� -->
-    <template v-if="!adminLoading && !isAdmin">
+    <template v-if="!adminLoading && !isAdminOrGerente">
       <!-- Cabeçalho funcionário -->
       <div class="relative rounded-3xl overflow-hidden mb-7 shadow-xl">
         <div class="absolute inset-0 bg-gradient-to-br from-green-900 via-green-700 to-green-500" />
@@ -275,7 +275,7 @@
     </template>
 
     <!-- �.��.��.��.��.��.��.��.��.��.��.� VIS�fO ADMIN �.��.��.��.��.��.��.��.��.��.��.� -->
-    <template v-if="!adminLoading && isAdmin">
+    <template v-if="!adminLoading && isAdminOrGerente">
 
       <!-- Header compacto -->
       <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-950 via-green-800 to-green-600 shadow-xl mb-6">
@@ -457,8 +457,8 @@ import { createSupabaseClient } from '~/lib/supabase'
 import AppNavIcon from '~/components/AppNavIcon.vue'
 
 const supabase = createSupabaseClient()
-const { isAdmin, adminLoading } = useAdmin()
-const { empresaId, loadEmpresa } = useEmpresa()
+const { isAdmin, isAdminOrGerente, adminLoading } = useAdmin()
+const { empresaId, userPerfil, loadEmpresa } = useEmpresa()
 
 // �"?�"? ADMIN: resumo �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
 const resumoLoading      = ref(true)
@@ -677,12 +677,12 @@ onMounted(async () => {
   await loadEmpresa()
 
   // Funcionário: buscar pelo email
-  if (email && email !== 'admin@zoocultura.com') {
+  if (userPerfil.value === 'funcionario') {
     const { data: func } = await supabase
       .from('funcionarios')
       .select('id, nome, cargo')
       .eq('empresa_id', empresaId.value!)
-      .ilike('email', email)
+      .ilike('email', email ?? '')
       .maybeSingle()
 
     if (func) {
@@ -757,7 +757,7 @@ const atalhos = [
     icon: 'identification',
     title: 'Clientes',
     description: 'Gerencie cadastros, contatos e informações de relacionamento.',
-    adminOnly: false,
+    minPerfil: 'all',
     accent: 'bg-violet-500',
     iconBg: 'bg-violet-50 border-violet-100',
     iconColor: 'text-violet-600',
@@ -768,7 +768,7 @@ const atalhos = [
     icon: 'receipt',
     title: 'Vendas',
     description: 'Registre vendas com itens e subtotais de forma rápida e segura.',
-    adminOnly: false,
+    minPerfil: 'all',
     accent: 'bg-orange-500',
     iconBg: 'bg-orange-50 border-orange-100',
     iconColor: 'text-orange-600',
@@ -779,7 +779,7 @@ const atalhos = [
     icon: 'package',
     title: 'Produtos',
     description: 'Acompanhe estoque, categorias, preços e status dos itens.',
-    adminOnly: false,
+    minPerfil: 'all',
     accent: 'bg-blue-500',
     iconBg: 'bg-blue-50 border-blue-100',
     iconColor: 'text-blue-600',
@@ -790,7 +790,7 @@ const atalhos = [
     icon: 'users',
     title: 'Funcionários',
     description: 'Organize dados da equipe e mantenha o controle operacional.',
-    adminOnly: true,
+    minPerfil: 'all',
     accent: 'bg-emerald-500',
     iconBg: 'bg-emerald-50 border-emerald-100',
     iconColor: 'text-emerald-600',
@@ -801,7 +801,7 @@ const atalhos = [
     icon: 'wallet',
     title: 'Contas a Pagar',
     description: 'Monitore vencimentos, status e planejamento financeiro.',
-    adminOnly: true,
+    minPerfil: 'manager',
     accent: 'bg-rose-500',
     iconBg: 'bg-rose-50 border-rose-100',
     iconColor: 'text-rose-600',
@@ -810,6 +810,6 @@ const atalhos = [
 ] as const
 
 const atalhosVisiveis = computed(() =>
-  atalhos.filter(item => !item.adminOnly || isAdmin.value)
+  atalhos.filter(item => item.minPerfil === 'all' || isAdminOrGerente.value)
 )
 </script>

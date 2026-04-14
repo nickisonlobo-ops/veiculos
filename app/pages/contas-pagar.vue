@@ -48,6 +48,7 @@
               </span>
             </button>
             <button
+              v-if="isAdminOrGerente"
               type="button"
               class="inline-flex items-center gap-2 text-sm font-bold px-3 sm:px-5 py-2.5 rounded-xl bg-white text-green-800 hover:bg-green-50 shadow-lg shadow-green-900/25 transition-all duration-200 hover:scale-[1.02]"
               @click="abrirAdicionar"
@@ -350,6 +351,7 @@
               <td class="px-7 py-4 text-right sm:sticky sm:right-0 bg-white group-hover:bg-green-50/60 transition-colors">
                 <div class="flex items-center justify-end gap-2">
                   <button
+                    v-if="isAdminOrGerente"
                     type="button"
                     class="inline-flex items-center gap-1.5 text-xs font-semibold text-green-700 bg-green-50 hover:bg-green-100 border border-green-200 px-3 py-1.5 rounded-xl transition-colors"
                     @click="editConta(conta)"
@@ -358,6 +360,7 @@
                     Editar
                   </button>
                   <button
+                    v-if="isAdmin"
                     type="button"
                     class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-500 bg-red-50 hover:bg-red-100 border border-red-200 px-3 py-1.5 rounded-xl transition-colors"
                     @click="confirmarExclusao(conta)"
@@ -493,6 +496,9 @@
 <script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
+import { useAdmin } from '~/composables/useAdmin'
+import { useAdmin } from '~/composables/useAdmin'
+import { useAdmin } from '~/composables/useAdmin'
 import { useEmpresa } from '~/composables/useEmpresa'
 import AppInput from '~/components/AppInput.vue'
 import AppButton from '~/components/AppButton.vue'

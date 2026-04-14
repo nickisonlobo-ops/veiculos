@@ -1,16 +1,17 @@
-import { ref, onMounted } from 'vue'
-import { createSupabaseClient } from '~/lib/supabase'
+import { computed, onMounted, ref } from 'vue'
+import { useEmpresa } from './useEmpresa'
 
 export function useAdmin() {
-  const isAdmin = ref(false)
+  const { userPerfil, loadEmpresa } = useEmpresa()
   const adminLoading = ref(true)
 
   onMounted(async () => {
-    const supabase = createSupabaseClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    isAdmin.value = session?.user?.email === 'admin@zoocultura.com'
+    await loadEmpresa()
     adminLoading.value = false
   })
 
-  return { isAdmin, adminLoading }
+  const isAdmin          = computed(() => userPerfil.value === 'admin')
+  const isAdminOrGerente = computed(() => userPerfil.value === 'admin' || userPerfil.value === 'gerente')
+
+  return { perfil: userPerfil, isAdmin, isAdminOrGerente, adminLoading }
 }
