@@ -420,6 +420,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
+import { useEmpresa } from '~/composables/useEmpresa'
 import AppInput from '~/components/AppInput.vue'
 import AppButton from '~/components/AppButton.vue'
 
@@ -435,6 +436,7 @@ interface Funcionario {
 }
 
 const supabase = createSupabaseClient()
+const { empresaId, loadEmpresa } = useEmpresa()
 
 const funcionarios = ref<Funcionario[]>([])
 const loading = ref(true)
@@ -540,6 +542,7 @@ async function lancarFolha() {
     categoria: 'Folha Salarial',
     periodicidade: 'mensal',
     funcionario_id: f.id,
+    empresa_id: empresaId.value!,
   }))
 
   const { error: insertError } = await supabase.from('contas_pagar').insert(registros)
@@ -567,6 +570,7 @@ const columns = [
 ]
 
 onMounted(async () => {
+  await loadEmpresa()
   await fetchFuncionarios()
 })
 
@@ -575,6 +579,7 @@ async function fetchFuncionarios() {
   const { data, error: fetchError } = await supabase
     .from('funcionarios')
     .select('*')
+    .eq('empresa_id', empresaId.value!)
     .order('id', { ascending: true })
 
   loading.value = false
@@ -671,6 +676,7 @@ async function salvarAdicao() {
       cpf:      form.cpf ? Number(form.cpf) : null,
       salario:  form.salario ? Number(form.salario) : null,
       endereco: form.endereco || null,
+      empresa_id: empresaId.value!,
     })
 
   saving.value = false

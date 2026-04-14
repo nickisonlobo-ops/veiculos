@@ -17,7 +17,7 @@ export interface ResultadoGeracao {
  * Deduplicação: não cria se já existe registro com o mesmo
  * funcionario_id + titulo + data_atividade para hoje.
  */
-export async function gerarTarefasDiarias(): Promise<ResultadoGeracao> {
+export async function gerarTarefasDiarias(empresaId: number): Promise<ResultadoGeracao> {
   const supabase = createSupabaseClient()
   const hoje = new Date()
   const todayIso = hoje.toISOString().slice(0, 10)
@@ -27,6 +27,7 @@ export async function gerarTarefasDiarias(): Promise<ResultadoGeracao> {
   const { data: modelos, error: fetchErr } = await supabase
     .from('atividades_funcionarios')
     .select('id, funcionario_id, titulo, descricao, prioridade, periodicidade, hora_inicio, hora_fim, observacao')
+    .eq('empresa_id', empresaId)
     .is('data_atividade', null)
 
   if (fetchErr) return { geradas: 0, ignoradas: 0, erro: fetchErr.message }
@@ -37,6 +38,7 @@ export async function gerarTarefasDiarias(): Promise<ResultadoGeracao> {
     .from('atividades_funcionarios')
     .select('funcionario_id, titulo')
     .eq('data_atividade', todayIso)
+    .eq('empresa_id', empresaId)
 
   const jaExiste = new Set(
     (existentes ?? []).map(a => `${a.funcionario_id}::${a.titulo}`)
@@ -72,6 +74,7 @@ export async function gerarTarefasDiarias(): Promise<ResultadoGeracao> {
       hora_inicio:     m.hora_inicio,
       hora_fim:        m.hora_fim,
       observacao:      m.observacao,
+      empresa_id:      empresaId,
     })
   }
 

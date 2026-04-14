@@ -493,6 +493,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
+import { useEmpresa } from '~/composables/useEmpresa'
 import AppInput from '~/components/AppInput.vue'
 import AppButton from '~/components/AppButton.vue'
 
@@ -512,6 +513,7 @@ interface ContaPagar {
 }
 
 const supabase = createSupabaseClient()
+const { empresaId, loadEmpresa } = useEmpresa()
 
 const contas = ref<ContaPagar[]>([])
 const loading = ref(true)
@@ -686,13 +688,14 @@ const columns = [
   { key: 'created_at',       label: 'Criado em' },
 ]
 
-onMounted(fetchContas)
+onMounted(async () => { await loadEmpresa(); await fetchContas() })
 
 async function fetchContas() {
   loading.value = true
   const { data, error: fetchError } = await supabase
     .from('contas_pagar')
     .select('*')
+    .eq('empresa_id', empresaId.value!)
     .order('data_vencimento', { ascending: true })
 
   loading.value = false
@@ -796,6 +799,7 @@ function buildPayload() {
     observacao:      form.observacao || null,
     funcionario_id:  form.funcionario_id ? Number(form.funcionario_id) : null,
     periodicidade:   form.periodicidade || 'avulsa',
+    empresa_id:      empresaId.value!,
   }
 }
 

@@ -386,6 +386,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
+import { useEmpresa } from '~/composables/useEmpresa'
 import AppInput from '~/components/AppInput.vue'
 import AppButton from '~/components/AppButton.vue'
 
@@ -407,6 +408,7 @@ interface Cliente {
 }
 
 const supabase = createSupabaseClient()
+const { empresaId, loadEmpresa } = useEmpresa()
 
 const clientes = ref<Cliente[]>([])
 const loading = ref(true)
@@ -499,13 +501,14 @@ function initials(nome: string): string {
 }
 
 // �"?�"? CRUD �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
-onMounted(fetchClientes)
+onMounted(async () => { await loadEmpresa(); await fetchClientes() })
 
 async function fetchClientes() {
   loading.value = true
   const { data, error: fetchError } = await supabase
     .from('clientes')
     .select('*')
+    .eq('empresa_id', empresaId.value!)
     .order('nome', { ascending: true })
 
   loading.value = false
@@ -560,6 +563,7 @@ function buildPayload() {
     cep:        form.cep.trim() || null,
     observacao: form.observacao.trim() || null,
     ativo:      form.ativo,
+    empresa_id: empresaId.value!,
   }
 }
 

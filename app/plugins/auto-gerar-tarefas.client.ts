@@ -23,7 +23,16 @@ export default defineNuxtPlugin(async () => {
   // Somente admin dispara a geração automática
   if (session.user?.email !== 'admin@zoocultura.com') return
 
-  const resultado = await gerarTarefasDiarias()
+  // Busca empresa_id do admin
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('empresa_id')
+    .eq('id', session.user.id)
+    .single()
+
+  if (!profile?.empresa_id) return
+
+  const resultado = await gerarTarefasDiarias(profile.empresa_id)
 
   // Marca como gerado hoje (mesmo se não havia modelos, evita chamadas repetidas)
   localStorage.setItem(chave, String(resultado.geradas))

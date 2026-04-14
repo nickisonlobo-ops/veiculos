@@ -500,6 +500,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
+import { useEmpresa } from '~/composables/useEmpresa'
 import AppButton from '~/components/AppButton.vue'
 import { gerarTarefasDiarias, chaveGeracaoHoje } from '~/composables/useGerarTarefas'
 
@@ -521,6 +522,7 @@ interface Atividade {
 }
 
 const supabase = createSupabaseClient()
+const { empresaId, loadEmpresa } = useEmpresa()
 
 const atividades         = ref<Atividade[]>([])
 const funcionariosOpcoes = ref<FuncionarioOpcao[]>([])
@@ -665,6 +667,7 @@ function periodicidadeBadgeClass(p: string | null): string {
 
 // �"?�"? CRUD �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
 onMounted(async () => {
+  await loadEmpresa()
   await Promise.all([fetchAtividades(), fetchFuncionarios()])
 })
 
@@ -673,6 +676,7 @@ async function fetchAtividades() {
   const { data, error: fetchError } = await supabase
     .from('atividades_funcionarios')
     .select('*, funcionarios(nome, cargo)')
+    .eq('empresa_id', empresaId.value!)
     .order('data_atividade', { ascending: false })
     .order('created_at', { ascending: false })
   loading.value = false
@@ -684,6 +688,7 @@ async function fetchFuncionarios() {
   const { data } = await supabase
     .from('funcionarios')
     .select('id, nome, cargo')
+    .eq('empresa_id', empresaId.value!)
     .order('nome')
   funcionariosOpcoes.value = (data ?? []) as FuncionarioOpcao[]
 }
@@ -715,7 +720,7 @@ function abrirAdicionar() {
 async function gerarHoje() {
   gerando.value = true
   geracaoMsg.value = ''
-  const resultado = await gerarTarefasDiarias()
+  const resultado = await gerarTarefasDiarias(empresaId.value!)
   gerando.value = false
   if (resultado.erro) {
     geracaoMsg.value = `Erro: ${resultado.erro}`
@@ -772,6 +777,7 @@ function buildPayload() {
     hora_inicio:    form.hora_inicio || null,
     hora_fim:       form.hora_fim || null,
     observacao:     form.observacao.trim() || null,
+    empresa_id:     empresaId.value!,
   }
 }
 

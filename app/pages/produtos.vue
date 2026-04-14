@@ -433,6 +433,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
+import { useEmpresa } from '~/composables/useEmpresa'
 import AppInput from '~/components/AppInput.vue'
 import AppButton from '~/components/AppButton.vue'
 
@@ -455,6 +456,7 @@ interface Produto {
 }
 
 const supabase = createSupabaseClient()
+const { empresaId, loadEmpresa } = useEmpresa()
 
 const produtos = ref<Produto[]>([])
 const loading = ref(true)
@@ -551,13 +553,14 @@ function limparFiltros() {
 }
 
 // �"?�"? CRUD �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
-onMounted(fetchProdutos)
+onMounted(async () => { await loadEmpresa(); await fetchProdutos() })
 
 async function fetchProdutos() {
   loading.value = true
   const { data, error: fetchError } = await supabase
     .from('produtos_casa_racao')
     .select('*')
+    .eq('empresa_id', empresaId.value!)
     .order('nome', { ascending: true })
 
   loading.value = false
@@ -619,6 +622,7 @@ function buildPayload() {
     estoque_atual:  Number(form.estoque_atual),
     estoque_minimo: Number(form.estoque_minimo),
     ativo:          form.ativo,
+    empresa_id:     empresaId.value!,
   }
 }
 

@@ -501,6 +501,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
+import { useEmpresa } from '~/composables/useEmpresa'
 import AppButton from '~/components/AppButton.vue'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
@@ -521,6 +522,7 @@ interface Venda {
 }
 
 const supabase = createSupabaseClient()
+const { empresaId, loadEmpresa } = useEmpresa()
 
 const vendas          = ref<Venda[]>([])
 const clientesOpcoes  = ref<ClienteOpcao[]>([])
@@ -694,6 +696,7 @@ function vendaTotalValor(v: Venda): number {
 
 // �"?�"? CRUD �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
 onMounted(async () => {
+  await loadEmpresa()
   await Promise.all([fetchVendas(), fetchOpcoes()])
 })
 
@@ -702,6 +705,7 @@ async function fetchVendas() {
   const { data, error: fetchError } = await supabase
     .from('vendas')
     .select('*, clientes(nome), vendas_itens(id, produto_id, quantidade, preco_unitario, valor_total, produtos_casa_racao(nome))')
+    .eq('empresa_id', empresaId.value!)
     .order('data_venda', { ascending: false })
 
   loading.value = false
@@ -711,8 +715,8 @@ async function fetchVendas() {
 
 async function fetchOpcoes() {
   const [{ data: clis }, { data: prods }] = await Promise.all([
-    supabase.from('clientes').select('id, nome').eq('ativo', true).order('nome'),
-    supabase.from('produtos_casa_racao').select('id, nome, categoria, preco_venda').eq('ativo', true).order('nome'),
+    supabase.from('clientes').select('id, nome').eq('ativo', true).eq('empresa_id', empresaId.value!).order('nome'),
+    supabase.from('produtos_casa_racao').select('id, nome, categoria, preco_venda').eq('ativo', true).eq('empresa_id', empresaId.value!).order('nome'),
   ])
   clientesOpcoes.value = (clis ?? []) as ClienteOpcao[]
   produtosOpcoes.value = (prods ?? []) as ProdutoOpcao[]
@@ -806,6 +810,7 @@ async function salvarEdicao() {
       produto_id:     item.produto_id,
       quantidade:     item.quantidade,
       preco_unitario: item.preco_unitario,
+      empresa_id:     empresaId.value!,
     })))
 
   saving.value = false
@@ -826,6 +831,7 @@ async function salvarAdicao() {
       status:          form.status,
       observacao:      form.observacao.trim() || null,
       data_venda:      form.data_venda || null,
+      empresa_id:      empresaId.value!,
     })
     .select('id')
     .single()
@@ -839,6 +845,7 @@ async function salvarAdicao() {
       produto_id:     item.produto_id,
       quantidade:     item.quantidade,
       preco_unitario: item.preco_unitario,
+      empresa_id:     empresaId.value!,
     })))
 
   saving.value = false

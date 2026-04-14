@@ -452,11 +452,13 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useAdmin } from '~/composables/useAdmin'
+import { useEmpresa } from '~/composables/useEmpresa'
 import { createSupabaseClient } from '~/lib/supabase'
 import AppNavIcon from '~/components/AppNavIcon.vue'
 
 const supabase = createSupabaseClient()
 const { isAdmin, adminLoading } = useAdmin()
+const { empresaId, loadEmpresa } = useEmpresa()
 
 // �"?�"? ADMIN: resumo �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
 const resumoLoading      = ref(true)
@@ -672,12 +674,14 @@ async function alterarStatus(at: AtividadeFuncionario, novoStatus: string) {
 onMounted(async () => {
   const { data: { session } } = await supabase.auth.getSession()
   const email = session?.user?.email
+  await loadEmpresa()
 
   // Funcionário: buscar pelo email
   if (email && email !== 'admin@zoocultura.com') {
     const { data: func } = await supabase
       .from('funcionarios')
       .select('id, nome, cargo')
+      .eq('empresa_id', empresaId.value!)
       .ilike('email', email)
       .maybeSingle()
 
@@ -687,6 +691,7 @@ onMounted(async () => {
         .from('atividades_funcionarios')
         .select('id, titulo, descricao, status, prioridade, periodicidade, data_atividade, hora_inicio, hora_fim, observacao')
         .eq('funcionario_id', func.id)
+        .eq('empresa_id', empresaId.value!)
         .order('data_atividade', { ascending: true })
       minhasAtividades.value = (ativs ?? []) as AtividadeFuncionario[]
     }
@@ -699,10 +704,10 @@ onMounted(async () => {
   loadingAtividades.value = false
   const todayIso = new Date().toISOString().slice(0, 10)
   const [clientesResp, vendasResp, contasResp, tarefasResp] = await Promise.all([
-    supabase.from('clientes').select('ativo'),
-    supabase.from('vendas').select('valor_total, data_venda, status'),
-    supabase.from('contas_pagar').select('valor, data_vencimento, status'),
-    supabase.from('atividades_funcionarios').select('status, data_atividade').eq('data_atividade', todayIso),
+    supabase.from('clientes').select('ativo').eq('empresa_id', empresaId.value!),
+    supabase.from('vendas').select('valor_total, data_venda, status').eq('empresa_id', empresaId.value!),
+    supabase.from('contas_pagar').select('valor, data_vencimento, status').eq('empresa_id', empresaId.value!),
+    supabase.from('atividades_funcionarios').select('status, data_atividade').eq('data_atividade', todayIso).eq('empresa_id', empresaId.value!),
   ])
 
   if (!clientesResp.error) {
