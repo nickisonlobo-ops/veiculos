@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-full bg-gray-50/60 p-3 sm:p-8">
 
-    <!-- ═══════════════════ CABEÇALHO ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CABEÃ‡ALHO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <div class="relative rounded-3xl overflow-hidden mb-8 shadow-xl">
       <div class="absolute inset-0 bg-gradient-to-br from-green-900 via-green-700 to-green-500" />
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(251,146,60,0.18),transparent_60%)]" />
@@ -10,7 +10,7 @@
       <div class="absolute top-4 right-1/3 w-40 h-40 rounded-full bg-orange-400/10 pointer-events-none" />
 
       <div class="relative px-4 sm:px-8 pt-5 sm:pt-7 pb-5 sm:pb-7">
-        <!-- Título + ações -->
+        <!-- TÃ­tulo + aÃ§Ãµes -->
         <div class="flex flex-wrap items-start justify-between gap-3 sm:gap-6">
           <div class="flex items-center gap-3 sm:gap-5">
             <div class="flex items-center justify-center w-10 sm:w-14 h-10 sm:h-14 rounded-2xl bg-white/[0.12] backdrop-blur-sm border border-white/20 shadow-lg">
@@ -18,13 +18,13 @@
             </div>
             <div>
               <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Gestão</span>
+                <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">GestÃ£o</span>
                 <span class="w-1 h-1 rounded-full bg-green-400/50" />
-                <span class="text-xs text-green-300/70 hidden sm:inline">ZooCultura</span>
+                <span class="text-xs text-green-300/70 hidden sm:inline">PetFlow</span>
               </div>
-              <h1 class="text-xl sm:text-3xl font-bold text-white tracking-tight leading-none">Funcionários</h1>
+              <h1 class="text-xl sm:text-3xl font-bold text-white tracking-tight leading-none">FuncionÃ¡rios</h1>
               <p class="text-sm text-green-200/80 mt-1.5">
-                {{ loading ? 'Carregando...' : `${funcionariosFiltrados.length} de ${funcionarios.length} funcionário(s) exibido(s)` }}
+                {{ loading ? 'Carregando...' : `${funcionariosFiltrados.length} de ${funcionarios.length} funcionÃ¡rio(s) exibido(s)` }}
               </p>
             </div>
           </div>
@@ -48,7 +48,7 @@
               @click="modalFolha = true"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-              <span class="hidden sm:inline">Lançar Folha</span>
+              <span class="hidden sm:inline">LanÃ§ar Folha</span>
             </button>
             <button
               type="button"
@@ -56,7 +56,7 @@
               @click="abrirAdicionar"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-              <span class="hidden sm:inline">Adicionar Funcionário</span>
+              <span class="hidden sm:inline">Adicionar FuncionÃ¡rio</span>
             </button>
           </div>
         </div>
@@ -69,17 +69,17 @@
           <div class="flex flex-col gap-1 bg-white/10 backdrop-blur-sm rounded-2xl px-5 py-4 border border-white/10 hover:bg-white/15 transition-colors">
             <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Total</span>
             <span class="text-xl font-black text-white leading-tight">{{ funcionarios.length }}</span>
-            <span class="text-xs text-green-300/60">funcionário(s)</span>
+            <span class="text-xs text-green-300/60">funcionÃ¡rio(s)</span>
           </div>
           <div class="flex flex-col gap-1 bg-orange-400/10 rounded-2xl px-5 py-4 border border-orange-300/20 hover:bg-orange-400/15 transition-colors">
             <span class="text-xs font-semibold text-orange-200 uppercase tracking-widest">Folha Salarial</span>
             <span class="text-xl font-black text-orange-100 leading-tight">{{ formatCurrency(totalFolha) }}</span>
-            <span class="text-xs text-orange-300/50">soma dos salários</span>
+            <span class="text-xs text-orange-300/50">soma dos salÃ¡rios</span>
           </div>
           <div class="flex flex-col gap-1 bg-white/10 rounded-2xl px-5 py-4 border border-white/10 hover:bg-white/15 transition-colors">
-            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Média Salarial</span>
+            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">MÃ©dia Salarial</span>
             <span class="text-xl font-black text-white leading-tight">{{ formatCurrency(mediaSalarial) }}</span>
-            <span class="text-xs text-green-300/60">por funcionário</span>
+            <span class="text-xs text-green-300/60">por funcionÃ¡rio</span>
           </div>
           <div class="flex flex-col gap-1 bg-white/[0.07] rounded-2xl px-5 py-4 border border-white/10 hover:bg-white/12 transition-colors">
             <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Com Cargo</span>
@@ -90,7 +90,7 @@
       </div>
     </div>
 
-    <!-- ═══════════════════ FILTRO ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• FILTRO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <Transition name="slide-fade">
       <div v-show="filtroAberto" class="bg-white rounded-3xl border border-gray-100 shadow-md mb-6 overflow-hidden">
         <div class="flex items-center justify-between px-7 py-4 border-b border-gray-100 bg-gray-50/70">
@@ -129,25 +129,25 @@
       </div>
     </Transition>
 
-    <!-- ═══════════════════ LOADING ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• LOADING â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <div v-if="loading" class="flex flex-col items-center justify-center gap-4 py-32">
       <span class="inline-block w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full animate-spin" />
-      <span class="text-sm text-gray-400 font-medium">Carregando funcionários...</span>
+      <span class="text-sm text-gray-400 font-medium">Carregando funcionÃ¡rios...</span>
     </div>
 
-    <!-- ═══════════════════ ERRO ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ERRO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <div v-else-if="error" class="flex items-center gap-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-2xl px-6 py-4">
       <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 8v4m0 4h.01"/></svg>
       {{ error }}
     </div>
 
-    <!-- ═══════════════════ TABELA ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• TABELA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <div v-else class="bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden">
       <div class="flex items-center justify-between px-7 py-4 border-b border-gray-100 bg-gray-50/50">
         <span class="text-sm font-semibold text-gray-600">
           <span class="text-green-700 font-black">{{ funcionariosFiltrados.length }}</span>
           resultado(s)
-          <span v-if="buscaAtiva || filtroCargo" class="text-gray-400 font-normal"> — filtros aplicados</span>
+          <span v-if="buscaAtiva || filtroCargo" class="text-gray-400 font-normal"> â€” filtros aplicados</span>
         </span>
         <span class="text-xs text-gray-400">Ordenado por ID</span>
       </div>
@@ -162,9 +162,9 @@
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">CPF</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Idade</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Cargo</th>
-              <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Salário</th>
-              <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Endereço</th>
-              <th class="px-7 py-4 text-right text-xs font-extrabold text-gray-400 uppercase tracking-widest sm:sticky sm:right-0 bg-gray-50">Ações</th>
+              <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">SalÃ¡rio</th>
+              <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">EndereÃ§o</th>
+              <th class="px-7 py-4 text-right text-xs font-extrabold text-gray-400 uppercase tracking-widest sm:sticky sm:right-0 bg-gray-50">AÃ§Ãµes</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
@@ -172,7 +172,7 @@
               <td colspan="9" class="text-center py-20">
                 <div class="flex flex-col items-center gap-3">
                   <svg class="w-14 h-14 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.25" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
-                  <span class="text-base font-semibold text-gray-400">Nenhum funcionário encontrado</span>
+                  <span class="text-base font-semibold text-gray-400">Nenhum funcionÃ¡rio encontrado</span>
                   <span v-if="buscaAtiva || filtroCargo" class="text-sm text-gray-400">Tente ajustar os filtros</span>
                 </div>
               </td>
@@ -195,21 +195,21 @@
                   <span class="font-semibold text-gray-800">{{ func.nome }}</span>
                 </div>
               </td>
-              <td class="px-5 py-4 text-gray-500 font-medium">{{ func.email ?? '—' }}</td>
-              <td class="px-5 py-4 text-gray-500 font-medium tabular-nums">{{ func.cpf ?? '—' }}</td>
-              <td class="px-5 py-4 text-gray-500 font-medium text-center">{{ func.idade ?? '—' }}</td>
+              <td class="px-5 py-4 text-gray-500 font-medium">{{ func.email ?? 'â€”' }}</td>
+              <td class="px-5 py-4 text-gray-500 font-medium tabular-nums">{{ func.cpf ?? 'â€”' }}</td>
+              <td class="px-5 py-4 text-gray-500 font-medium text-center">{{ func.idade ?? 'â€”' }}</td>
               <td class="px-5 py-4">
                 <span v-if="func.cargo" class="inline-block text-xs font-bold bg-green-50 text-green-700 border border-green-200 rounded-xl px-3 py-1.5">
                   {{ func.cargo }}
                 </span>
-                <span v-else class="text-gray-300">—</span>
+                <span v-else class="text-gray-300">â€”</span>
               </td>
               <td class="px-5 py-4">
                 <span v-if="func.salario" class="font-black text-gray-900 tabular-nums">{{ formatCurrency(func.salario) }}</span>
-                <span v-else class="text-gray-300">—</span>
+                <span v-else class="text-gray-300">â€”</span>
               </td>
               <td class="px-5 py-4">
-                <span class="text-gray-400 text-xs max-w-[200px] block truncate" :title="func.endereco ?? ''">{{ func.endereco ?? '—' }}</span>
+                <span class="text-gray-400 text-xs max-w-[200px] block truncate" :title="func.endereco ?? ''">{{ func.endereco ?? 'â€”' }}</span>
               </td>
               <td class="px-7 py-4 text-right sm:sticky sm:right-0 bg-white group-hover:bg-green-50/60 transition-colors">
                 <div class="flex items-center justify-end gap-2">
@@ -237,7 +237,7 @@
       </div>
     </div>
 
-    <!-- ═══════════════════ MODAL LANÇAR FOLHA ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• MODAL LANÃ‡AR FOLHA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <Teleport to="body">
       <Transition name="fade">
         <div
@@ -251,7 +251,7 @@
                 <div class="w-9 h-9 rounded-xl bg-orange-100 flex items-center justify-center">
                   <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                 </div>
-                <h2 class="text-lg font-bold text-gray-800">Lançar Folha Salarial</h2>
+                <h2 class="text-lg font-bold text-gray-800">LanÃ§ar Folha Salarial</h2>
               </div>
               <button type="button" class="w-8 h-8 flex items-center justify-center rounded-xl text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors" @click="fecharModalFolha">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -260,24 +260,24 @@
 
             <div class="px-8 py-6 space-y-5">
               <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-bold text-gray-700">Mês de referência</label>
+                <label class="text-sm font-bold text-gray-700">MÃªs de referÃªncia</label>
                 <input
                   v-model="folhaMes"
                   type="month"
                   class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
-                <p class="text-xs text-gray-400">Será criada uma conta a pagar para cada funcionário com salário cadastrado, com vencimento no dia 5 do mês seguinte.</p>
+                <p class="text-xs text-gray-400">SerÃ¡ criada uma conta a pagar para cada funcionÃ¡rio com salÃ¡rio cadastrado, com vencimento no dia 5 do mÃªs seguinte.</p>
               </div>
 
               <!-- Preview -->
               <div v-if="folhaMes" class="rounded-2xl border border-gray-100 overflow-hidden">
                 <div class="bg-gray-50 px-4 py-2.5 border-b border-gray-100 flex items-center justify-between">
-                  <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Pré-visualização</span>
-                  <span class="text-xs font-semibold text-green-700">{{ funcionariosComSalario.length }} funcionário(s)</span>
+                  <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">PrÃ©-visualizaÃ§Ã£o</span>
+                  <span class="text-xs font-semibold text-green-700">{{ funcionariosComSalario.length }} funcionÃ¡rio(s)</span>
                 </div>
                 <div class="max-h-48 overflow-y-auto divide-y divide-gray-50">
                   <div v-if="funcionariosComSalario.length === 0" class="px-4 py-8 text-center text-sm text-gray-400">
-                    Nenhum funcionário com salário cadastrado.
+                    Nenhum funcionÃ¡rio com salÃ¡rio cadastrado.
                   </div>
                   <div v-for="f in funcionariosComSalario" :key="f.id" class="flex items-center justify-between px-4 py-3">
                     <div class="flex items-center gap-2.5">
@@ -313,7 +313,7 @@
                   @click="lancarFolha"
                 >
                   <span v-if="lanandoFolha" class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1" />
-                  {{ lanandoFolha ? 'Lançando...' : `Lançar ${funcionariosComSalario.length} entrada(s)` }}
+                  {{ lanandoFolha ? 'LanÃ§ando...' : `LanÃ§ar ${funcionariosComSalario.length} entrada(s)` }}
                 </button>
               </div>
             </div>
@@ -322,7 +322,7 @@
       </Transition>
     </Teleport>
 
-    <!-- ═══════════════════ MODAL ADICIONAR / EDITAR ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• MODAL ADICIONAR / EDITAR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <Teleport to="body">
       <Transition name="fade">
         <div
@@ -336,7 +336,7 @@
                 <div class="w-9 h-9 rounded-xl bg-green-100 flex items-center justify-center">
                   <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
                 </div>
-                <h2 class="text-lg font-bold text-gray-800">{{ adicionando ? 'Adicionar Funcionário' : 'Editar Funcionário' }}</h2>
+                <h2 class="text-lg font-bold text-gray-800">{{ adicionando ? 'Adicionar FuncionÃ¡rio' : 'Editar FuncionÃ¡rio' }}</h2>
               </div>
               <button type="button" class="w-8 h-8 flex items-center justify-center rounded-xl text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors" @click="fecharModal">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -344,17 +344,17 @@
             </div>
 
             <form class="flex flex-col gap-5 px-8 py-7 overflow-y-auto max-h-[70vh]" @submit.prevent="adicionando ? salvarAdicao() : salvarEdicao()">
-              <AppInput v-model="form.nome" label="Nome completo" placeholder="Ex: João da Silva" :error="editErrors.nome" required />
+              <AppInput v-model="form.nome" label="Nome completo" placeholder="Ex: JoÃ£o da Silva" :error="editErrors.nome" required />
               <AppInput v-model="form.email" label="E-mail" type="email" placeholder="email@exemplo.com" :error="editErrors.email" />
               <div class="grid grid-cols-2 gap-4">
-                <AppInput v-model="form.cargo" label="Cargo" placeholder="Ex: Veterinário" />
+                <AppInput v-model="form.cargo" label="Cargo" placeholder="Ex: VeterinÃ¡rio" />
                 <AppInput v-model="form.idade" label="Idade" type="number" placeholder="Ex: 30" />
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <AppInput v-model="form.cpf" label="CPF" placeholder="Ex: 12345678900" />
-                <AppInput v-model="form.salario" label="Salário (R$)" type="number" placeholder="Ex: 3500.00" />
+                <AppInput v-model="form.salario" label="SalÃ¡rio (R$)" type="number" placeholder="Ex: 3500.00" />
               </div>
-              <AppInput v-model="form.endereco" label="Endereço" placeholder="Rua, número, cidade" />
+              <AppInput v-model="form.endereco" label="EndereÃ§o" placeholder="Rua, nÃºmero, cidade" />
 
               <p v-if="editError" class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
                 {{ editError }}
@@ -365,7 +365,7 @@
                   Cancelar
                 </button>
                 <AppButton variant="primary" size="md" type="submit" :loading="saving" class="flex-1">
-                  {{ adicionando ? 'Adicionar' : 'Salvar alterações' }}
+                  {{ adicionando ? 'Adicionar' : 'Salvar alteraÃ§Ãµes' }}
                 </AppButton>
               </div>
             </form>
@@ -374,7 +374,7 @@
       </Transition>
     </Teleport>
 
-    <!-- ═══════════════════ MODAL EXCLUIR ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• MODAL EXCLUIR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <Teleport to="body">
       <Transition name="fade">
         <div
@@ -387,10 +387,10 @@
               <div class="w-16 h-16 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center mx-auto mb-5">
                 <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-7 0a1 1 0 01-1-1V5a1 1 0 011-1h8a1 1 0 011 1v1a1 1 0 01-1 1H9z"/></svg>
               </div>
-              <h2 class="text-xl font-bold text-gray-800">Excluir funcionário?</h2>
+              <h2 class="text-xl font-bold text-gray-800">Excluir funcionÃ¡rio?</h2>
               <p class="text-sm text-gray-500 mt-2 leading-relaxed">
                 Tem certeza que deseja excluir<br /><strong class="text-gray-800">{{ excluindo.nome }}</strong>?<br />
-                <span class="text-red-500 text-xs font-semibold">Essa ação não pode ser desfeita.</span>
+                <span class="text-red-500 text-xs font-semibold">Essa aÃ§Ã£o nÃ£o pode ser desfeita.</span>
               </p>
             </div>
             <p v-if="deleteError" class="text-sm text-red-600 bg-red-50 border-t border-b border-red-200 px-8 py-3 text-center">
@@ -496,7 +496,7 @@ const comCargo = computed(() =>
   funcionarios.value.filter(f => f.cargo != null && f.cargo.trim() !== '').length
 )
 
-// ── Folha Salarial ──────────────────────────────────────────
+// â”€â”€ Folha Salarial â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const modalFolha = ref(false)
 const folhaMes = ref('')
 const folhaError = ref<string | null>(null)
@@ -523,7 +523,7 @@ async function lancarFolha() {
   const parts = folhaMes.value.split('-').map(Number)
   const ano = parts[0]!
   const mes = parts[1]!
-  // vencimento = dia 5 do mês seguinte
+  // vencimento = dia 5 do mÃªs seguinte
   const vencimento = new Date(ano, mes, 5)
   const vencimentoStr = vencimento.toISOString().split('T')[0]!
   const mesFormatado = new Date(ano, mes - 1).toLocaleString('pt-BR', { month: 'long', year: 'numeric' })
@@ -533,7 +533,7 @@ async function lancarFolha() {
   folhaSucesso.value = null
 
   const registros = funcionariosComSalario.value.map(f => ({
-    descricao: `Salário — ${f.nome} (${mesFormatado})`,
+    descricao: `SalÃ¡rio â€” ${f.nome} (${mesFormatado})`,
     valor: f.salario!,
     data_vencimento: vencimentoStr,
     status: 'pendente',
@@ -551,7 +551,7 @@ async function lancarFolha() {
     return
   }
 
-  folhaSucesso.value = `${registros.length} entrada(s) lançada(s) com sucesso para ${mesFormatado}!`
+  folhaSucesso.value = `${registros.length} entrada(s) lanÃ§ada(s) com sucesso para ${mesFormatado}!`
   setTimeout(fecharModalFolha, 2500)
 }
 
@@ -562,8 +562,8 @@ const columns = [
   { key: 'cpf',      label: 'CPF' },
   { key: 'idade',    label: 'Idade' },
   { key: 'cargo',    label: 'Cargo' },
-  { key: 'salario',  label: 'Salário' },
-  { key: 'endereco', label: 'Endereço' },
+  { key: 'salario',  label: 'SalÃ¡rio' },
+  { key: 'endereco', label: 'EndereÃ§o' },
 ]
 
 onMounted(async () => {
@@ -627,7 +627,7 @@ async function salvarEdicao() {
   editErrors.nome = ''
   editErrors.email = ''
 
-  if (!form.nome.trim()) { editErrors.nome = 'O nome é obrigatório.'; return }
+  if (!form.nome.trim()) { editErrors.nome = 'O nome Ã© obrigatÃ³rio.'; return }
 
   saving.value = true
   editError.value = null
@@ -656,7 +656,7 @@ async function salvarEdicao() {
 async function salvarAdicao() {
   editErrors.nome = ''
   editErrors.email = ''
-  if (!form.nome.trim()) { editErrors.nome = 'O nome é obrigatório.'; return }
+  if (!form.nome.trim()) { editErrors.nome = 'O nome Ã© obrigatÃ³rio.'; return }
 
   saving.value = true
   editError.value = null

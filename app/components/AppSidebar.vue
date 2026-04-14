@@ -43,7 +43,7 @@
       </div>
     </nav>
 
-    <!-- Rodapé da sidebar -->
+    <!-- RodapÃ© da sidebar -->
     <div class="px-4 py-4 border-t border-green-600 overflow-hidden">
       <p
         class="text-xs text-green-300 whitespace-nowrap transition-opacity duration-200"
@@ -69,7 +69,7 @@ const allNavSections = [
   {
     title: 'Geral',
     items: [
-      { to: '/', icon: 'home', label: 'Início', adminOnly: false },
+      { to: '/', icon: 'home', label: 'InÃ­cio', adminOnly: false },
     ],
   },
   {
@@ -80,10 +80,10 @@ const allNavSections = [
     ],
   },
   {
-    title: 'Operação',
+    title: 'OperaÃ§Ã£o',
     items: [
       { to: '/produtos', icon: 'package', label: 'Produtos', adminOnly: false },
-      { to: '/funcionarios', icon: 'users', label: 'Funcionários', adminOnly: true },
+      { to: '/funcionarios', icon: 'users', label: 'FuncionÃ¡rios', adminOnly: true },
       { to: '/atividades', icon: 'clipboard', label: 'Atividades', adminOnly: true },
     ],
   },

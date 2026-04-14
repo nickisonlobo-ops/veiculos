@@ -3,7 +3,7 @@
     <!-- Marca -->
     <div class="flex items-center justify-center gap-2 mb-8">
       <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2C8.5 2 5 5.5 5 9.5c0 3 1.7 5.6 4.3 6.9L11 21h2l1.7-4.6C17.3 15.1 19 12.5 19 9.5 19 5.5 15.5 2 12 2zm0 0v10"/></svg>
-      <span class="text-2xl font-bold text-primary">Sistema ZooCultura</span>
+      <span class="text-2xl font-bold text-primary">Sistema PetFlow</span>
     </div>
 
     <!-- Abas -->
@@ -24,7 +24,7 @@
       </button>
     </div>
 
-    <!-- Título dinâmico -->
+    <!-- TÃ­tulo dinÃ¢mico -->
     <h1 class="text-2xl font-bold text-content text-center mb-6">
       {{ activeTab === 'login' ? 'Entre na sua conta' : 'Crie sua conta' }}
     </h1>
@@ -49,8 +49,8 @@
       >
         <template #trailing>
           <button type="button" class="text-content-muted hover:text-content transition-colors" @click="showPassword = !showPassword">
-            <span v-if="showPassword">🙈</span>
-            <span v-else>👁️</span>
+            <span v-if="showPassword">ðŸ™ˆ</span>
+            <span v-else>ðŸ‘ï¸</span>
           </button>
         </template>
       </AppInput>
@@ -90,8 +90,8 @@
       >
         <template #trailing>
           <button type="button" class="text-content-muted hover:text-content transition-colors" @click="showRegisterPassword = !showRegisterPassword">
-            <span v-if="showRegisterPassword">🙈</span>
-            <span v-else>👁️</span>
+            <span v-if="showRegisterPassword">ðŸ™ˆ</span>
+            <span v-else>ðŸ‘ï¸</span>
           </button>
         </template>
       </AppInput>
@@ -150,13 +150,13 @@ function validateLogin(): boolean {
   formErrors.password = ''
 
   if (!login.email) {
-    formErrors.email = 'O e-mail é obrigatório.'
+    formErrors.email = 'O e-mail Ã© obrigatÃ³rio.'
   } else if (!emailRegex.test(login.email)) {
-    formErrors.email = 'Informe um e-mail válido.'
+    formErrors.email = 'Informe um e-mail vÃ¡lido.'
   }
 
   if (!login.password) {
-    formErrors.password = 'A senha é obrigatória.'
+    formErrors.password = 'A senha Ã© obrigatÃ³ria.'
   }
 
   return !formErrors.email && !formErrors.password
@@ -169,25 +169,25 @@ function validateRegister(): boolean {
   registerErrors.confirmPassword = ''
 
   if (!register.name.trim()) {
-    registerErrors.name = 'O nome é obrigatório.'
+    registerErrors.name = 'O nome Ã© obrigatÃ³rio.'
   }
 
   if (!register.email) {
-    registerErrors.email = 'O e-mail é obrigatório.'
+    registerErrors.email = 'O e-mail Ã© obrigatÃ³rio.'
   } else if (!emailRegex.test(register.email)) {
-    registerErrors.email = 'Informe um e-mail válido.'
+    registerErrors.email = 'Informe um e-mail vÃ¡lido.'
   }
 
   if (!register.password) {
-    registerErrors.password = 'A senha é obrigatória.'
+    registerErrors.password = 'A senha Ã© obrigatÃ³ria.'
   } else if (register.password.length < 6) {
-    registerErrors.password = 'A senha deve ter no mínimo 6 caracteres.'
+    registerErrors.password = 'A senha deve ter no mÃ­nimo 6 caracteres.'
   }
 
   if (!register.confirmPassword) {
     registerErrors.confirmPassword = 'Confirme sua senha.'
   } else if (register.password !== register.confirmPassword) {
-    registerErrors.confirmPassword = 'As senhas não coincidem.'
+    registerErrors.confirmPassword = 'As senhas nÃ£o coincidem.'
   }
 
   return !registerErrors.name && !registerErrors.email && !registerErrors.password && !registerErrors.confirmPassword

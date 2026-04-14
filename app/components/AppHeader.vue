@@ -3,12 +3,12 @@
     <!-- Logo -->
     <div class="flex items-center gap-2">
       <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2C8.5 2 5 5.5 5 9.5c0 3 1.7 5.6 4.3 6.9L11 21h2l1.7-4.6C17.3 15.1 19 12.5 19 9.5 19 5.5 15.5 2 12 2zm0 0v10"/></svg>
-      <span class="text-xl font-bold text-white">ZooCultura</span>
+      <span class="text-xl font-bold text-white">PetFlow</span>
     </div>
 
-    <!-- Ações -->
+    <!-- AÃ§Ãµes -->
     <div class="flex items-center gap-3">
-      <span class="text-sm text-orange-100 hidden sm:block">Olá, {{ displayName }}</span>
+      <span class="text-sm text-orange-100 hidden sm:block">OlÃ¡, {{ displayName }}</span>
       <div class="w-9 h-9 rounded-full bg-white flex items-center justify-center text-orange-500 font-semibold text-sm select-none">
         {{ initials }}
       </div>

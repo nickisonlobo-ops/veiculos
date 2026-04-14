@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-full bg-gray-50/60 p-3 sm:p-8">
 
-    <!-- ═══════════════════ CABEÇALHO ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CABEÃ‡ALHO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <div class="relative rounded-3xl overflow-hidden mb-8 shadow-xl">
       <div class="absolute inset-0 bg-gradient-to-br from-green-900 via-green-700 to-green-500" />
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(251,207,232,0.15),transparent_60%)]" />
@@ -19,7 +19,7 @@
               <div class="flex items-center gap-2 mb-1">
                 <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Financeiro</span>
                 <span class="w-1 h-1 rounded-full bg-green-400/50" />
-                <span class="text-xs text-green-300/70 hidden sm:inline">ZooCultura</span>
+                <span class="text-xs text-green-300/70 hidden sm:inline">PetFlow</span>
               </div>
               <h1 class="text-xl sm:text-3xl font-bold text-white tracking-tight leading-none">Vendas</h1>
               <p class="text-sm text-green-100/80 mt-1.5">
@@ -44,7 +44,7 @@
             <button
               type="button"
               class="inline-flex items-center gap-2 text-sm font-semibold px-3 sm:px-5 py-2.5 rounded-xl bg-white/10 text-white hover:bg-white/20 border border-white/15 backdrop-blur-sm transition-all duration-200 hover:scale-[1.02]"
-              title="Exportar relatório em PDF"
+              title="Exportar relatÃ³rio em PDF"
               @click="exportarPDF"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
@@ -79,12 +79,12 @@
             <span class="text-xs text-green-300/50">total acumulado</span>
           </div>
           <div class="flex flex-col gap-1 bg-white/[0.07] rounded-2xl px-5 py-4 border border-white/10 hover:bg-white/12 transition-colors">
-            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Ticket Médio</span>
+            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Ticket MÃ©dio</span>
             <span class="text-xl font-black text-white leading-tight truncate">{{ formatCurrency(ticketMedio) }}</span>
             <span class="text-xs text-green-200/60">por venda</span>
           </div>
           <div class="flex flex-col gap-1 bg-white/[0.07] rounded-2xl px-5 py-4 border border-white/10 hover:bg-white/12 transition-colors">
-            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Este Mês</span>
+            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Este MÃªs</span>
             <span class="text-xl font-black text-white leading-tight">{{ vendasMes }}</span>
             <span class="text-xs text-green-200/60">venda(s)</span>
           </div>
@@ -92,7 +92,7 @@
       </div>
     </div>
 
-    <!-- ═══════════════════ FILTRO ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• FILTRO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <Transition name="slide-fade">
       <div v-show="filtroAberto" class="bg-white rounded-3xl border border-gray-100 shadow-md mb-6 overflow-hidden">
         <div class="flex items-center justify-between px-7 py-4 border-b border-gray-100 bg-gray-50/70">
@@ -140,25 +140,25 @@
       </div>
     </Transition>
 
-    <!-- ═══════════════════ LOADING ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• LOADING â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <div v-if="loading" class="flex flex-col items-center justify-center gap-4 py-32">
       <span class="inline-block w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
       <span class="text-sm text-gray-400 font-medium">Carregando vendas...</span>
     </div>
 
-    <!-- ═══════════════════ ERRO ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ERRO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <div v-else-if="error" class="flex items-center gap-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-2xl px-6 py-4">
       <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 8v4m0 4h.01"/></svg>
       {{ error }}
     </div>
 
-    <!-- ═══════════════════ TABELA ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• TABELA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <div v-else class="bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden">
       <div class="flex items-center justify-between px-7 py-4 border-b border-gray-100 bg-gray-50/50">
         <span class="text-sm font-semibold text-gray-600">
           <span class="text-orange-600 font-black">{{ vendasFiltradas.length }}</span>
           resultado(s)
-          <span v-if="filtrosAtivos > 0" class="text-gray-400 font-normal"> — filtros aplicados</span>
+          <span v-if="filtrosAtivos > 0" class="text-gray-400 font-normal"> â€” filtros aplicados</span>
         </span>
         <span class="text-xs text-gray-400">Ordenado por data</span>
       </div>
@@ -173,7 +173,7 @@
               <th class="text-right px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Subtotal</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Pagamento / Status</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest whitespace-nowrap">Data</th>
-              <th class="px-6 py-4 text-right text-xs font-extrabold text-gray-400 uppercase tracking-widest sm:sticky sm:right-0 bg-gray-50 w-24">Ações</th>
+              <th class="px-6 py-4 text-right text-xs font-extrabold text-gray-400 uppercase tracking-widest sm:sticky sm:right-0 bg-gray-50 w-24">AÃ§Ãµes</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
@@ -204,22 +204,21 @@
                   <div class="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center text-white font-black text-xs shrink-0 shadow-sm shadow-violet-200 select-none">
                     {{ (venda.clientes?.nome ?? '?')[0]?.toUpperCase() }}
                   </div>
-                  <span class="font-semibold text-gray-800 max-w-[160px] block truncate whitespace-nowrap">{{ venda.clientes?.nome ?? '—' }}</span>
+                  <span class="font-semibold text-gray-800 max-w-[160px] block truncate whitespace-nowrap">{{ venda.clientes?.nome ?? 'â€”' }}</span>
                 </div>
               </td>
 
-              <!-- Item (produto + composição) -->
+              <!-- Itens da venda -->
               <td class="px-5 py-4">
-                <div class="flex flex-col gap-0.5">
-                  <span class="font-bold text-gray-800 max-w-[220px] block truncate whitespace-nowrap">
-                    {{ venda.produtos_casa_racao?.nome ?? '—' }}
-                  </span>
-                  <span class="text-xs text-gray-400 whitespace-nowrap">
-                    <span class="font-semibold text-gray-500">{{ venda.quantidade }}×</span>
-                    {{ formatCurrency(venda.preco_unitario) }}
-                    <span class="mx-1 text-gray-300">·</span>
-                    preço unit.
-                  </span>
+                <div class="flex flex-col gap-1">
+                  <template v-if="venda.vendas_itens && venda.vendas_itens.length > 0">
+                    <div v-for="item in venda.vendas_itens.slice(0, 2)" :key="item.produto_id" class="flex items-center gap-1.5 min-w-0">
+                      <span class="font-semibold text-gray-800 max-w-[160px] truncate text-sm">{{ item.produtos_casa_racao?.nome ?? 'â€”' }}</span>
+                      <span class="text-xs text-gray-400 whitespace-nowrap shrink-0">{{ item.quantidade }}Ã— {{ formatCurrency(item.preco_unitario) }}</span>
+                    </div>
+                    <span v-if="venda.vendas_itens.length > 2" class="text-xs text-orange-500 font-semibold">+{{ venda.vendas_itens.length - 2 }} item(ns)</span>
+                  </template>
+                  <span v-else class="text-sm text-gray-400">â€”</span>
                 </div>
               </td>
 
@@ -227,9 +226,9 @@
               <td class="px-5 py-4 text-right">
                 <div class="flex flex-col items-end gap-0.5">
                   <span class="text-base font-black text-gray-800 whitespace-nowrap">
-                    {{ formatCurrency(venda.valor_total ?? venda.quantidade * venda.preco_unitario) }}
+                    {{ formatCurrency(vendaTotalValor(venda)) }}
                   </span>
-                  <span class="text-[11px] text-gray-400 font-medium">subtotal</span>
+                  <span class="text-[11px] text-gray-400 font-medium">{{ venda.vendas_itens?.length ?? 0 }} item(ns)</span>
                 </div>
               </td>
 
@@ -251,7 +250,7 @@
               <!-- Data -->
               <td class="px-5 py-4 text-xs text-gray-500 font-medium whitespace-nowrap">{{ formatDate(venda.data_venda) }}</td>
 
-              <!-- Ações -->
+              <!-- AÃ§Ãµes -->
               <td class="px-6 py-4 text-right sm:sticky sm:right-0 bg-white group-hover:bg-orange-50/30 transition-colors">
                 <div class="flex items-center justify-end gap-1">
                   <button type="button" class="w-8 h-8 flex items-center justify-center rounded-xl text-orange-500 hover:text-orange-700 hover:bg-orange-100 transition-colors" title="Editar" @click="editVenda(venda)">
@@ -268,7 +267,7 @@
       </div>
     </div>
 
-    <!-- ═══════════════════ MODAL ADICIONAR / EDITAR ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• MODAL ADICIONAR / EDITAR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <Teleport to="body">
       <Transition name="fade">
         <div
@@ -300,8 +299,8 @@
                 <p v-if="formErrors.cliente_id" class="text-xs text-red-500 font-medium">{{ formErrors.cliente_id }}</p>
               </div>
 
-              <!-- ── ITENS DA VENDA (multi-item, só ao adicionar) ── -->
-              <template v-if="adicionando">
+              <!-- â”€â”€ ITENS DA VENDA â”€â”€ -->
+              <template v-if="adicionando || editando">
                 <div class="flex flex-col gap-3">
                   <div class="flex items-center justify-between">
                     <label class="text-sm font-semibold text-gray-700">Itens da venda *</label>
@@ -387,7 +386,7 @@
                         <input v-model.number="novoItem.quantidade" type="number" min="1" step="1" class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500" />
                       </div>
                       <div class="w-28 flex flex-col gap-1.5">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Preço (R$)</label>
+                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">PreÃ§o (R$)</label>
                         <input v-model.number="novoItem.preco_unitario" type="number" min="0" step="0.01" class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500" />
                       </div>
                       <button
@@ -410,61 +409,12 @@
                 </div>
               </template>
 
-              <!-- ── ITEM Único (modo edição) ── -->
-              <template v-if="editando">
-                <!-- Produto → categoria + produto filtrado -->
-                <div class="flex flex-col gap-4 bg-gradient-to-br from-orange-50 to-amber-50/40 border border-orange-100 rounded-2xl p-4">
-                  <div class="flex items-center justify-between">
-                    <p class="text-xs font-bold text-orange-700 uppercase tracking-widest">Produto *</p>
-                    <span v-if="categoriaSelecionada" class="text-xs font-semibold text-orange-500">{{ produtosFiltradosPorCategoria.length }} produto(s)</span>
-                  </div>
-                  <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Filtrar por categoria</label>
-                    <div class="flex gap-2.5 overflow-x-auto pb-1 -mx-1 px-1 snap-x">
-                      <button type="button" class="snap-start shrink-0 flex flex-col items-center gap-1.5 w-20 rounded-2xl border-2 py-3 transition-all duration-150" :class="categoriaSelecionada === '' ? 'bg-orange-500 border-orange-500 shadow-md shadow-orange-200 scale-[1.04]' : 'bg-white border-gray-100 hover:border-orange-300 hover:shadow-sm'" @click="selecionarCategoria('')">
-                        <span class="w-9 h-9 flex items-center justify-center rounded-xl" :class="categoriaSelecionada === '' ? 'bg-white/20 text-white' : 'bg-orange-50 text-orange-400'"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg></span>
-                        <span class="text-[11px] font-bold" :class="categoriaSelecionada === '' ? 'text-white' : 'text-gray-600'">Todas</span>
-                        <span class="text-[10px] font-black px-1.5 py-0.5 rounded-full" :class="categoriaSelecionada === '' ? 'bg-white/25 text-white' : 'bg-orange-100 text-orange-600'">{{ produtosOpcoes.length }}</span>
-                      </button>
-                      <button v-for="cat in categoriasComContagem" :key="cat.nome" type="button" class="snap-start shrink-0 flex flex-col items-center gap-1.5 w-20 rounded-2xl border-2 py-3 transition-all duration-150" :class="categoriaSelecionada === cat.nome ? 'bg-orange-500 border-orange-500 shadow-md shadow-orange-200 scale-[1.04]' : 'bg-white border-gray-100 hover:border-orange-300 hover:shadow-sm'" @click="selecionarCategoria(cat.nome)">
-                        <span class="w-9 h-9 flex items-center justify-center rounded-xl" :class="categoriaSelecionada === cat.nome ? 'bg-white/20 text-white' : 'bg-orange-50 text-orange-500'"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" v-html="categoryIconHtml(cat.nome)" /></span>
-                        <span class="text-[11px] font-bold leading-tight text-center line-clamp-2 px-1" :class="categoriaSelecionada === cat.nome ? 'text-white' : 'text-gray-600'">{{ toCapitalCase(cat.nome) }}</span>
-                        <span class="text-[10px] font-black px-1.5 py-0.5 rounded-full" :class="categoriaSelecionada === cat.nome ? 'bg-white/25 text-white' : 'bg-orange-100 text-orange-600'">{{ cat.count }}</span>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Produto</label>
-                    <select v-model="form.produto_id" required class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500" :class="formErrors.produto_id ? 'border-red-400 ring-1 ring-red-400' : ''">
-                      <option :value="null">{{ produtosFiltradosPorCategoria.length === 0 ? 'Nenhum produto nesta categoria' : 'Selecione o produto' }}</option>
-                      <option v-for="p in produtosFiltradosPorCategoria" :key="p.id" :value="p.id">{{ p.nome }}</option>
-                    </select>
-                    <p v-if="formErrors.produto_id" class="text-xs text-red-500 font-medium">{{ formErrors.produto_id }}</p>
-                  </div>
-                </div>
-                <!-- Quantidade + Preço Unitário -->
-                <div class="grid grid-cols-2 gap-4">
-                  <div class="flex flex-col gap-1.5">
-                    <label class="text-sm font-semibold text-gray-700">Quantidade *</label>
-                    <input v-model.number="form.quantidade" type="number" min="1" step="1" required class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500" />
-                  </div>
-                  <div class="flex flex-col gap-1.5">
-                    <label class="text-sm font-semibold text-gray-700">Preço Unitário (R$) *</label>
-                    <input v-model.number="form.preco_unitario" type="number" min="0" step="0.01" required class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500" />
-                  </div>
-                </div>
-                <div class="flex items-center justify-between bg-orange-50 border border-orange-100 rounded-xl px-5 py-3">
-                  <span class="text-sm font-semibold text-orange-700">Total calculado</span>
-                  <span class="text-lg font-black text-orange-700">{{ formatCurrency(totalPreview) }}</span>
-                </div>
-              </template>
-
               <!-- Forma pagamento + Status -->
               <div class="grid grid-cols-2 gap-4">
                 <div class="flex flex-col gap-1.5">
                   <label class="text-sm font-semibold text-gray-700">Forma de Pagamento</label>
                   <select v-model="form.forma_pagamento" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
-                    <option value="">Não informado</option>
+                    <option value="">NÃ£o informado</option>
                     <option v-for="fp in formasPagamento" :key="fp" :value="fp">{{ fp }}</option>
                   </select>
                 </div>
@@ -484,10 +434,10 @@
                 <input v-model="form.data_venda" type="datetime-local" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500" />
               </div>
 
-              <!-- Observação -->
+              <!-- ObservaÃ§Ã£o -->
               <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-semibold text-gray-700">Observação</label>
-                <textarea v-model="form.observacao" rows="2" placeholder="Informações adicionais..." class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none" />
+                <label class="text-sm font-semibold text-gray-700">ObservaÃ§Ã£o</label>
+                <textarea v-model="form.observacao" rows="2" placeholder="InformaÃ§Ãµes adicionais..." class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none" />
               </div>
 
               <p v-if="modalError" class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">{{ modalError }}</p>
@@ -497,7 +447,7 @@
                   Cancelar
                 </button>
                 <AppButton variant="primary" size="md" type="submit" :loading="saving" class="flex-1">
-                  {{ adicionando ? 'Registrar Venda' : 'Salvar alterações' }}
+                  {{ adicionando ? 'Registrar Venda' : 'Salvar alteraÃ§Ãµes' }}
                 </AppButton>
               </div>
             </form>
@@ -506,7 +456,7 @@
       </Transition>
     </Teleport>
 
-    <!-- ═══════════════════ MODAL EXCLUIR ═══════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• MODAL EXCLUIR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <Teleport to="body">
       <Transition name="fade">
         <div
@@ -523,7 +473,7 @@
               <p class="text-sm text-gray-500 mt-2 leading-relaxed">
                 Venda <strong class="text-gray-800">#{{ excluindo.id }}</strong> de
                 <strong class="text-gray-800">{{ excluindo.clientes?.nome }}</strong>.<br />
-                <span class="text-red-500 text-xs font-semibold">Essa ação não pode ser desfeita.</span>
+                <span class="text-red-500 text-xs font-semibold">Essa aÃ§Ã£o nÃ£o pode ser desfeita.</span>
               </p>
             </div>
             <p v-if="deleteError" class="text-sm text-red-600 bg-red-50 border-t border-b border-red-200 px-8 py-3 text-center">{{ deleteError }}</p>
@@ -557,21 +507,17 @@ import autoTable from 'jspdf-autotable'
 
 interface ClienteOpcao { id: number; nome: string }
 interface ProdutoOpcao  { id: number; nome: string; categoria: string | null; preco_venda: number }
-interface ItemVenda { produto_id: number; quantidade: number; preco_unitario: number }
+interface ItemVenda { produto_id: number; quantidade: number; preco_unitario: number; valor_total?: number | null; produtos_casa_racao?: { nome: string } | null }
 interface Venda {
   id: number
   cliente_id: number
-  produto_id: number
-  quantidade: number
-  preco_unitario: number
-  valor_total: number | null
   forma_pagamento: string | null
   status: string | null
   observacao: string | null
   data_venda: string | null
   created_at: string | null
   clientes: { nome: string } | null
-  produtos_casa_racao: { nome: string } | null
+  vendas_itens: ItemVenda[]
 }
 
 const supabase = createSupabaseClient()
@@ -593,15 +539,12 @@ const deleteError = ref<string | null>(null)
 
 const form = reactive({
   cliente_id:      null as number | null,
-  produto_id:      null as number | null,
-  quantidade:      1,
-  preco_unitario:  0,
   forma_pagamento: '',
   status:          'finalizada',
   observacao:      '',
   data_venda:      '',
 })
-const formErrors = reactive({ cliente_id: '', produto_id: '', itens: '' })
+const formErrors = reactive({ cliente_id: '', itens: '' })
 
 // itens do carrinho (modo adicionar)
 const itens = ref<ItemVenda[]>([])
@@ -616,7 +559,7 @@ const categoriaSelecionada = ref('')
 const filtroAberto = ref(false)
 const filtros = reactive({ busca: '', status: '', formaPagamento: '' })
 
-const formasPagamento = ['Dinheiro', 'Pix', 'Cartão de Débito', 'Cartão de Crédito', 'Boleto', 'Transferência']
+const formasPagamento = ['Dinheiro', 'Pix', 'CartÃ£o de DÃ©bito', 'CartÃ£o de CrÃ©dito', 'Boleto', 'TransferÃªncia']
 
 const categoriasDisponiveis = computed(() => {
   const set = new Set(produtosOpcoes.value.map(p => p.categoria).filter(Boolean) as string[])
@@ -643,12 +586,12 @@ const CATEGORY_ICONS: Record<string, string> = {
 function categoryIconHtml(nome: string): string {
   const n = nome.toLowerCase()
   let key = 'default'
-  if (/ra[çc][aã]o|alimenta|comida|nutri/.test(n))               key = 'food'
+  if (/ra[Ã§c][aÃ£]o|alimenta|comida|nutri/.test(n))               key = 'food'
   else if (/petisco|snack|biscoito|trat/.test(n))                key = 'snack'
   else if (/higien|banho|limpeza|shampoo|grooming/.test(n))      key = 'hygiene'
   else if (/brinquedo|toy|lazer|jogo/.test(n))                   key = 'toy'
-  else if (/medic|sa[úu]de|veterin|farm|rem[ée]dio/.test(n))    key = 'health'
-  else if (/acess[oó]rio|coleira|guia|roupa|vest/.test(n))       key = 'accessories'
+  else if (/medic|sa[Ãºu]de|veterin|farm|rem[Ã©e]dio/.test(n))    key = 'health'
+  else if (/acess[oÃ³]rio|coleira|guia|roupa|vest/.test(n))       key = 'accessories'
   else if (/cama|casinha|confort|moradia/.test(n))               key = 'home'
   return CATEGORY_ICONS[key] ?? CATEGORY_ICONS['default']!
 }
@@ -663,8 +606,8 @@ const produtosFiltradosPorCategoria = computed(() => {
 })
 function selecionarCategoria(cat: string) {
   categoriaSelecionada.value = cat
-  form.produto_id = null
-  form.preco_unitario = 0
+  novoItem.produto_id = null as unknown as number
+  novoItem.preco_unitario = 0
 }
 
 watch(() => novoItem.produto_id, (id) => {
@@ -673,18 +616,10 @@ watch(() => novoItem.produto_id, (id) => {
   if (p) novoItem.preco_unitario = p.preco_venda
 })
 
-// ── Watchers ──────────────────────────────────────────────
-watch(() => form.produto_id, (id) => {
-  if (id == null) return
-  const p = produtosOpcoes.value.find(p => p.id === id)
-  if (p) form.preco_unitario = p.preco_venda
-})
-
-// ── Stats ─────────────────────────────────────────────────
-const totalPreview = computed(() => +(form.quantidade * form.preco_unitario).toFixed(2))
-
+// â”€â”€ Stats â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const faturamentoTotal = computed(() =>
-  vendas.value.reduce((s, v) => s + (v.valor_total ?? 0), 0)
+  vendas.value.reduce((s, v) =>
+    s + (v.vendas_itens ?? []).reduce((si, i) => si + (i.valor_total ?? i.quantidade * i.preco_unitario), 0), 0)
 )
 const ticketMedio = computed(() =>
   vendas.value.length ? faturamentoTotal.value / vendas.value.length : 0
@@ -698,7 +633,7 @@ const vendasMes = computed(() => {
   }).length
 })
 
-// ── Filtros ───────────────────────────────────────────────
+// â”€â”€ Filtros â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const filtrosAtivos = computed(() => {
   let c = 0
   if (filtros.busca) c++
@@ -714,7 +649,7 @@ const vendasFiltradas = computed(() => {
       const q = filtros.busca.toLowerCase()
       return (
         (v.clientes?.nome ?? '').toLowerCase().includes(q) ||
-        (v.produtos_casa_racao?.nome ?? '').toLowerCase().includes(q)
+        (v.vendas_itens ?? []).some(i => (i.produtos_casa_racao?.nome ?? '').toLowerCase().includes(q))
       )
     }
     return true
@@ -722,13 +657,13 @@ const vendasFiltradas = computed(() => {
 })
 function limparFiltros() { filtros.busca = ''; filtros.status = ''; filtros.formaPagamento = '' }
 
-// ── Helpers ───────────────────────────────────────────────
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function formatCurrency(val: number | null | undefined): string {
-  if (val == null) return '—'
+  if (val == null) return 'â€”'
   return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 function formatDate(iso: string | null): string {
-  if (!iso) return '—'
+  if (!iso) return 'â€”'
   return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
 }
 function toDatetimeLocal(iso: string | null): string {
@@ -739,7 +674,7 @@ function statusLabel(s: string | null): string {
   if (s === 'finalizada') return 'Finalizada'
   if (s === 'pendente')   return 'Pendente'
   if (s === 'cancelada')  return 'Cancelada'
-  return s ?? '—'
+  return s ?? 'â€”'
 }
 function statusBadgeClass(s: string | null): string {
   if (s === 'finalizada') return 'bg-green-100 text-green-700'
@@ -753,8 +688,11 @@ function statusDotClass(s: string | null): string {
   if (s === 'cancelada')  return 'bg-red-500'
   return 'bg-gray-400'
 }
+function vendaTotalValor(v: Venda): number {
+  return (v.vendas_itens ?? []).reduce((s, i) => s + (i.valor_total ?? i.quantidade * i.preco_unitario), 0)
+}
 
-// ── CRUD ──────────────────────────────────────────────────
+// â”€â”€ CRUD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 onMounted(async () => {
   await Promise.all([fetchVendas(), fetchOpcoes()])
 })
@@ -763,7 +701,7 @@ async function fetchVendas() {
   loading.value = true
   const { data, error: fetchError } = await supabase
     .from('vendas')
-    .select('*, clientes(nome), produtos_casa_racao(nome)')
+    .select('*, clientes(nome), vendas_itens(id, produto_id, quantidade, preco_unitario, valor_total, produtos_casa_racao(nome))')
     .order('data_venda', { ascending: false })
 
   loading.value = false
@@ -798,12 +736,11 @@ function abrirAdicionar() {
   adicionando.value = true
   editando.value = null
   modalError.value = null
-  formErrors.cliente_id = ''; formErrors.produto_id = ''; formErrors.itens = ''
-  form.cliente_id = null; form.produto_id = null
+  formErrors.cliente_id = ''; formErrors.itens = ''
+  form.cliente_id = null
   itens.value = []
   novoItem.produto_id = null as unknown as number; novoItem.quantidade = 1; novoItem.preco_unitario = 0
   categoriaSelecionada.value = ''
-  form.quantidade = 1; form.preco_unitario = 0
   form.forma_pagamento = ''; form.status = 'finalizada'
   form.observacao = ''; form.data_venda = toDatetimeLocal(new Date().toISOString())
 }
@@ -816,52 +753,63 @@ function fecharModal() {
 function editVenda(v: Venda) {
   editando.value = v
   modalError.value = null
-  formErrors.cliente_id = ''; formErrors.produto_id = ''
+  formErrors.cliente_id = ''; formErrors.itens = ''
   form.cliente_id      = v.cliente_id
-  form.produto_id      = v.produto_id
-  categoriaSelecionada.value = produtosOpcoes.value.find(p => p.id === v.produto_id)?.categoria ?? ''
-  form.quantidade      = v.quantidade
-  form.preco_unitario  = v.preco_unitario
   form.forma_pagamento = v.forma_pagamento ?? ''
   form.status          = v.status ?? 'finalizada'
   form.observacao      = v.observacao ?? ''
   form.data_venda      = toDatetimeLocal(v.data_venda)
-}
-
-function buildPayload() {
-  return {
-    cliente_id:      form.cliente_id!,
-    produto_id:      form.produto_id!,
-    quantidade:      form.quantidade,
-    preco_unitario:  form.preco_unitario,
-    forma_pagamento: form.forma_pagamento || null,
-    status:          form.status,
-    observacao:      form.observacao.trim() || null,
-    data_venda:      form.data_venda || null,
-  }
+  itens.value = (v.vendas_itens ?? []).map(i => ({
+    produto_id:     i.produto_id,
+    quantidade:     i.quantidade,
+    preco_unitario: i.preco_unitario,
+  }))
+  categoriaSelecionada.value = ''
 }
 
 function validateForm(): boolean {
-  formErrors.cliente_id = ''; formErrors.produto_id = ''; formErrors.itens = ''
+  formErrors.cliente_id = ''; formErrors.itens = ''
   let ok = true
   if (!form.cliente_id) { formErrors.cliente_id = 'Selecione o cliente.'; ok = false }
-  if (adicionando.value) {
-    if (itens.value.length === 0) { formErrors.itens = 'Adicione ao menos um produto.'; ok = false }
-  } else {
-    if (!form.produto_id) { formErrors.produto_id = 'Selecione o produto.'; ok = false }
-  }
+  if (itens.value.length === 0) { formErrors.itens = 'Adicione ao menos um produto.'; ok = false }
   return ok
 }
 
 async function salvarEdicao() {
   if (!editando.value || !validateForm()) return
   saving.value = true; modalError.value = null
+
   const { error: updateError } = await supabase
     .from('vendas')
-    .update(buildPayload())
+    .update({
+      cliente_id:      form.cliente_id!,
+      forma_pagamento: form.forma_pagamento || null,
+      status:          form.status,
+      observacao:      form.observacao.trim() || null,
+      data_venda:      form.data_venda || null,
+    })
     .eq('id', editando.value.id)
+
+  if (updateError) { modalError.value = updateError.message; saving.value = false; return }
+
+  const { error: deleteItensError } = await supabase
+    .from('vendas_itens')
+    .delete()
+    .eq('venda_id', editando.value.id)
+
+  if (deleteItensError) { modalError.value = deleteItensError.message; saving.value = false; return }
+
+  const { error: insertItensError } = await supabase
+    .from('vendas_itens')
+    .insert(itens.value.map(item => ({
+      venda_id:       editando.value!.id,
+      produto_id:     item.produto_id,
+      quantidade:     item.quantidade,
+      preco_unitario: item.preco_unitario,
+    })))
+
   saving.value = false
-  if (updateError) { modalError.value = updateError.message; return }
+  if (insertItensError) { modalError.value = insertItensError.message; return }
   editando.value = null
   await fetchVendas()
 }
@@ -869,19 +817,32 @@ async function salvarEdicao() {
 async function salvarAdicao() {
   if (!validateForm()) return
   saving.value = true; modalError.value = null
-  const rows = itens.value.map(item => ({
-    cliente_id:      form.cliente_id!,
-    produto_id:      item.produto_id,
-    quantidade:      item.quantidade,
-    preco_unitario:  item.preco_unitario,
-    forma_pagamento: form.forma_pagamento || null,
-    status:          form.status,
-    observacao:      form.observacao.trim() || null,
-    data_venda:      form.data_venda || null,
-  }))
-  const { error: insertError } = await supabase.from('vendas').insert(rows)
+
+  const { data: vendaData, error: insertVendaError } = await supabase
+    .from('vendas')
+    .insert({
+      cliente_id:      form.cliente_id!,
+      forma_pagamento: form.forma_pagamento || null,
+      status:          form.status,
+      observacao:      form.observacao.trim() || null,
+      data_venda:      form.data_venda || null,
+    })
+    .select('id')
+    .single()
+
+  if (insertVendaError) { modalError.value = insertVendaError.message; saving.value = false; return }
+
+  const { error: insertItensError } = await supabase
+    .from('vendas_itens')
+    .insert(itens.value.map(item => ({
+      venda_id:       vendaData.id,
+      produto_id:     item.produto_id,
+      quantidade:     item.quantidade,
+      preco_unitario: item.preco_unitario,
+    })))
+
   saving.value = false
-  if (insertError) { modalError.value = insertError.message; return }
+  if (insertItensError) { modalError.value = insertItensError.message; return }
   adicionando.value = false
   await fetchVendas()
 }
@@ -903,13 +864,13 @@ function exportarPDF() {
   const now = new Date()
   const dataGeracao = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
 
-  // Cabeçalho
+  // CabeÃ§alho
   doc.setFillColor(20, 83, 45)
   doc.rect(0, 0, doc.internal.pageSize.getWidth(), 56, 'F')
   doc.setTextColor(255, 255, 255)
   doc.setFontSize(20)
   doc.setFont('helvetica', 'bold')
-  doc.text('ZooCultura — Relatório de Vendas', 40, 34)
+  doc.text('PetFlow â€” RelatÃ³rio de Vendas', 40, 34)
   doc.setFontSize(9)
   doc.setFont('helvetica', 'normal')
   doc.text(`Gerado em: ${dataGeracao}`, 40, 48)
@@ -919,7 +880,7 @@ function exportarPDF() {
     if (filtros.status) parts.push(`Status: ${statusLabel(filtros.status)}`)
     if (filtros.formaPagamento) parts.push(`Pagamento: ${filtros.formaPagamento}`)
     if (filtros.busca) parts.push(`Busca: "${filtros.busca}"`)
-    doc.text(`Filtros aplicados: ${parts.join(' · ')}`, doc.internal.pageSize.getWidth() - 40, 48, { align: 'right' })
+    doc.text(`Filtros aplicados: ${parts.join(' Â· ')}`, doc.internal.pageSize.getWidth() - 40, 48, { align: 'right' })
   }
 
   // Resumo
@@ -928,25 +889,23 @@ function exportarPDF() {
   doc.setFont('helvetica', 'bold')
   const resumoY = 74
   const totalVendasFiltradas = vendasFiltradas.value.length
-  const faturamentoFiltrado = vendasFiltradas.value.reduce((s, v) => s + (v.valor_total ?? 0), 0)
+  const faturamentoFiltrado = vendasFiltradas.value.reduce((s, v) => s + vendaTotalValor(v), 0)
   const ticketFiltrado = totalVendasFiltradas ? faturamentoFiltrado / totalVendasFiltradas : 0
   doc.text(
-    `Total: ${totalVendasFiltradas} venda(s)   |   Faturamento: ${formatCurrency(faturamentoFiltrado)}   |   Ticket Médio: ${formatCurrency(ticketFiltrado)}`,
+    `Total: ${totalVendasFiltradas} venda(s)   |   Faturamento: ${formatCurrency(faturamentoFiltrado)}   |   Ticket MÃ©dio: ${formatCurrency(ticketFiltrado)}`,
     40, resumoY
   )
 
   // Tabela
   autoTable(doc, {
     startY: resumoY + 14,
-    head: [['#', 'Cliente', 'Produto', 'Qtd', 'Preço Unit.', 'Subtotal', 'Pagamento', 'Status', 'Data']],
+    head: [['#', 'Cliente', 'Itens', 'Total', 'Pagamento', 'Status', 'Data']],
     body: vendasFiltradas.value.map(v => [
       String(v.id),
-      v.clientes?.nome ?? '—',
-      v.produtos_casa_racao?.nome ?? '—',
-      String(v.quantidade),
-      formatCurrency(v.preco_unitario),
-      formatCurrency(v.valor_total ?? v.quantidade * v.preco_unitario),
-      v.forma_pagamento ?? '—',
+      v.clientes?.nome ?? 'â€”',
+      (v.vendas_itens ?? []).map(i => `${i.produtos_casa_racao?.nome ?? '?'} â€” ${i.quantidade}Ã— ${formatCurrency(i.preco_unitario)}`).join('\n') || 'â€”',
+      formatCurrency(vendaTotalValor(v)),
+      v.forma_pagamento ?? 'â€”',
       statusLabel(v.status),
       formatDate(v.data_venda),
     ]),
@@ -955,25 +914,24 @@ function exportarPDF() {
     alternateRowStyles: { fillColor: [240, 253, 244] },
     columnStyles: {
       0: { cellWidth: 28, halign: 'center' },
-      3: { cellWidth: 30, halign: 'center' },
-      4: { cellWidth: 68, halign: 'right' },
-      5: { cellWidth: 68, halign: 'right' },
-      7: { cellWidth: 60, halign: 'center' },
-      8: { cellWidth: 90 },
+      3: { cellWidth: 70, halign: 'right' },
+      4: { cellWidth: 80 },
+      5: { cellWidth: 60, halign: 'center' },
+      6: { cellWidth: 90 },
     },
     margin: { left: 40, right: 40 },
     tableLineColor: [220, 252, 231],
     tableLineWidth: 0.5,
   })
 
-  // Rodapé
+  // RodapÃ©
   const pageCount = (doc.internal as any).getNumberOfPages()
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i)
     doc.setFontSize(8)
     doc.setFont('helvetica', 'normal')
     doc.setTextColor(150, 150, 150)
-    doc.text(`Página ${i} de ${pageCount}`, doc.internal.pageSize.getWidth() / 2, doc.internal.pageSize.getHeight() - 16, { align: 'center' })
+    doc.text(`PÃ¡gina ${i} de ${pageCount}`, doc.internal.pageSize.getWidth() / 2, doc.internal.pageSize.getHeight() - 16, { align: 'center' })
   }
 
   const filename = `vendas_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}.pdf`
