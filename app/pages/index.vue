@@ -5,10 +5,10 @@
     <template v-if="!adminLoading && !isAdminOrGerente">
       <!-- Cabeçalho funcionário -->
       <div class="relative rounded-3xl overflow-hidden mb-7 shadow-xl">
-        <div class="absolute inset-0 bg-gradient-to-br from-green-900 via-green-700 to-green-500" />
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(99,102,241,0.18),transparent_60%)]" />
-        <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-white/[0.04] pointer-events-none" />
-        <div class="absolute -bottom-20 left-1/4 w-96 h-96 rounded-full bg-white/[0.03] pointer-events-none" />
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800" />
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(245,158,11,0.15),transparent_60%)]" />
+        <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-white/[0.03] pointer-events-none" />
+        <div class="absolute -bottom-20 left-1/4 w-96 h-96 rounded-full bg-white/[0.02] pointer-events-none" />
 
         <div class="relative px-4 sm:px-8 pt-6 pb-6">
           <div class="flex flex-wrap items-center justify-between gap-4">
@@ -19,11 +19,11 @@
                 </svg>
               </div>
               <div>
-                <p class="text-xs font-bold text-green-300 uppercase tracking-widest">PetFlow</p>
+                <p class="text-xs font-bold text-amber-400 uppercase tracking-widest">AutoFlow</p>
                 <h1 class="text-2xl font-black text-white leading-tight">
                   {{ funcionarioLogado ? `Olá, ${primeiroNome(funcionarioLogado.nome)}!` : 'Minhas Atividades' }}
                 </h1>
-                <p class="text-sm text-green-100/80 mt-0.5">{{ dataHoje }}</p>
+                <p class="text-sm text-gray-300/80 mt-0.5">{{ dataHoje }}</p>
               </div>
             </div>
             <div v-if="funcionarioLogado" class="flex flex-wrap gap-2">
@@ -32,7 +32,7 @@
                 {{ funcionarioLogado.cargo ?? 'Funcionário' }}
               </span>
               <span class="inline-flex items-center gap-1 text-xs font-bold bg-white/10 border border-white/15 text-white px-3 py-1.5 rounded-xl">
-                <span class="w-2 h-2 rounded-full bg-green-400" />
+                <span class="w-2 h-2 rounded-full bg-amber-400" />
                 {{ minhasAtividades.length }} atividade(s)
               </span>
             </div>
@@ -73,7 +73,7 @@
 
       <!-- Loading -->
       <div v-else-if="loadingAtividades" class="flex items-center justify-center py-24">
-        <span class="inline-block w-10 h-10 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
+        <span class="inline-block w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
       </div>
 
       <!-- Tabs e lista de atividades -->
@@ -86,8 +86,8 @@
             type="button"
             class="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-150"
             :class="tabAtiva === tab.value
-              ? 'bg-green-700 text-white shadow-md'
-              : 'bg-white text-gray-600 border border-gray-200 hover:border-green-400 hover:text-green-700'"
+              ? 'bg-amber-500 text-gray-950 shadow-md'
+              : 'bg-white text-gray-600 border border-gray-200 hover:border-amber-400 hover:text-amber-700'"
             @click="tabAtiva = tab.value"
           >
             {{ tab.label }}
@@ -101,11 +101,11 @@
         </div>
 
         <!-- Frase motivacional -->
-        <div v-if="funcionarioLogado" class="mb-5 flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-100">
-          <div class="shrink-0 w-8 h-8 rounded-xl bg-green-600 flex items-center justify-center">
+        <div v-if="funcionarioLogado" class="mb-5 flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-gray-50 to-amber-50/40 border border-amber-100">
+          <div class="shrink-0 w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center">
             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
           </div>
-          <p class="text-sm font-semibold text-green-800 leading-snug">{{ fraseAtual }}</p>
+          <p class="text-sm font-semibold text-gray-800 leading-snug">{{ fraseAtual }}</p>
         </div>
 
         <!-- Cards de atividades -->
@@ -134,7 +134,7 @@
             <div v-else class="h-1" :class="prioridadeAccent(at.prioridade)" />
 
             <!-- Cabeçalho premium do título -->
-            <div class="relative px-5 pt-4 pb-3 bg-gradient-to-r from-green-950 via-green-800 to-green-700 overflow-hidden">
+            <div class="relative px-5 pt-4 pb-3 bg-gradient-to-r from-gray-950 via-gray-900 to-gray-800 overflow-hidden">
               <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_65%)]" />
               <div class="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-white/5" />
               <div class="relative flex items-start justify-between gap-2">
@@ -213,7 +213,7 @@
           <!-- Banner: tudo concluído nesta aba -->
           <div
             v-if="ativasTab(tabAtiva).length === 0 && concluidasTab(tabAtiva).length > 0"
-            class="mb-6 relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-600 via-emerald-500 to-green-500 p-5 shadow-lg"
+            class="mb-6 relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800 p-5 shadow-lg"
           >
             <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.2),transparent_60%)]" />
             <div class="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/10 pointer-events-none" />
@@ -223,7 +223,7 @@
               </div>
               <div>
                 <p class="text-base font-black text-white leading-tight">Parabéns, {{ funcionarioLogado ? primeiroNome(funcionarioLogado.nome) : 'campeão' }}!</p>
-                <p class="text-sm text-green-100/90 mt-0.5">Todas as tarefas desta aba foram concluídas. Excelente trabalho! Continue assim! 🎉</p>
+                <p class="text-sm text-amber-100/90 mt-0.5">Todas as tarefas desta aba foram concluídas. Excelente trabalho! Continue assim! 🎉</p>
               </div>
             </div>
           </div>
@@ -232,7 +232,7 @@
           <div v-if="concluidasTab(tabAtiva).length > 0" class="mt-8">
             <div class="flex items-center gap-3 mb-4">
               <div class="flex-1 h-px bg-gray-200" />
-              <span class="inline-flex items-center gap-1.5 text-xs font-bold text-green-700 bg-green-50 border border-green-100 px-3 py-1 rounded-full">
+              <span class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 bg-amber-50 border border-amber-100 px-3 py-1 rounded-full">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 Concluídas ({{ concluidasTab(tabAtiva).length }})
               </span>
@@ -278,14 +278,14 @@
     <template v-if="!adminLoading && isAdminOrGerente">
 
       <!-- Header compacto -->
-      <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-950 via-green-800 to-green-600 shadow-xl mb-6">
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
-        <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
+      <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800 shadow-xl mb-6">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(245,158,11,0.15),transparent_60%)]" />
+        <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-white/[0.04] pointer-events-none" />
         <div class="relative px-6 sm:px-10 py-6 flex items-center justify-between gap-4">
           <div>
-            <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-green-300 mb-1">PetFlow · Painel Admin</p>
+            <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-amber-400 mb-1">AutoFlow · Painel Admin</p>
             <h1 class="text-xl sm:text-3xl font-black text-white leading-tight">Visão Geral do Negócio</h1>
-            <p class="text-sm text-green-100/70 mt-1">{{ dataHoje }}</p>
+            <p class="text-sm text-gray-300/70 mt-1">{{ dataHoje }}</p>
           </div>
           <div class="shrink-0 w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center">
             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -303,16 +303,16 @@
       <div class="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 mb-6">
 
         <!-- Faturamento -->
-        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-600 to-green-700 p-4 shadow-md">
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 p-4 shadow-md">
           <div class="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-white/10 pointer-events-none" />
           <div class="flex items-center gap-2 mb-3">
             <div class="w-8 h-8 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
               <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
-            <span class="text-[10px] font-black uppercase tracking-widest text-green-100">Faturamento / Mês</span>
+            <span class="text-[10px] font-black uppercase tracking-widest text-amber-100">Faturamento / Mês</span>
           </div>
           <p class="text-lg sm:text-2xl font-black text-white truncate">{{ resumoLoading ? '...' : formatCurrency(faturamentoMes) }}</p>
-          <p class="text-[11px] text-green-100/70 mt-1">vendas confirmadas</p>
+          <p class="text-[11px] text-amber-100/70 mt-1">vendas confirmadas</p>
         </div>
 
         <!-- Pedidos do mês -->
@@ -322,7 +322,7 @@
             <div class="w-8 h-8 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
               <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185z"/></svg>
             </div>
-            <span class="text-[10px] font-black uppercase tracking-widest text-orange-100">Pedidos / Mês</span>
+            <span class="text-[10px] font-black uppercase tracking-widest text-orange-100">Vendas / Mês</span>
           </div>
           <p class="text-2xl font-black text-white">{{ resumoLoading ? '...' : vendasMes }}</p>
           <p class="text-[11px] text-orange-100/70 mt-1">pedidos este mês</p>
@@ -386,13 +386,13 @@
 
         <div class="rounded-2xl bg-white border border-gray-100 shadow-sm p-4 flex flex-col gap-1">
           <div class="flex items-center justify-between mb-1">
-            <span class="text-[10px] font-black uppercase tracking-widest text-emerald-500">Clientes Ativos</span>
-            <div class="w-7 h-7 rounded-xl bg-emerald-50 flex items-center justify-center">
-              <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="text-[10px] font-black uppercase tracking-widest text-amber-500">Disponíveis</span>
+            <div class="w-7 h-7 rounded-xl bg-amber-50 flex items-center justify-center">
+              <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
             </div>
           </div>
-          <p class="text-2xl font-black text-gray-800">{{ resumoLoading ? '...' : clientesAtivos }}</p>
-          <p class="text-[11px] text-gray-400">{{ resumoLoading || totalClientes === 0 ? '' : Math.round(clientesAtivos / totalClientes * 100) + '% do total' }}</p>
+          <p class="text-2xl font-black text-gray-800">{{ resumoLoading ? '...' : veiculosDisponiveis }}</p>
+          <p class="text-[11px] text-gray-400">veículos para venda</p>
         </div>
 
         <div class="rounded-2xl bg-white border border-gray-100 shadow-sm p-4 flex flex-col gap-1">
@@ -423,12 +423,12 @@
         <span class="text-[11px] font-black uppercase tracking-widest text-gray-400">Atalhos</span>
         <div class="flex-1 h-px bg-gray-200" />
       </div>
-      <div class="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3">
+      <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
         <NuxtLink
           v-for="atalho in atalhosVisiveis"
           :key="atalho.to"
           :to="atalho.to"
-          class="group flex flex-col items-center gap-2 py-4 px-2 rounded-2xl border border-gray-100 bg-white hover:border-green-200 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
+          class="group flex flex-col items-center gap-2 py-4 px-2 rounded-2xl border border-gray-100 bg-white hover:border-amber-200 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
         >
           <div
             class="w-10 h-10 rounded-xl flex items-center justify-center border transition-transform duration-200 group-hover:scale-110"
@@ -444,7 +444,7 @@
 
     <!-- Loading inicial -->
     <div v-if="adminLoading" class="flex items-center justify-center py-32">
-      <span class="inline-block w-10 h-10 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
+      <span class="inline-block w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
     </div>
   </div>
 </template>
@@ -469,9 +469,10 @@ const faturamentoMes     = ref(0)
 const totalContasPagar   = ref(0)
 const valorContasPagar   = ref(0)
 const contasVencidas     = ref(0)
-const tarefasHoje        = ref(0)
+const tarefasHoje           = ref(0)
 const tarefasConcluidasHoje = ref(0)
-const tarefasPendentes   = ref(0)
+const tarefasPendentes      = ref(0)
+const veiculosDisponiveis   = ref(0)
 
 // �"?�"? FUNCIONÁRIO: atividades �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
 interface AtividadeFuncionario {
@@ -554,7 +555,7 @@ const frasesMotivacionais = [
   'Cada tarefa concluída é um passo rumo à excelência!',
   'Foco total, resultado certo. Vamos lá!',
   'Organização é o segredo de quem vai longe!',
-  'Um animal bem cuidado começa com uma tarefa realizada.',
+  'Um cliente satisfeito começa com uma equipe comprometida.',
   'Consistência supera talento todos os dias.',
   'Hoje é um ótimo dia para dar o seu melhor!',
   'Pequenas ações, grandes resultados.',
@@ -703,11 +704,12 @@ onMounted(async () => {
   // Admin: buscar resumo
   loadingAtividades.value = false
   const todayIso = new Date().toISOString().slice(0, 10)
-  const [clientesResp, vendasResp, contasResp, tarefasResp] = await Promise.all([
+  const [clientesResp, vendasResp, contasResp, tarefasResp, veiculosResp] = await Promise.all([
     supabase.from('clientes').select('ativo').eq('empresa_id', empresaId.value!),
     supabase.from('vendas').select('valor_total, data_venda, status').eq('empresa_id', empresaId.value!),
     supabase.from('contas_pagar').select('valor, data_vencimento, status').eq('empresa_id', empresaId.value!),
     supabase.from('atividades_funcionarios').select('status, data_atividade').eq('data_atividade', todayIso).eq('empresa_id', empresaId.value!),
+    supabase.from('veiculos').select('status').eq('empresa_id', empresaId.value!),
   ])
 
   if (!clientesResp.error) {
@@ -744,6 +746,10 @@ onMounted(async () => {
     tarefasPendentes.value = tf.filter(t => t.status === 'pendente').length
   }
 
+  if (!veiculosResp.error) {
+    veiculosDisponiveis.value = (veiculosResp.data ?? []).filter(v => v.status === 'disponivel').length
+  }
+
   resumoLoading.value = false
 })
 
@@ -753,10 +759,29 @@ function formatCurrency(val: number): string {
 
 const atalhos = [
   {
+    to: '/veiculos',
+    icon: 'car',
+    title: 'Veículos',
+    minPerfil: 'all',
+    accent: 'bg-amber-500',
+    iconBg: 'bg-amber-50 border-amber-100',
+    iconColor: 'text-amber-600',
+    badge: 'bg-amber-50 text-amber-700',
+  },
+  {
+    to: '/propostas',
+    icon: 'document',
+    title: 'Propostas',
+    minPerfil: 'all',
+    accent: 'bg-sky-500',
+    iconBg: 'bg-sky-50 border-sky-100',
+    iconColor: 'text-sky-600',
+    badge: 'bg-sky-50 text-sky-700',
+  },
+  {
     to: '/clientes',
     icon: 'identification',
     title: 'Clientes',
-    description: 'Gerencie cadastros, contatos e informações de relacionamento.',
     minPerfil: 'all',
     accent: 'bg-violet-500',
     iconBg: 'bg-violet-50 border-violet-100',
@@ -767,7 +792,6 @@ const atalhos = [
     to: '/vendas',
     icon: 'receipt',
     title: 'Vendas',
-    description: 'Registre vendas com itens e subtotais de forma rápida e segura.',
     minPerfil: 'all',
     accent: 'bg-orange-500',
     iconBg: 'bg-orange-50 border-orange-100',
@@ -775,21 +799,9 @@ const atalhos = [
     badge: 'bg-orange-50 text-orange-700',
   },
   {
-    to: '/produtos',
-    icon: 'package',
-    title: 'Produtos',
-    description: 'Acompanhe estoque, categorias, preços e status dos itens.',
-    minPerfil: 'all',
-    accent: 'bg-blue-500',
-    iconBg: 'bg-blue-50 border-blue-100',
-    iconColor: 'text-blue-600',
-    badge: 'bg-blue-50 text-blue-700',
-  },
-  {
     to: '/funcionarios',
     icon: 'users',
     title: 'Funcionários',
-    description: 'Organize dados da equipe e mantenha o controle operacional.',
     minPerfil: 'all',
     accent: 'bg-emerald-500',
     iconBg: 'bg-emerald-50 border-emerald-100',
@@ -800,7 +812,6 @@ const atalhos = [
     to: '/contas-pagar',
     icon: 'wallet',
     title: 'Contas a Pagar',
-    description: 'Monitore vencimentos, status e planejamento financeiro.',
     minPerfil: 'manager',
     accent: 'bg-rose-500',
     iconBg: 'bg-rose-50 border-rose-100',

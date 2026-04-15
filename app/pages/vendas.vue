@@ -3,11 +3,10 @@
 
     <!-- �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� CABE�?ALHO �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� -->
     <div class="relative rounded-3xl overflow-hidden mb-8 shadow-xl">
-      <div class="absolute inset-0 bg-gradient-to-br from-green-900 via-green-700 to-green-500" />
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(251,207,232,0.15),transparent_60%)]" />
-      <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-white/[0.04] pointer-events-none" />
-      <div class="absolute -bottom-20 left-1/4 w-96 h-96 rounded-full bg-white/[0.03] pointer-events-none" />
-      <div class="absolute top-4 right-1/3 w-40 h-40 rounded-full bg-yellow-300/10 pointer-events-none" />
+      <div class="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800" />
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(245,158,11,0.15),transparent_60%)]" />
+      <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-white/[0.03] pointer-events-none" />
+      <div class="absolute -bottom-20 left-1/4 w-96 h-96 rounded-full bg-white/[0.02] pointer-events-none" />
 
       <div class="relative px-4 sm:px-8 pt-5 sm:pt-7 pb-5 sm:pb-7">
         <div class="flex flex-wrap items-start justify-between gap-3 sm:gap-6">
@@ -17,12 +16,12 @@
             </div>
             <div>
               <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Financeiro</span>
-                <span class="w-1 h-1 rounded-full bg-green-400/50" />
-                <span class="text-xs text-green-300/70 hidden sm:inline">PetFlow</span>
+                <span class="text-xs font-semibold text-amber-400 uppercase tracking-widest">Financeiro</span>
+                <span class="w-1 h-1 rounded-full bg-amber-400/50" />
+                <span class="text-xs text-gray-400 hidden sm:inline">AutoFlow</span>
               </div>
               <h1 class="text-xl sm:text-3xl font-bold text-white tracking-tight leading-none">Vendas</h1>
-              <p class="text-sm text-green-100/80 mt-1.5">
+              <p class="text-sm text-gray-300/80 mt-1.5">
                 {{ loading ? 'Carregando...' : `${vendasFiltradas.length} de ${vendas.length} venda(s) exibida(s)` }}
               </p>
             </div>
@@ -39,7 +38,7 @@
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z"/></svg>
               <span class="hidden sm:inline">Filtros</span>
-              <span v-if="filtrosAtivos > 0" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full bg-white text-green-600 text-xs font-black ring-2 ring-green-300">{{ filtrosAtivos }}</span>
+              <span v-if="filtrosAtivos > 0" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full bg-gray-950 text-amber-400 text-xs font-black">{{ filtrosAtivos }}</span>
             </button>
             <button
               type="button"
@@ -52,7 +51,7 @@
             </button>
             <button
               type="button"
-              class="inline-flex items-center gap-2 text-sm font-bold px-3 sm:px-5 py-2.5 rounded-xl bg-white text-green-800 hover:bg-green-50 shadow-lg shadow-green-900/25 transition-all duration-200 hover:scale-[1.02]"
+              class="inline-flex items-center gap-2 text-sm font-bold px-3 sm:px-5 py-2.5 rounded-xl bg-amber-500 text-gray-950 hover:bg-amber-400 shadow-lg shadow-amber-900/30 transition-all duration-200 hover:scale-[1.02]"
               @click="abrirAdicionar"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
@@ -66,27 +65,27 @@
         <!-- Stats -->
         <div v-if="!loading" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div class="flex flex-col gap-1 bg-white/10 backdrop-blur-sm rounded-2xl px-5 py-4 border border-white/10 hover:bg-white/15 transition-colors">
-            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Total Vendas</span>
+            <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Total Vendas</span>
             <span class="text-xl font-black text-white leading-tight">{{ vendas.length }}</span>
-            <span class="text-xs text-green-200/60">registros</span>
+            <span class="text-xs text-gray-500">registros</span>
           </div>
           <div class="flex flex-col gap-1 bg-green-400/10 rounded-2xl px-5 py-4 border border-green-300/20 hover:bg-green-400/15 transition-colors">
             <div class="flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-green-400" />
-              <span class="text-xs font-semibold text-green-200 uppercase tracking-widest">Faturamento</span>
+              <span class="w-2 h-2 rounded-full bg-amber-400" />
+              <span class="text-xs font-semibold text-amber-300 uppercase tracking-widest">Faturamento</span>
             </div>
-            <span class="text-xl font-black text-green-100 leading-tight truncate">{{ formatCurrency(faturamentoTotal) }}</span>
-            <span class="text-xs text-green-300/50">total acumulado</span>
+            <span class="text-xl font-black text-amber-200 leading-tight truncate">{{ formatCurrency(faturamentoTotal) }}</span>
+            <span class="text-xs text-amber-300/50">total acumulado</span>
           </div>
           <div class="flex flex-col gap-1 bg-white/[0.07] rounded-2xl px-5 py-4 border border-white/10 hover:bg-white/12 transition-colors">
-            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Ticket Médio</span>
+            <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Ticket Médio</span>
             <span class="text-xl font-black text-white leading-tight truncate">{{ formatCurrency(ticketMedio) }}</span>
-            <span class="text-xs text-green-200/60">por venda</span>
+            <span class="text-xs text-gray-500">por venda</span>
           </div>
           <div class="flex flex-col gap-1 bg-white/[0.07] rounded-2xl px-5 py-4 border border-white/10 hover:bg-white/12 transition-colors">
-            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Este Mês</span>
+            <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Este Mês</span>
             <span class="text-xl font-black text-white leading-tight">{{ vendasMes }}</span>
-            <span class="text-xs text-green-200/60">venda(s)</span>
+            <span class="text-xs text-gray-500">venda(s)</span>
           </div>
         </div>
       </div>
@@ -291,7 +290,17 @@
             <form class="flex flex-col gap-5 px-8 py-7 overflow-y-auto max-h-[72vh]" @submit.prevent="adicionando ? salvarAdicao() : salvarEdicao()">
               <!-- Cliente -->
               <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-semibold text-gray-700">Cliente *</label>
+                <div class="flex items-center justify-between">
+                  <label class="text-sm font-semibold text-gray-700">Cliente *</label>
+                  <button
+                    type="button"
+                    class="inline-flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-800 hover:underline transition-colors"
+                    @click="abrirNovoCliente"
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                    Novo cliente
+                  </button>
+                </div>
                 <select v-model="form.cliente_id" required class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500" :class="formErrors.cliente_id ? 'border-red-400 ring-1 ring-red-400' : ''">
                   <option :value="null">Selecione o cliente</option>
                   <option v-for="c in clientesOpcoes" :key="c.id" :value="c.id">{{ c.nome }}</option>
@@ -495,6 +504,50 @@
         </div>
       </Transition>
     </Teleport>
+    <!-- ═══════════════════════════════ MODAL RÁPIDO NOVO CLIENTE ═══════════════════════════════ -->
+    <Teleport to="body">
+      <Transition name="fade">
+        <div
+          v-if="adicionandoCliente"
+          class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-md px-4"
+          @click.self="adicionandoCliente = false"
+        >
+          <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden">
+            <div class="flex items-center justify-between px-7 py-5 border-b border-gray-100 bg-gradient-to-r from-violet-50 to-white">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-violet-100 flex items-center justify-center">
+                  <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"/></svg>
+                </div>
+                <div>
+                  <h2 class="text-base font-bold text-gray-800">Novo Cliente</h2>
+                  <p class="text-xs text-gray-400">Cadastro rápido</p>
+                </div>
+              </div>
+              <button type="button" class="w-8 h-8 flex items-center justify-center rounded-xl text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors" @click="adicionandoCliente = false">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+
+            <form class="flex flex-col gap-4 px-7 py-6" @submit.prevent="salvarNovoCliente">
+              <AppInput v-model="formCliente.nome" label="Nome *" placeholder="Nome completo" :error="formCliente.nomeError" required />
+              <AppInput v-model="formCliente.telefone" label="Telefone" placeholder="(00) 00000-0000" />
+              <AppInput v-model="formCliente.email" label="E-mail" type="email" placeholder="cliente@email.com" />
+
+              <p v-if="clienteModalError" class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">{{ clienteModalError }}</p>
+
+              <div class="flex gap-3 pt-1">
+                <button type="button" class="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors text-sm font-semibold" @click="adicionandoCliente = false">
+                  Cancelar
+                </button>
+                <AppButton variant="primary" size="md" type="submit" :loading="savingCliente" class="flex-1">
+                  Adicionar
+                </AppButton>
+              </div>
+            </form>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
@@ -502,10 +555,9 @@
 import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
 import { useAdmin } from '~/composables/useAdmin'
-import { useAdmin } from '~/composables/useAdmin'
-import { useAdmin } from '~/composables/useAdmin'
 import { useEmpresa } from '~/composables/useEmpresa'
 import AppButton from '~/components/AppButton.vue'
+import AppInput from '~/components/AppInput.vue'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 
@@ -526,6 +578,7 @@ interface Venda {
 
 const supabase = createSupabaseClient()
 const { empresaId, loadEmpresa } = useEmpresa()
+const { isAdmin, isAdminOrGerente } = useAdmin()
 
 const vendas          = ref<Venda[]>([])
 const clientesOpcoes  = ref<ClienteOpcao[]>([])
@@ -541,6 +594,45 @@ const modalError  = ref<string | null>(null)
 const excluindo   = ref<Venda | null>(null)
 const deleting    = ref(false)
 const deleteError = ref<string | null>(null)
+
+// ── Novo cliente rápido ───────────────────────────────────────────────────────
+const adicionandoCliente = ref(false)
+const savingCliente      = ref(false)
+const clienteModalError  = ref<string | null>(null)
+const formCliente = reactive({ nome: '', telefone: '', email: '', nomeError: '' })
+
+function abrirNovoCliente() {
+  formCliente.nome = ''; formCliente.telefone = ''; formCliente.email = ''
+  formCliente.nomeError = ''; clienteModalError.value = null
+  adicionandoCliente.value = true
+}
+
+async function salvarNovoCliente() {
+  formCliente.nomeError = ''
+  if (!formCliente.nome.trim()) { formCliente.nomeError = 'O nome é obrigatório.'; return }
+  savingCliente.value = true; clienteModalError.value = null
+
+  const { data, error: insertError } = await supabase
+    .from('clientes')
+    .insert({
+      nome:      formCliente.nome.trim(),
+      telefone:  formCliente.telefone.trim() || null,
+      email:     formCliente.email.trim() || null,
+      ativo:     true,
+      empresa_id: empresaId.value!,
+    })
+    .select('id, nome')
+    .single()
+
+  savingCliente.value = false
+  if (insertError) { clienteModalError.value = insertError.message; return }
+
+  clientesOpcoes.value = [...clientesOpcoes.value, data as ClienteOpcao]
+    .sort((a, b) => a.nome.localeCompare(b.nome))
+  form.cliente_id = (data as ClienteOpcao).id
+  adicionandoCliente.value = false
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 const form = reactive({
   cliente_id:      null as number | null,
@@ -853,6 +945,15 @@ async function salvarAdicao() {
 
   saving.value = false
   if (insertItensError) { modalError.value = insertItensError.message; return }
+
+  // Dá baixa no estoque de cada produto vendido
+  for (const item of itens.value) {
+    await supabase.rpc('decrementar_estoque', {
+      p_produto_id: item.produto_id,
+      p_quantidade: item.quantidade,
+    })
+  }
+
   adicionando.value = false
   await fetchVendas()
 }

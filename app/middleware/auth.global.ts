@@ -1,14 +1,24 @@
 import { createSupabaseClient } from '~/lib/supabase'
 
-// Routes that require admin or gerente perfil
-const MANAGER_ROUTES = ['/contas-pagar']
+// Rotas bloqueadas para funcionario (somente admin/gerente)
+const MANAGER_ROUTES = ['/contas-pagar', '/produtos', '/funcionarios']
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const supabase = createSupabaseClient()
   const { data: { session } } = await supabase.auth.getSession()
 
   if (to.path === '/login') {
-    if (session) return navigateTo('/')
+    if (session) {
+      // Redireciona para /atividades se for funcionario, senão para /
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('perfil')
+        .eq('id', session.user.id)
+        .maybeSingle()
+      const perfil = profile?.perfil ?? session.user.user_metadata?.perfil ?? null
+      if (perfil === 'funcionario') return navigateTo('/atividades')
+      return navigateTo('/')
+    }
     return
   }
 
@@ -16,16 +26,23 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return navigateTo('/login')
   }
 
-  if (MANAGER_ROUTES.includes(to.path)) {
+  // Lê perfil para todas as rotas restritas
+  const needsCheck = MANAGER_ROUTES.includes(to.path)
+  if (needsCheck) {
     const { data: profile } = await supabase
       .from('profiles')
       .select('perfil')
       .eq('id', session.user.id)
-      .single()
+      .maybeSingle()
 
-    const perfil = profile?.perfil
-    if (perfil !== 'admin' && perfil !== 'gerente') {
-      return navigateTo('/')
+    const perfil: string | null =
+      profile?.perfil ??
+      (session.user.user_metadata?.perfil as string | undefined) ??
+      null
+
+    // Só bloqueia se SOUBER que é funcionario — se perfil for null, deixa passar
+    if (perfil === 'funcionario') {
+      return navigateTo('/atividades')
     }
   }
 })

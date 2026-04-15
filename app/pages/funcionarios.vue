@@ -3,11 +3,10 @@
 
     <!-- �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� CABE�?ALHO �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� -->
     <div class="relative rounded-3xl overflow-hidden mb-8 shadow-xl">
-      <div class="absolute inset-0 bg-gradient-to-br from-green-900 via-green-700 to-green-500" />
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(251,146,60,0.18),transparent_60%)]" />
-      <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-white/[0.04] pointer-events-none" />
-      <div class="absolute -bottom-20 left-1/4 w-96 h-96 rounded-full bg-white/[0.03] pointer-events-none" />
-      <div class="absolute top-4 right-1/3 w-40 h-40 rounded-full bg-orange-400/10 pointer-events-none" />
+      <div class="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800" />
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(245,158,11,0.15),transparent_60%)]" />
+      <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-white/[0.03] pointer-events-none" />
+      <div class="absolute -bottom-20 left-1/4 w-96 h-96 rounded-full bg-white/[0.02] pointer-events-none" />
 
       <div class="relative px-4 sm:px-8 pt-5 sm:pt-7 pb-5 sm:pb-7">
         <!-- Título + ações -->
@@ -18,12 +17,12 @@
             </div>
             <div>
               <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Gestão</span>
-                <span class="w-1 h-1 rounded-full bg-green-400/50" />
-                <span class="text-xs text-green-300/70 hidden sm:inline">PetFlow</span>
+                <span class="text-xs font-semibold text-amber-400 uppercase tracking-widest">Gestão</span>
+                <span class="w-1 h-1 rounded-full bg-amber-400/50" />
+                <span class="text-xs text-gray-400 hidden sm:inline">AutoFlow</span>
               </div>
               <h1 class="text-xl sm:text-3xl font-bold text-white tracking-tight leading-none">Funcionários</h1>
-              <p class="text-sm text-green-200/80 mt-1.5">
+              <p class="text-sm text-gray-300/80 mt-1.5">
                 {{ loading ? 'Carregando...' : `${funcionariosFiltrados.length} de ${funcionarios.length} funcionário(s) exibido(s)` }}
               </p>
             </div>
@@ -34,13 +33,13 @@
               type="button"
               class="inline-flex items-center gap-2 text-sm font-semibold px-3 sm:px-5 py-2.5 rounded-xl transition-all duration-200"
               :class="filtroAberto
-                ? 'bg-orange-500 text-white shadow-lg shadow-orange-900/40 scale-[1.02]'
+                ? 'bg-amber-500 text-gray-950 shadow-lg scale-[1.02]'
                 : 'bg-white/10 text-white hover:bg-white/20 border border-white/15 backdrop-blur-sm'"
               @click="filtroAberto = !filtroAberto"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z"/></svg>
               <span class="hidden sm:inline">Filtros</span>
-              <span v-if="buscaAtiva" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full bg-white text-orange-600 text-xs font-black ring-2 ring-orange-400">1</span>
+              <span v-if="buscaAtiva" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full bg-gray-950 text-amber-400 text-xs font-black">1</span>
             </button>
             <button
               v-if="isAdminOrGerente"
@@ -54,7 +53,7 @@
             <button
               v-if="isAdminOrGerente"
               type="button"
-              class="inline-flex items-center gap-2 text-sm font-bold px-3 sm:px-5 py-2.5 rounded-xl bg-white text-green-800 hover:bg-green-50 shadow-lg shadow-green-900/25 transition-all duration-200 hover:scale-[1.02]"
+              class="inline-flex items-center gap-2 text-sm font-bold px-3 sm:px-5 py-2.5 rounded-xl bg-amber-500 text-gray-950 hover:bg-amber-400 shadow-lg shadow-amber-900/30 transition-all duration-200 hover:scale-[1.02]"
               @click="abrirAdicionar"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
@@ -69,9 +68,9 @@
         <!-- Stats -->
         <div v-if="!loading" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div class="flex flex-col gap-1 bg-white/10 backdrop-blur-sm rounded-2xl px-5 py-4 border border-white/10 hover:bg-white/15 transition-colors">
-            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Total</span>
+            <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Total</span>
             <span class="text-xl font-black text-white leading-tight">{{ funcionarios.length }}</span>
-            <span class="text-xs text-green-300/60">funcionário(s)</span>
+            <span class="text-xs text-gray-500">funcionário(s)</span>
           </div>
           <div class="flex flex-col gap-1 bg-orange-400/10 rounded-2xl px-5 py-4 border border-orange-300/20 hover:bg-orange-400/15 transition-colors">
             <span class="text-xs font-semibold text-orange-200 uppercase tracking-widest">Folha Salarial</span>
@@ -79,14 +78,14 @@
             <span class="text-xs text-orange-300/50">soma dos salários</span>
           </div>
           <div class="flex flex-col gap-1 bg-white/10 rounded-2xl px-5 py-4 border border-white/10 hover:bg-white/15 transition-colors">
-            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Média Salarial</span>
+            <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Média Salarial</span>
             <span class="text-xl font-black text-white leading-tight">{{ formatCurrency(mediaSalarial) }}</span>
-            <span class="text-xs text-green-300/60">por funcionário</span>
+            <span class="text-xs text-gray-500">por funcionário</span>
           </div>
           <div class="flex flex-col gap-1 bg-white/[0.07] rounded-2xl px-5 py-4 border border-white/10 hover:bg-white/12 transition-colors">
-            <span class="text-xs font-semibold text-green-300 uppercase tracking-widest">Com Cargo</span>
+            <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Com Cargo</span>
             <span class="text-xl font-black text-white leading-tight">{{ comCargo }}</span>
-            <span class="text-xs text-green-300/60">de {{ funcionarios.length }} cadastrados</span>
+            <span class="text-xs text-gray-500">de {{ funcionarios.length }} cadastrados</span>
           </div>
         </div>
       </div>
@@ -164,6 +163,7 @@
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">CPF</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Idade</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Cargo</th>
+              <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Perfil</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Salário</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Endereço</th>
               <th class="px-7 py-4 text-right text-xs font-extrabold text-gray-400 uppercase tracking-widest sm:sticky sm:right-0 bg-gray-50">Ações</th>
@@ -171,7 +171,7 @@
           </thead>
           <tbody class="divide-y divide-gray-50">
             <tr v-if="funcionariosFiltrados.length === 0">
-              <td colspan="9" class="text-center py-20">
+              <td colspan="10" class="text-center py-20">
                 <div class="flex flex-col items-center gap-3">
                   <svg class="w-14 h-14 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.25" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
                   <span class="text-base font-semibold text-gray-400">Nenhum funcionário encontrado</span>
@@ -205,8 +205,18 @@
                   {{ func.cargo }}
                 </span>
                 <span v-else class="text-gray-300">�?"</span>
-              </td>
-              <td class="px-5 py-4">
+              </td>              <td class="px-5 py-4">
+                <span
+                  class="inline-block text-xs font-bold rounded-xl px-3 py-1.5 capitalize"
+                  :class="{
+                    'bg-red-50 text-red-700 border border-red-200': func.perfil === 'admin',
+                    'bg-blue-50 text-blue-700 border border-blue-200': func.perfil === 'gerente',
+                    'bg-gray-100 text-gray-600 border border-gray-200': !func.perfil || func.perfil === 'funcionario',
+                  }"
+                >
+                  {{ func.perfil ?? 'funcionario' }}
+                </span>
+              </td>              <td class="px-5 py-4">
                 <span v-if="func.salario" class="font-black text-gray-900 tabular-nums">{{ formatCurrency(func.salario) }}</span>
                 <span v-else class="text-gray-300">�?"</span>
               </td>
@@ -360,6 +370,36 @@
               </div>
               <AppInput v-model="form.endereco" label="Endereço" placeholder="Rua, número, cidade" />
 
+              <!-- Permissão -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold text-gray-500 uppercase tracking-widest">Permissão / Perfil</label>
+                <select
+                  v-model="form.perfil"
+                  class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                >
+                  <option value="funcionario">Funcionário — acesso básico</option>
+                  <option value="gerente">Gerente — acesso intermediário</option>
+                  <option value="admin">Admin — acesso total</option>
+                </select>
+              </div>
+
+              <!-- Criar login (só no modo adicionar) -->
+              <div v-if="adicionando" class="rounded-2xl border border-dashed border-gray-200 p-4 flex flex-col gap-4">
+                <label class="flex items-center gap-3 cursor-pointer">
+                  <input v-model="form.criarLogin" type="checkbox" class="w-4 h-4 rounded accent-green-600" />
+                  <span class="text-sm font-semibold text-gray-700">Criar login de acesso ao sistema</span>
+                </label>
+                <div v-if="form.criarLogin" class="flex flex-col gap-3">
+                  <p class="text-xs text-gray-400 -mt-1">O funcionário poderá fazer login com o e-mail acima e a senha abaixo.</p>
+                  <AppInput
+                    v-model="form.senha"
+                    label="Senha temporária"
+                    type="password"
+                    placeholder="Mínimo 6 caracteres"
+                  />
+                </div>
+              </div>
+
               <p v-if="editError" class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
                 {{ editError }}
               </p>
@@ -425,8 +465,6 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
 import { useAdmin } from '~/composables/useAdmin'
-import { useAdmin } from '~/composables/useAdmin'
-import { useAdmin } from '~/composables/useAdmin'
 import { useEmpresa } from '~/composables/useEmpresa'
 import AppInput from '~/components/AppInput.vue'
 import AppButton from '~/components/AppButton.vue'
@@ -440,10 +478,12 @@ interface Funcionario {
   email: string | null
   salario: number | null
   cpf: number | null
+  perfil: string | null
 }
 
 const supabase = createSupabaseClient()
 const { empresaId, loadEmpresa } = useEmpresa()
+const { isAdmin, isAdminOrGerente } = useAdmin()
 
 const funcionarios = ref<Funcionario[]>([])
 const loading = ref(true)
@@ -460,6 +500,9 @@ const deleteError = ref<string | null>(null)
 
 const form = reactive({
   nome: '', email: '', cargo: '', idade: '', cpf: '', salario: '', endereco: '',
+  perfil: 'funcionario' as string,
+  senha: '',
+  criarLogin: false,
 })
 
 const editErrors = reactive({ nome: '', email: '' })
@@ -613,6 +656,7 @@ function abrirAdicionar() {
   editErrors.email = ''
   form.nome = ''; form.email = ''; form.cargo = ''
   form.idade = ''; form.cpf = ''; form.salario = ''; form.endereco = ''
+  form.perfil = 'funcionario'; form.senha = ''; form.criarLogin = false
 }
 
 function fecharModal() {
@@ -632,6 +676,9 @@ function editFuncionario(func: Funcionario) {
   form.cpf      = func.cpf != null ? String(func.cpf) : ''
   form.salario  = func.salario != null ? String(func.salario) : ''
   form.endereco = func.endereco ?? ''
+  form.perfil   = func.perfil ?? 'funcionario'
+  form.senha    = ''
+  form.criarLogin = false
 }
 
 async function salvarEdicao() {
@@ -669,11 +716,22 @@ async function salvarAdicao() {
   editErrors.nome = ''
   editErrors.email = ''
   if (!form.nome.trim()) { editErrors.nome = 'O nome é obrigatório.'; return }
+  if (form.criarLogin && !form.email.trim()) { editErrors.email = 'E-mail é obrigatório para criar login.'; return }
+  if (form.criarLogin && form.senha.length < 6) { editError.value = 'A senha precisa ter pelo menos 6 caracteres.'; return }
 
   saving.value = true
   editError.value = null
 
-  const { error: insertError } = await supabase
+  // Garante que empresaId está carregado
+  await loadEmpresa()
+  if (!empresaId.value) {
+    editError.value = 'Sessão sem empresa vinculada. Faça logout e login novamente.'
+    saving.value = false
+    return
+  }
+
+  // 1. Insert funcionario record
+  const { data: novoFunc, error: insertError } = await supabase
     .from('funcionarios')
     .insert({
       nome:     form.nome.trim(),
@@ -683,12 +741,60 @@ async function salvarAdicao() {
       cpf:      form.cpf ? Number(form.cpf) : null,
       salario:  form.salario ? Number(form.salario) : null,
       endereco: form.endereco || null,
-      empresa_id: empresaId.value!,
+      empresa_id: empresaId.value,
+    })
+    .select('id')
+    .single()
+
+  if (insertError) { saving.value = false; editError.value = insertError.message; return }
+
+  // 2. Create auth account if requested
+  if (form.criarLogin && form.email.trim() && form.senha.trim()) {
+    // Save current admin session
+    const { data: { session: adminSession } } = await supabase.auth.getSession()
+
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+      email: form.email.trim(),
+      password: form.senha.trim(),
+      options: {
+        data: {
+          full_name: form.nome.trim(),
+          empresa_id: empresaId.value,
+          perfil: form.perfil || 'funcionario',
+        },
+      },
     })
 
-  saving.value = false
-  if (insertError) { editError.value = insertError.message; return }
+    if (signUpError) {
+      // Funcionario was inserted; just warn about auth failure
+      editError.value = `Funcionário salvo, mas erro ao criar login: ${signUpError.message}`
+      // Restore admin session
+      if (adminSession) await supabase.auth.setSession({ access_token: adminSession.access_token, refresh_token: adminSession.refresh_token })
+      saving.value = false
+      adicionando.value = false
+      await fetchFuncionarios()
+      return
+    }
 
+    // 3. Insert profile for new user
+    if (signUpData.user) {
+      await supabase.from('profiles').upsert({
+        id: signUpData.user.id,
+        empresa_id: empresaId.value!,
+        email: form.email.trim(),
+        nome: form.nome.trim(),
+        perfil: form.perfil || 'funcionario',
+        funcionario_id: novoFunc?.id ?? null,
+      })
+    }
+
+    // Restore admin session
+    if (adminSession) {
+      await supabase.auth.setSession({ access_token: adminSession.access_token, refresh_token: adminSession.refresh_token })
+    }
+  }
+
+  saving.value = false
   adicionando.value = false
   await fetchFuncionarios()
 }

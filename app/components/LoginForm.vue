@@ -73,6 +73,14 @@
         required
       />
       <AppInput
+        v-model="register.nomeEmpresa"
+        label="Nome da empresa / pet shop"
+        type="text"
+        placeholder="Ex: PetShop Amigo Fiel"
+        :error="registerErrors.nomeEmpresa"
+        required
+      />
+      <AppInput
         v-model="register.email"
         label="E-mail"
         type="email"
@@ -138,10 +146,10 @@ const showPassword = ref(false)
 const showRegisterPassword = ref(false)
 
 const login = reactive({ email: '', password: '' })
-const register = reactive({ name: '', email: '', password: '', confirmPassword: '' })
+const register = reactive({ name: '', nomeEmpresa: '', email: '', password: '', confirmPassword: '' })
 
 const formErrors = reactive({ email: '', password: '' })
-const registerErrors = reactive({ name: '', email: '', password: '', confirmPassword: '' })
+const registerErrors = reactive({ name: '', nomeEmpresa: '', email: '', password: '', confirmPassword: '' })
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -164,12 +172,17 @@ function validateLogin(): boolean {
 
 function validateRegister(): boolean {
   registerErrors.name = ''
+  registerErrors.nomeEmpresa = ''
   registerErrors.email = ''
   registerErrors.password = ''
   registerErrors.confirmPassword = ''
 
   if (!register.name.trim()) {
     registerErrors.name = 'O nome é obrigatório.'
+  }
+
+  if (!register.nomeEmpresa.trim()) {
+    registerErrors.nomeEmpresa = 'O nome da empresa é obrigatório.'
   }
 
   if (!register.email) {
@@ -190,7 +203,7 @@ function validateRegister(): boolean {
     registerErrors.confirmPassword = 'As senhas não coincidem.'
   }
 
-  return !registerErrors.name && !registerErrors.email && !registerErrors.password && !registerErrors.confirmPassword
+  return !registerErrors.name && !registerErrors.nomeEmpresa && !registerErrors.email && !registerErrors.password && !registerErrors.confirmPassword
 }
 
 async function handleLogin() {
@@ -205,7 +218,7 @@ const registerSuccess = ref(false)
 
 async function handleRegister() {
   if (!validateRegister()) return
-  const { ok, needsConfirmation } = await authRegister(register.name, register.email, register.password)
+  const { ok, needsConfirmation } = await authRegister(register.name, register.email, register.password, register.nomeEmpresa)
   if (ok) {
     if (needsConfirmation) {
       registerSuccess.value = true
