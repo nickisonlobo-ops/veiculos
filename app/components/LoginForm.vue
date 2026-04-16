@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-md bg-gray-900 border border-white/[0.07] rounded-2xl shadow-2xl p-8">
+  <div class="w-full max-w-md bg-gray-900 border border-white/[0.07] rounded-2xl shadow-2xl p-8 text-gray-200">
     <!-- Marca -->
     <div class="flex items-center justify-center gap-3 mb-8">
       <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-md shadow-amber-900/40">

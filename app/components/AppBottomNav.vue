@@ -25,6 +25,7 @@ const { isAdminOrGerente } = useAdmin()
 const allNavItems = [
   { to: '/',             icon: 'home',           label: 'Início',       minPerfil: 'all' },
   { to: '/veiculos',     icon: 'car',            label: 'Veículos',      minPerfil: 'all' },
+  { to: '/catalogo',     icon: 'catalog',        label: 'Catálogo',      minPerfil: 'all' },
   { to: '/clientes',     icon: 'identification', label: 'Clientes',     minPerfil: 'all' },
   { to: '/propostas',    icon: 'document',       label: 'Propostas',    minPerfil: 'all' },
   { to: '/vendas',       icon: 'receipt',        label: 'Vendas',       minPerfil: 'all' },

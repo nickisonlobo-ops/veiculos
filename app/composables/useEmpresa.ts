@@ -79,9 +79,14 @@ export function useEmpresa() {
       session.user.email?.split('@')[0] ??
       'Minha Empresa'
 
-    const { data: rpcResult } = await supabase.rpc('setup_admin_account', {
+    const { data: rpcResult, error: rpcError } = await supabase.rpc('setup_admin_account', {
       p_empresa_nome: nomeEmpresa,
     })
+
+    if (rpcError) {
+      console.error('[useEmpresa] setup_admin_account error:', rpcError.message)
+      return
+    }
 
     if (rpcResult?.empresa_id) {
       // Salva empresa_id no JWT e força refresh para o RLS reconhecer

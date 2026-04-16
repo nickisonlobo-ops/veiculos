@@ -78,6 +78,7 @@ const allNavSections = [
     title: 'Estoque',
     items: [
       { to: '/veiculos', icon: 'car', label: 'Veículos', minPerfil: 'all' },
+      { to: '/catalogo', icon: 'catalog', label: 'Catálogo', minPerfil: 'all' },
     ],
   },
   {

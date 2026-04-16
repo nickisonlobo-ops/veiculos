@@ -250,9 +250,32 @@
               </div>
               <!-- Ano fab + Ano modelo -->
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <AppInput v-model="form.ano_fabricacao" label="Ano Fab. *" type="number" placeholder="2022" :error="formErrors.ano_fabricacao" />
-                <AppInput v-model="form.ano_modelo" label="Ano Modelo" type="number" placeholder="2023" />
-                <AppInput v-model="form.km" label="Quilometragem" type="number" placeholder="0" />
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-sm font-semibold text-gray-700">Ano Fab. <span class="text-red-500 ml-0.5">*</span></label>
+                  <select v-model="form.ano_fabricacao" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                    <option value="">Selecione</option>
+                    <option v-for="ano in anoOptions" :key="ano" :value="String(ano)">{{ ano }}</option>
+                  </select>
+                  <p v-if="formErrors.ano_fabricacao" class="text-xs text-red-500">{{ formErrors.ano_fabricacao }}</p>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-sm font-semibold text-gray-700">Ano Modelo</label>
+                  <select v-model="form.ano_modelo" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                    <option value="">Selecione</option>
+                    <option v-for="ano in anoOptions" :key="ano" :value="String(ano)">{{ ano }}</option>
+                  </select>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-sm font-semibold text-gray-700">Quilometragem</label>
+                  <input
+                    :value="formDisplay.km"
+                    type="text"
+                    inputmode="numeric"
+                    placeholder="0"
+                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                    @input="onKmInput"
+                  />
+                </div>
                 <div class="flex flex-col gap-1.5">
                   <label class="text-sm font-semibold text-gray-700">Tipo</label>
                   <select v-model="form.tipo" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
@@ -323,12 +346,49 @@
                     <option>Dual-clutch</option>
                   </select>
                 </div>
-                <AppInput v-if="isMoto" v-model="form.km" label="Quilometragem" type="number" placeholder="0" />
+                <div v-if="isMoto" class="flex flex-col gap-1.5">
+                  <label class="text-sm font-semibold text-gray-700">Quilometragem</label>
+                  <input
+                    :value="formDisplay.km"
+                    type="text"
+                    inputmode="numeric"
+                    placeholder="0"
+                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                    @input="onKmInput"
+                  />
+                </div>
               </div>
               <!-- Preços -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <AppInput v-model="form.preco_custo" label="Preço de Custo (R$)" type="number" placeholder="0,00" />
-                <AppInput v-model="form.preco_venda" label="Preço de Venda (R$) *" type="number" placeholder="0,00" :error="formErrors.preco_venda" required />
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-sm font-semibold text-gray-700">Preço de Custo</label>
+                  <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-semibold pointer-events-none select-none">R$</span>
+                    <input
+                      :value="formDisplay.preco_custo"
+                      type="text"
+                      inputmode="numeric"
+                      placeholder="0,00"
+                      class="w-full rounded-xl border border-gray-200 pl-11 pr-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                      @input="onPrecoCustoInput"
+                    />
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-sm font-semibold text-gray-700">Preço de Venda <span class="text-red-500 ml-0.5">*</span></label>
+                  <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-semibold pointer-events-none select-none">R$</span>
+                    <input
+                      :value="formDisplay.preco_venda"
+                      type="text"
+                      inputmode="numeric"
+                      placeholder="0,00"
+                      class="w-full rounded-xl border border-gray-200 pl-11 pr-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                      @input="onPrecoVendaInput"
+                    />
+                  </div>
+                  <p v-if="formErrors.preco_venda" class="text-xs text-red-500">{{ formErrors.preco_venda }}</p>
+                </div>
               </div>
               <!-- Chassis + Renavam -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -510,7 +570,13 @@ const form = reactive({
 })
 
 const isMoto = computed(() => form.tipo === 'Moto')
+const anoOptions = computed(() => {
+  const anos: number[] = []
+  for (let y = new Date().getFullYear() + 1; y >= 1950; y--) anos.push(y)
+  return anos
+})
 const formErrors = reactive({ marca: '', modelo: '', ano_fabricacao: '', preco_venda: '' })
+const formDisplay = reactive({ km: '', preco_custo: '', preco_venda: '' })
 
 // ── Fotos ─────────────────────────────────────────────────────────────────────
 const fotosExistentes = ref<string[]>([])
@@ -540,19 +606,26 @@ function resetFotos() {
   novosArquivos.value   = []
   fotoPreviewUrls.value = []
 }
-async function uploadFotos(veiculoId: number): Promise<string[]> {
+async function uploadFotos(veiculoId: number): Promise<{ urls: string[]; erro: string | null }> {
   const urls: string[] = []
+  console.log('[upload] arquivos para enviar:', novosArquivos.value.length)
   for (const file of novosArquivos.value) {
     const ext  = file.name.split('.').pop() ?? 'jpg'
     const path = `${empresaId.value}/veiculos/${veiculoId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-    const { error: upErr } = await supabase.storage
+    console.log('[upload] enviando:', path)
+    const { data: upData, error: upErr } = await supabase.storage
       .from('veiculos-fotos')
       .upload(path, file, { upsert: false })
-    if (upErr) continue
+    console.log('[upload] resultado:', upData, upErr)
+    if (upErr) {
+      return { urls, erro: `Erro ao enviar foto "${file.name}": ${upErr.message}` }
+    }
     const { data } = supabase.storage.from('veiculos-fotos').getPublicUrl(path)
+    console.log('[upload] URL pública:', data.publicUrl)
     urls.push(data.publicUrl)
   }
-  return urls
+  console.log('[upload] URLs finais:', urls)
+  return { urls, erro: null }
 }
 
 // ── Stats ─────────────────────────────────────────────────────────────────────
@@ -586,6 +659,31 @@ const veiculosFiltrados = computed(() => {
   })
 })
 function limparFiltros() { filtros.busca = ''; filtros.tipo = ''; filtros.status = '' }
+
+// ── Formatação de campos numéricos ────────────────────────────────────────────
+function onKmInput(e: Event) {
+  const input = e.target as HTMLInputElement
+  const digits = input.value.replace(/\D/g, '')
+  form.km = digits
+  formDisplay.km = digits ? Number(digits).toLocaleString('pt-BR') : ''
+  input.value = formDisplay.km
+}
+function onPrecoCustoInput(e: Event) {
+  const input = e.target as HTMLInputElement
+  const digits = input.value.replace(/\D/g, '')
+  form.preco_custo = digits
+  const display = digits ? (Number(digits) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
+  formDisplay.preco_custo = display
+  input.value = display
+}
+function onPrecoVendaInput(e: Event) {
+  const input = e.target as HTMLInputElement
+  const digits = input.value.replace(/\D/g, '')
+  form.preco_venda = digits
+  const display = digits ? (Number(digits) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
+  formDisplay.preco_venda = display
+  input.value = display
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function formatCurrency(val: number | null | undefined) {
@@ -634,8 +732,8 @@ function buildPayload() {
     chassi:         form.chassi.trim() || null,
     renavam:        form.renavam.trim() || null,
     cilindrada:     form.cilindrada ? Number(form.cilindrada) : null,
-    preco_custo:    form.preco_custo ? Number(form.preco_custo) : null,
-    preco_venda:    Number(form.preco_venda),
+    preco_custo:    form.preco_custo ? Number(form.preco_custo) / 100 : null,
+    preco_venda:    form.preco_venda ? Number(form.preco_venda) / 100 : 0,
     status:         form.status,
     observacao:     form.observacao.trim() || null,
     empresa_id:     empresaId.value!,
@@ -655,12 +753,14 @@ function abrirAdicionar() {
   adicionando.value = true; editando.value = null; modalError.value = null
   Object.assign(form, { marca: '', modelo: '', ano_fabricacao: '', ano_modelo: '', tipo: '', placa: '', cor: '', km: '', combustivel: '', cambio: '', chassi: '', renavam: '', preco_custo: '', preco_venda: '', status: 'disponivel', observacao: '', cilindrada: '', tipo_moto: '' })
   Object.assign(formErrors, { marca: '', modelo: '', ano_fabricacao: '', preco_venda: '' })
+  Object.assign(formDisplay, { km: '', preco_custo: '', preco_venda: '' })
   resetFotos()
 }
 
 function fecharModal() { editando.value = null; adicionando.value = false; resetFotos() }
 
 function editVeiculo(v: Veiculo) {
+  resetFotos() // limpa fotos anteriores antes de carregar as novas
   editando.value = v; modalError.value = null
   Object.assign(formErrors, { marca: '', modelo: '', ano_fabricacao: '', preco_venda: '' })
   form.marca          = v.marca
@@ -675,18 +775,22 @@ function editVeiculo(v: Veiculo) {
   form.cambio         = v.cambio ?? ''
   form.chassi         = v.chassi ?? ''
   form.renavam        = v.renavam ?? ''
-  form.preco_custo    = v.preco_custo != null ? String(v.preco_custo) : ''
-  form.preco_venda    = String(v.preco_venda)
+  form.preco_custo    = v.preco_custo != null ? String(Math.round(v.preco_custo * 100)) : ''
+  form.preco_venda    = String(Math.round(v.preco_venda * 100))
   form.status         = v.status ?? 'disponivel'
   form.observacao     = v.observacao ?? ''
   form.cilindrada     = v.cilindrada != null ? String(v.cilindrada) : ''
   fotosExistentes.value = [...(v.fotos ?? [])]
+  formDisplay.km = v.km != null ? Number(v.km).toLocaleString('pt-BR') : ''
+  formDisplay.preco_custo = v.preco_custo != null ? v.preco_custo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
+  formDisplay.preco_venda = v.preco_venda.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
 async function salvarEdicao() {
   if (!editando.value || !validateForm()) return
   saving.value = true; modalError.value = null
-  const newUrls = await uploadFotos(editando.value.id)
+  const { urls: newUrls, erro: uploadErro } = await uploadFotos(editando.value.id)
+  if (uploadErro) { modalError.value = uploadErro; saving.value = false; return }
   const fotosFinais = [...fotosExistentes.value, ...newUrls]
   const payload = { ...buildPayload(), fotos: fotosFinais.length > 0 ? fotosFinais : null }
   const { error: updateError } = await supabase.from('veiculos').update(payload).eq('id', editando.value.id)
@@ -697,14 +801,24 @@ async function salvarEdicao() {
 
 async function salvarAdicao() {
   if (!validateForm()) return
+  // Garante que empresa_id está carregado antes de inserir
+  if (!empresaId.value) {
+    await loadEmpresa()
+    if (!empresaId.value) {
+      modalError.value = 'Perfil de empresa não encontrado. Faça logout e entre novamente.'
+      return
+    }
+  }
   saving.value = true; modalError.value = null
   const { data: inserted, error: insertError } = await supabase
     .from('veiculos').insert(buildPayload()).select('id').single()
   if (insertError) { modalError.value = insertError.message; saving.value = false; return }
   const novoId = (inserted as { id: number }).id
-  const urls = await uploadFotos(novoId)
+  const { urls, erro: uploadErro } = await uploadFotos(novoId)
+  if (uploadErro) { modalError.value = uploadErro; saving.value = false; return }
   if (urls.length > 0) {
-    await supabase.from('veiculos').update({ fotos: urls }).eq('id', novoId)
+    const { error: fotosErr } = await supabase.from('veiculos').update({ fotos: urls }).eq('id', novoId)
+    if (fotosErr) { modalError.value = `Veículo salvo, mas erro ao salvar fotos: ${fotosErr.message}`; saving.value = false; return }
   }
   saving.value = false
   adicionando.value = false; resetFotos(); await fetchVeiculos()

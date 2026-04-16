@@ -2,10 +2,17 @@ import { createSupabaseClient } from '~/lib/supabase'
 
 // Rotas bloqueadas para funcionario (somente admin/gerente)
 const MANAGER_ROUTES = ['/contas-pagar', '/produtos', '/funcionarios']
+// Rotas públicas (sem login)
+const PUBLIC_ROUTES = ['/catalogo', '/loja']
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const supabase = createSupabaseClient()
   const { data: { session } } = await supabase.auth.getSession()
+
+  // Permite acesso sem login para catálogo e páginas de detalhe de veículo
+  if (PUBLIC_ROUTES.some(r => to.path === r || to.path.startsWith(r + '/'))) {
+    return
+  }
 
   if (to.path === '/login') {
     if (session) {

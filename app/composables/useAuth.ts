@@ -10,11 +10,10 @@ export function useAuth() {
     loading.value = true
     error.value = null
 
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
-
-    loading.value = false
+    const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password })
 
     if (authError) {
+      loading.value = false
       if (authError.message === 'Email not confirmed') {
         error.value = 'Confirme seu e-mail antes de entrar. Verifique sua caixa de entrada.'
       } else if (authError.message === 'Invalid login credentials') {
@@ -25,6 +24,23 @@ export function useAuth() {
       return false
     }
 
+    // Atualiza JWT com empresa_id (lido do profile criado pelo trigger) para cache do RLS
+    if (data.user && !data.user.user_metadata?.empresa_id) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('empresa_id, perfil')
+        .eq('id', data.user.id)
+        .maybeSingle()
+
+      if (profile?.empresa_id) {
+        await supabase.auth.updateUser({
+          data: { empresa_id: profile.empresa_id, perfil: profile.perfil ?? 'admin' },
+        })
+        await supabase.auth.refreshSession()
+      }
+    }
+
+    loading.value = false
     return true
   }
 
@@ -32,7 +48,7 @@ export function useAuth() {
     loading.value = true
     error.value = null
 
-    // Step 1: SignUp com perfil e empresa_nome no metadata (para o trigger e loadEmpresa)
+    // O trigger handle_new_user no Supabase cria empresa + profile automaticamente
     const { data, error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -50,23 +66,37 @@ export function useAuth() {
 
     const needsConfirmation = !data.session
 
-    // Step 2: Com sessão ativa, usa RPC SECURITY DEFINER para criar empresa + vincular profile
+    // Se não precisar de confirmação de e-mail, atualiza JWT com empresa_id
     if (data.session && data.user) {
-      const { data: rpcResult, error: rpcError } = await supabase.rpc('setup_admin_account', {
-        p_empresa_nome: nomeEmpresa.trim() || name.trim(),
-      })
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('empresa_id')
+        .eq('id', data.user.id)
+        .maybeSingle()
 
-      if (!rpcError && rpcResult?.empresa_id) {
-        // Salva empresa_id no JWT metadata — necessário para current_empresa_id() via JWT
+      if (profile?.empresa_id) {
         await supabase.auth.updateUser({
-          data: {
-            perfil: 'admin',
-            empresa_id: rpcResult.empresa_id,
-            empresa_nome: nomeEmpresa.trim(),
-          },
+          data: { empresa_id: profile.empresa_id, perfil: 'admin', empresa_nome: nomeEmpresa.trim() },
         })
-        // Força refresh do JWT para que o RLS reconheça o empresa_id imediatamente
         await supabase.auth.refreshSession()
+      } else {
+        // Trigger ainda não rodou ou falhou — cria empresa + profile diretamente
+        const nomeFinal = nomeEmpresa.trim() || name.trim() || email.split('@')[0]
+        const { data: emp } = await supabase
+          .from('empresas')
+          .insert({ nome_fantasia: nomeFinal })
+          .select('id')
+          .single()
+        if (emp?.id) {
+          await supabase.from('profiles').upsert({
+            id: data.user.id, empresa_id: emp.id,
+            email, nome: name.trim(), perfil: 'admin', status: 'ativo',
+          })
+          await supabase.auth.updateUser({
+            data: { empresa_id: emp.id, perfil: 'admin', empresa_nome: nomeFinal },
+          })
+          await supabase.auth.refreshSession()
+        }
       }
     }
 
@@ -74,7 +104,6 @@ export function useAuth() {
   }
 
   async function logout() {
-    // Limpa o cache de empresa/perfil para que o próximo login recarregue do zero
     const empresaId     = useState<number | null>('empresa_id',          () => null)
     const userPerfil    = useState<string | null>('user_perfil',         () => null)
     const loadedForUser = useState<string | null>('empresa_loaded_user', () => null)
@@ -86,3 +115,5 @@ export function useAuth() {
 
   return { login, register, logout, loading, error }
 }
+
+
