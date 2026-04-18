@@ -1,38 +1,50 @@
 ﻿<template>
-  <div class="w-full max-w-md bg-white border border-pink-100 rounded-2xl shadow-xl p-8 text-gray-800">
-    <!-- Marca -->
-    <div class="flex items-center justify-center gap-3 mb-8">
-      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-400 to-pink-600 flex items-center justify-center shadow-md shadow-pink-900/40">
-        <svg class="w-[18px] h-[18px] text-white" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"/></svg>
+  <div class="w-full max-w-md">
+    <!-- Cabeçalho fora do card -->
+    <div class="flex flex-col items-center gap-3 mb-8">
+      <!-- Ícone de gestão -->
+      <div class="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-900/40" style="background: linear-gradient(135deg, #059669, #10b981, #34d399)">
+        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <!-- Barras de gráfico crescentes, estilo arredondado -->
+          <rect x="3" y="14" width="4" height="7" rx="1.5" opacity="0.85"/>
+          <rect x="10" y="9" width="4" height="12" rx="1.5" opacity="0.92"/>
+          <rect x="17" y="4" width="4" height="17" rx="1.5"/>
+        </svg>
       </div>
-      <span class="text-2xl font-black text-white tracking-tight">UpStudio</span>
+      <div class="text-center">
+        <h1 class="text-2xl font-black text-white tracking-tight">Sistema Avançado</h1>
+        <p class="text-sm text-gray-400 mt-0.5">Plataforma de Gestão</p>
+      </div>
     </div>
 
-    <!-- Abas -->
-    <div class="flex rounded-xl bg-pink-50 p-1 mb-6">
-      <button
-        v-for="tab in tabs"
-        :key="tab.key"
-        type="button"
-        :class="[
-          'flex-1 py-2 text-sm font-semibold rounded-lg transition-colors duration-200',
-          activeTab === tab.key
-            ? 'bg-pink-500 text-white shadow-sm'
-            : 'text-gray-500 hover:text-gray-900',
-        ]"
-        @click="activeTab = tab.key"
-      >
-        {{ tab.label }}
-      </button>
-    </div>
+    <!-- Card -->
+    <div class="rounded-2xl border border-gray-700/60 shadow-2xl shadow-black/40 p-8" style="background: #111827">
+      <!-- Abas -->
+      <div class="flex rounded-xl p-1 mb-6" style="background: #1f2937">
+        <button
+          v-for="tab in tabs"
+          :key="tab.key"
+          type="button"
+          :class="[
+            'flex-1 py-2 text-sm font-semibold rounded-lg transition-all duration-200',
+            activeTab === tab.key
+              ? 'text-white shadow-sm'
+              : 'text-gray-400 hover:text-gray-200',
+          activeTab === tab.key ? '' : '',
+          ]"
+          @click="activeTab = tab.key"
+        >
+          {{ tab.label }}
+        </button>
+      </div>
 
-    <!-- Título dinâmico -->
-    <h1 class="text-xl font-bold text-gray-900 text-center mb-6">
-      {{ activeTab === 'login' ? 'Entre na sua conta' : 'Crie sua conta' }}
-    </h1>
+      <!-- Título dinâmico -->
+      <p class="text-base font-semibold text-gray-200 text-center mb-6">
+        {{ activeTab === 'login' ? 'Entre na sua conta' : 'Crie sua conta' }}
+      </p>
 
     <!-- Entrar -->
-    <form v-if="activeTab === 'login'" class="flex flex-col gap-5" @submit.prevent="handleLogin">
+    <form v-if="activeTab === 'login'" class="flex flex-col gap-5 text-white" @submit.prevent="handleLogin">
       <AppInput
         v-model="login.email"
         label="E-mail"
@@ -59,13 +71,13 @@
       <p v-if="authError" class="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2.5 text-center">
         {{ authError }}
       </p>
-      <AppButton variant="secondary" size="lg" type="submit" :loading="authLoading" class="mt-2 w-full !bg-pink-500 !text-white !border-pink-500 hover:!bg-pink-400 font-bold">
+      <AppButton variant="secondary" size="lg" type="submit" :loading="authLoading" class="mt-2 w-full font-bold !text-white !border-0" style="background: linear-gradient(135deg, #059669, #10b981, #34d399)">
         Entrar
       </AppButton>
     </form>
 
     <!-- Criar conta -->
-    <form v-else class="flex flex-col gap-5" @submit.prevent="handleRegister">
+    <form v-else class="flex flex-col gap-5 text-white" @submit.prevent="handleRegister">
       <AppInput
         v-model="register.name"
         label="Nome"
@@ -76,9 +88,9 @@
       />
       <AppInput
         v-model="register.nomeEmpresa"
-        label="Nome do salão / estúdio"
+        label="Nome da empresa"
         type="text"
-        placeholder="Ex: UpStudio Beauty"
+        placeholder="Ex: Auto Flow, Studio X..."
         :error="registerErrors.nomeEmpresa"
         required
       />
@@ -116,13 +128,14 @@
       <p v-if="authError" class="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2.5 text-center">
         {{ authError }}
       </p>
-      <p v-if="registerSuccess" class="text-sm text-pink-700 bg-pink-50 border border-pink-200 rounded-lg px-4 py-2.5 text-center">
+      <p v-if="registerSuccess" class="text-sm text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-4 py-2.5 text-center">
         Cadastro realizado! Verifique seu e-mail para confirmar a conta.
       </p>
-      <AppButton variant="secondary" size="lg" type="submit" :loading="authLoading" class="mt-2 w-full !bg-pink-500 !text-white !border-pink-500 hover:!bg-pink-400 font-bold">
+      <AppButton variant="secondary" size="lg" type="submit" :loading="authLoading" class="mt-2 w-full font-bold !text-white !border-0" style="background: linear-gradient(135deg, #059669, #10b981, #34d399)">
         Criar conta
       </AppButton>
     </form>
+    </div>
   </div>
 </template>
 
@@ -225,6 +238,8 @@ async function handleRegister() {
     if (needsConfirmation) {
       registerSuccess.value = true
     } else {
+      // Limpa tema do usuário anterior para não herdar cores de outra empresa
+      try { localStorage.removeItem('empresa_tema') } catch {}
       await router.push('/')
     }
   }

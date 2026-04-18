@@ -60,16 +60,18 @@ export function usePersonalizacao() {
     await loadEmpresa()
     if (!empresaId.value) return
 
-    const { data, error: err } = await supabase
-      .from('empresa_personalizacao')
-      .select('*')
-      .eq('empresa_id', empresaId.value)
-      .maybeSingle()
+    const [personalizacaoRes, empresaRes] = await Promise.all([
+      supabase.from('empresa_personalizacao').select('*').eq('empresa_id', empresaId.value).maybeSingle(),
+      supabase.from('empresas').select('nome').eq('id', empresaId.value).maybeSingle(),
+    ])
 
-    if (err) {
-      console.error('[usePersonalizacao] load error:', err.message)
+    if (personalizacaoRes.error) {
+      console.error('[usePersonalizacao] load error:', personalizacaoRes.error.message)
       return
     }
+
+    const nomeEmpresaFallback = empresaRes.data?.nome ?? DEFAULTS.nome_empresa
+    const data = personalizacaoRes.data
 
     if (data) {
       config.value = {
@@ -79,7 +81,7 @@ export function usePersonalizacao() {
         cor_sidebar:         data.cor_sidebar         ?? DEFAULTS.cor_sidebar,
         cor_card:            data.cor_card            ?? DEFAULTS.cor_card,
         cor_card_texto:      data.cor_card_texto      ?? DEFAULTS.cor_card_texto,
-        nome_empresa:        data.nome_empresa        ?? DEFAULTS.nome_empresa,
+        nome_empresa:        data.nome_empresa        || nomeEmpresaFallback,
         logo_url:            data.logo_url            ?? null,
         logo_size:           data.logo_size           ?? DEFAULTS.logo_size,
         cor_primaria_grad:   data.cor_primaria_grad   ?? null,
@@ -91,6 +93,9 @@ export function usePersonalizacao() {
         cor_botao_texto:     data.cor_botao_texto     ?? DEFAULTS.cor_botao_texto,
         cor_icone:           data.cor_icone           ?? DEFAULTS.cor_icone,
       }
+    } else {
+      // Sem personalização configurada — usa defaults com o nome real da empresa
+      config.value = { ...DEFAULTS, nome_empresa: nomeEmpresaFallback }
     }
 
     if (apply) applyTheme(config.value)
@@ -196,6 +201,9 @@ export function usePersonalizacao() {
   function applyTheme(cfg: PersonalizacaoConfig) {
     if (typeof document === 'undefined') return
     const root = document.documentElement
+
+    // Persiste no localStorage para restauração imediata no próximo carregamento
+    try { localStorage.setItem('empresa_tema', JSON.stringify(cfg)) } catch {}
 
     const dir = cfg.grad_direction ?? '135deg'
 

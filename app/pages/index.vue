@@ -133,7 +133,7 @@
             <div v-else class="h-1" :class="prioridadeAccent(at.prioridade)" />
 
             <!-- Cabeçalho premium do título -->
-            <div class="relative px-5 pt-4 pb-3 bg-gradient-to-r from-pink-600 via-pink-500 to-rose-400 overflow-hidden">
+            <div class="relative px-5 pt-4 pb-3 overflow-hidden" :style="{ background: 'var(--color-primary-bg)' }">
               <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_65%)]" />
               <div class="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-white/5" />
               <div class="relative flex items-start justify-between gap-2">
@@ -212,7 +212,8 @@
           <!-- Banner: tudo concluído nesta aba -->
           <div
             v-if="ativasTab(tabAtiva).length === 0 && concluidasTab(tabAtiva).length > 0"
-            class="mb-6 relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-500 via-pink-400 to-rose-300 p-5 shadow-lg"
+            class="mb-6 relative overflow-hidden rounded-2xl p-5 shadow-lg"
+            :style="{ background: 'var(--color-primary-bg)' }"
           >
             <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.2),transparent_60%)]" />
             <div class="relative flex items-center gap-4">
@@ -276,7 +277,7 @@
     <template v-if="!adminLoading && isAdminOrGerente">
 
       <!-- Header compacto -->
-      <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-pink-600 via-pink-500 to-rose-400 shadow-xl mb-6">
+      <section class="relative overflow-hidden rounded-3xl shadow-xl mb-6" :style="{ background: 'var(--color-primary-bg)' }">
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
         <div class="relative px-6 sm:px-10 py-6 flex flex-wrap items-center justify-between gap-4">
           <div>

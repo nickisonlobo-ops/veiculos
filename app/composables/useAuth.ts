@@ -105,6 +105,7 @@ export function useAuth() {
     empresaId.value     = null
     userPerfil.value    = null
     loadedForUser.value = null
+    try { localStorage.removeItem('empresa_tema') } catch {}
     await supabase.auth.signOut()
   }
 

@@ -1,0 +1,41 @@
+/*
+  Valores padrão neutros/escuros para as variáveis de tema.
+  Estes são sobrescritos pelo applyTheme() assim que o tema da empresa é carregado.
+  Evitam o flash de cor rosa (Tailwind padrão) no primeiro render.
+*/
+:root {
+  --color-primary:        #374151;
+  --color-primary-text:   #ffffff;
+  --color-primary-bg:     #1f2937;
+  --color-bg:             #111827;
+  --color-sidebar:        #1f2937;
+  --color-btn:            #374151;
+  --color-btn-text:       #ffffff;
+  --color-icon:           #6b7280;
+
+  --color-primary-5:      rgba(55,65,81,0.05);
+  --color-primary-10:     rgba(55,65,81,0.10);
+  --color-primary-12:     rgba(55,65,81,0.12);
+  --color-primary-15:     rgba(55,65,81,0.15);
+  --color-primary-20:     rgba(55,65,81,0.20);
+  --color-primary-30:     rgba(55,65,81,0.30);
+  --color-primary-light:  rgba(55,65,81,0.12);
+  --color-primary-border: rgba(55,65,81,0.30);
+
+  --color-primary-50:  #f9fafb;
+  --color-primary-100: #f3f4f6;
+  --color-primary-200: #e5e7eb;
+  --color-primary-300: #d1d5db;
+  --color-primary-400: #9ca3af;
+  --color-primary-500: #6b7280;
+  --color-primary-600: #4b5563;
+  --color-primary-700: #374151;
+  --color-primary-800: #1f2937;
+  --color-primary-900: #111827;
+
+  --color-icon-10:     rgba(107,114,128,0.10);
+  --color-icon-light:  rgba(107,114,128,0.12);
+  --color-icon-border: rgba(107,114,128,0.30);
+
+  --grad-direction: 135deg;
+}
