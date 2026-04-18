@@ -3,8 +3,8 @@
 
     <!-- �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� CABE�?ALHO �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� -->
     <div class="relative rounded-3xl overflow-hidden mb-8 shadow-xl">
-      <div class="absolute inset-0 bg-gradient-to-br from-pink-600 via-pink-500 to-rose-400" />
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,70,162,0.18),transparent_60%)]" />
+      <div class="absolute inset-0" :style="{ background: 'var(--color-primary-bg, linear-gradient(135deg, #ec4899, #f43f5e))' }" />
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
       <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-white/[0.03] pointer-events-none" />
       <div class="absolute -bottom-20 left-1/4 w-96 h-96 rounded-full bg-white/[0.02] pointer-events-none" />
       <PageLogo />
@@ -333,16 +333,16 @@
           @click.self="fecharModal"
         >
           <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl overflow-hidden">
-            <div class="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-white">
+            <div class="flex items-center justify-between px-8 py-6 border-b border-white/10" :style="{ background: 'var(--color-primary-bg, linear-gradient(135deg, #111827, #1f2937))' }">
               <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center">
-                  <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                <div class="w-9 h-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center text-white">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
                   </svg>
                 </div>
-                <h2 class="text-lg font-bold text-gray-800">{{ adicionando ? 'Nova Atividade' : 'Editar Atividade' }}</h2>
+                <h2 class="text-lg font-bold text-white">{{ adicionando ? 'Nova Atividade' : 'Editar Atividade' }}</h2>
               </div>
-              <button type="button" class="w-8 h-8 flex items-center justify-center rounded-xl text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors" @click="fecharModal">
+              <button type="button" class="w-8 h-8 flex items-center justify-center rounded-xl text-white/60 hover:text-white hover:bg-white/10 transition-colors" @click="fecharModal">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
               </button>
             </div>
@@ -351,7 +351,7 @@
               <!-- Funcionário -->
               <div class="flex flex-col gap-1.5">
                 <label class="text-sm font-semibold text-gray-700">Funcionário *</label>
-                <select v-model="form.funcionario_id" required class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" :class="formErrors.funcionario_id ? 'border-red-400 ring-1 ring-red-400' : ''">
+                <select v-model="form.funcionario_id" required class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)]" :class="formErrors.funcionario_id ? 'border-red-400 ring-1 ring-red-400' : ''">
                   <option :value="null">Selecione o funcionário</option>
                   <option v-for="f in funcionariosOpcoes" :key="f.id" :value="f.id">{{ f.nome }}{{ f.cargo ? ` �?" ${f.cargo}` : '' }}</option>
                 </select>
@@ -361,14 +361,14 @@
               <!-- Título -->
               <div class="flex flex-col gap-1.5">
                 <label class="text-sm font-semibold text-gray-700">Título *</label>
-                <input v-model="form.titulo" type="text" required maxlength="200" placeholder="Ex: Alimentação dos animais da manhã" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" :class="formErrors.titulo ? 'border-red-400 ring-1 ring-red-400' : ''" />
+                <input v-model="form.titulo" type="text" required maxlength="200" placeholder="Ex: Alimentação dos animais da manhã" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)]" :class="formErrors.titulo ? 'border-red-400 ring-1 ring-red-400' : ''" />
                 <p v-if="formErrors.titulo" class="text-xs text-red-500 font-medium">{{ formErrors.titulo }}</p>
               </div>
 
               <!-- Descrição -->
               <div class="flex flex-col gap-1.5">
                 <label class="text-sm font-semibold text-gray-700">Descrição</label>
-                <textarea v-model="form.descricao" rows="2" placeholder="Detalhes da atividade..." class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none" />
+                <textarea v-model="form.descricao" rows="2" placeholder="Detalhes da atividade..." class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)] resize-none" />
               </div>
 
               <!-- Periodicidade -->
@@ -380,9 +380,8 @@
                     :key="op.value"
                     type="button"
                     class="flex-1 text-xs font-bold py-2.5 rounded-xl border transition-colors"
-                    :class="form.periodicidade === op.value
-                      ? 'bg-indigo-500 border-indigo-500 text-white'
-                      : 'border-gray-200 text-gray-500 hover:border-indigo-400 hover:text-indigo-700 bg-white'"
+                    :class="form.periodicidade === op.value ? 'text-white border-transparent' : 'border-gray-200 text-gray-500 hover:border-gray-300 bg-white'"
+                    :style="form.periodicidade === op.value ? { background: 'var(--color-btn, var(--color-primary, #6b7280))' } : {}"
                     @click="form.periodicidade = op.value"
                   >
                     {{ op.label }}
@@ -394,7 +393,7 @@
               <div class="grid grid-cols-2 gap-4">
                 <div class="flex flex-col gap-1.5">
                   <label class="text-sm font-semibold text-gray-700">Prioridade</label>
-                  <select v-model="form.prioridade" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                  <select v-model="form.prioridade" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)]">
                     <option value="baixa">Baixa</option>
                     <option value="media">Média</option>
                     <option value="alta">Alta</option>
@@ -403,7 +402,7 @@
                 </div>
                 <div class="flex flex-col gap-1.5">
                   <label class="text-sm font-semibold text-gray-700">Status</label>
-                  <select v-model="form.status" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                  <select v-model="form.status" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)]">
                     <option value="pendente">Pendente</option>
                     <option value="em_andamento">Em Andamento</option>
                     <option value="concluida">Concluída</option>
@@ -418,25 +417,25 @@
                   Data da Atividade
                   <span v-if="viewMode === 'modelos'" class="ml-1 text-xs font-normal text-pink-600">(deixe em branco para modelo recorrente)</span>
                 </label>
-                <input v-model="form.data_atividade" type="date" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+                <input v-model="form.data_atividade" type="date" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)]" />
               </div>
 
               <!-- Hora início + fim -->
               <div class="grid grid-cols-2 gap-4">
                 <div class="flex flex-col gap-1.5">
                   <label class="text-sm font-semibold text-gray-700">Hora Início</label>
-                  <input v-model="form.hora_inicio" type="time" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+                  <input v-model="form.hora_inicio" type="time" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)]" />
                 </div>
                 <div class="flex flex-col gap-1.5">
                   <label class="text-sm font-semibold text-gray-700">Hora Fim</label>
-                  <input v-model="form.hora_fim" type="time" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+                  <input v-model="form.hora_fim" type="time" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)]" />
                 </div>
               </div>
 
               <!-- Observação -->
               <div class="flex flex-col gap-1.5">
                 <label class="text-sm font-semibold text-gray-700">Observação</label>
-                <textarea v-model="form.observacao" rows="2" placeholder="Observações adicionais..." class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none" />
+                <textarea v-model="form.observacao" rows="2" placeholder="Observações adicionais..." class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)] resize-none" />
               </div>
 
               <p v-if="modalError" class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">{{ modalError }}</p>

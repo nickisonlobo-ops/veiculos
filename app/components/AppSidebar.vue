@@ -8,16 +8,16 @@
   >
     <!-- Marca lateral -->
     <div class="px-4 py-5 border-b flex items-center gap-3 overflow-hidden" :style="{ borderColor: 'var(--color-primary-border, rgba(236,72,153,0.3))' }">
-      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" :style="{ background: 'var(--color-primary, #ec4899)' }">
+      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background: rgba(255,255,255,0.15)">
         <img v-if="config.logo_url" :src="config.logo_url" alt="Logo" class="w-5 h-5 object-contain rounded" />
         <AppNavIcon v-else name="sparkles" class="w-4 h-4" :style="{ color: 'var(--color-primary-text, #ffffff)' }" />
       </div>
       <p
         class="text-xs font-black uppercase tracking-widest whitespace-nowrap transition-opacity duration-200"
         :class="expanded ? 'opacity-100' : 'opacity-0'"
-        :style="{ color: 'var(--color-primary, #ec4899)' }"
+        :style="{ color: 'var(--color-primary-text, #ffffff)' }"
       >
-        {{ config.nome_empresa || 'UpStudio' }}
+        {{ config.nome_empresa }}
       </p>
     </div>
 
@@ -34,7 +34,7 @@
           v-for="item in section.items"
           :key="item.to"
           :to="item.to"
-          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 transition-colors overflow-hidden nav-link"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors overflow-hidden nav-link"
           active-class="nav-link-active"
         >
           <AppNavIcon :name="item.icon" class="w-5 h-5 shrink-0" />
@@ -89,6 +89,15 @@ const allNavSections = [
     ],
   },
   {
+    title: 'Veículos',
+    items: [
+      { to: '/veiculos', icon: 'car', label: 'Veículos', minPerfil: 'all' },
+      { to: '/catalogo', icon: 'catalog', label: 'Catálogo', minPerfil: 'all' },
+      { to: '/propostas', icon: 'document', label: 'Propostas', minPerfil: 'all' },
+      { to: '/vendas', icon: 'receipt', label: 'Vendas', minPerfil: 'all' },
+    ],
+  },
+  {
     title: 'Operação',
     items: [
       { to: '/funcionarios', icon: 'users', label: 'Funcionários', minPerfil: 'manager' },
@@ -120,14 +129,20 @@ const navSections = computed(() =>
 </script>
 
 <style scoped>
+.nav-link {
+  color: var(--color-icon, var(--color-primary, #ec4899));
+  opacity: 0.6;
+}
 .nav-link:hover {
-  background: var(--color-primary-light, rgba(236,72,153,0.12));
-  color: var(--color-primary, #ec4899);
+  background: var(--color-icon-light, var(--color-primary-light, rgba(236,72,153,0.12)));
+  color: var(--color-icon, var(--color-primary, #ec4899));
+  opacity: 1;
 }
 .nav-link-active {
-  background: var(--color-primary-light, rgba(236,72,153,0.12)) !important;
-  color: var(--color-primary, #ec4899) !important;
-  border: 1px solid var(--color-primary-border, rgba(236,72,153,0.3));
+  background: var(--color-icon-light, var(--color-primary-light, rgba(236,72,153,0.12))) !important;
+  color: var(--color-icon, var(--color-primary, #ec4899)) !important;
+  border: 1px solid var(--color-icon-border, var(--color-primary-border, rgba(236,72,153,0.3)));
+  opacity: 1 !important;
 }
 </style>
 

@@ -3,8 +3,8 @@
 
     <!-- CABEÇALHO -->
     <div class="relative rounded-3xl overflow-hidden mb-8 shadow-xl">
-      <div class="absolute inset-0 bg-gradient-to-br from-pink-600 via-pink-500 to-rose-400" />
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.18),transparent_60%)]" />
+      <div class="absolute inset-0" :style="{ background: 'var(--color-primary-bg, linear-gradient(135deg, #ec4899, #f43f5e))' }" />
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
       <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-white/[0.03] pointer-events-none" />
       <PageLogo />
 
@@ -209,7 +209,8 @@
         <div v-for="dia in kanbanDias" :key="dia.iso" class="flex flex-col min-w-0">
           <div
             class="flex flex-col items-center py-2 px-1 rounded-2xl mb-2 border transition-colors"
-            :class="dia.hoje ? 'bg-gradient-to-b from-pink-500 to-rose-400 border-pink-400 shadow-md shadow-pink-200/40' : 'bg-white border-gray-200'"
+            :class="dia.hoje ? 'border-transparent shadow-md' : 'bg-white border-gray-200'"
+            :style="dia.hoje ? { background: 'var(--color-primary-bg, linear-gradient(180deg, #ec4899, #f43f5e))' } : {}"
           >
             <span class="text-[10px] font-bold tracking-widest" :class="dia.hoje ? 'text-white/80' : 'text-gray-400'">{{ dia.diaSemana }}</span>
             <span class="text-xl font-black leading-none mt-0.5" :class="dia.hoje ? 'text-white' : 'text-gray-800'">{{ dia.diaNum }}</span>
@@ -217,7 +218,8 @@
           </div>
           <div
             class="flex flex-col gap-1.5 flex-1 rounded-2xl p-1 transition-colors min-h-[48px]"
-            :class="kanbanDragOver === dia.iso ? 'bg-pink-100/60 ring-2 ring-pink-300 ring-offset-1' : ''"
+            :class="kanbanDragOver === dia.iso ? 'bg-white/60 ring-2 ring-offset-1' : ''"
+            :style="kanbanDragOver === dia.iso ? { '--tw-ring-color': 'var(--color-primary, #ec4899)' } : {}"
             @dragover.prevent="kanbanDragOver = dia.iso"
             @dragleave="kanbanDragOver = null"
             @drop.prevent="kanbanDrop(dia.iso)"

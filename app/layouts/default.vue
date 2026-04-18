@@ -15,15 +15,23 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import AppHeader from '~/components/AppHeader.vue'
 import AppSidebar from '~/components/AppSidebar.vue'
 import AppBottomNav from '~/components/AppBottomNav.vue'
 import { usePersonalizacao } from '~/composables/usePersonalizacao'
 
-const { loadPersonalizacao } = usePersonalizacao()
+const route = useRoute()
+const { loadPersonalizacao, applyTheme, config } = usePersonalizacao()
 
 onMounted(async () => {
   await loadPersonalizacao()
+})
+
+// Re-aplica o tema a cada troca de rota (garante que os overrides
+// amber/pink estejam sempre no DOM independente do HMR)
+watch(() => route.path, () => {
+  applyTheme(config.value)
 })
 </script>

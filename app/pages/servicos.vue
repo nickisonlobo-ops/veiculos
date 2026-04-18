@@ -3,8 +3,8 @@
 
     <!-- CABEÇALHO -->
     <div class="relative rounded-3xl overflow-hidden mb-8 shadow-xl">
-      <div class="absolute inset-0 bg-gradient-to-br from-pink-600 via-pink-500 to-rose-400" />
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,70,162,0.18),transparent_60%)]" />
+      <div class="absolute inset-0" :style="{ background: 'var(--color-primary-bg, linear-gradient(135deg, #ec4899, #f43f5e))' }" />
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
       <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-white/[0.03] pointer-events-none" />
       <PageLogo />
 
@@ -59,14 +59,7 @@
             <span class="text-xs font-semibold text-white/70 uppercase tracking-widest">Ativos</span>
             <span class="text-2xl font-black text-white">{{ servicos.filter(s => s.ativo).length }}</span>
           </div>
-          <div class="flex flex-col gap-1 bg-white/10 backdrop-blur-sm rounded-2xl px-5 py-4 border border-white/10">
-            <span class="text-xs font-semibold text-white/70 uppercase tracking-widest">Cílios</span>
-            <span class="text-2xl font-black text-white">{{ servicos.filter(s => s.categoria === 'cilios').length }}</span>
-          </div>
-          <div class="flex flex-col gap-1 bg-white/10 backdrop-blur-sm rounded-2xl px-5 py-4 border border-white/10">
-            <span class="text-xs font-semibold text-white/70 uppercase tracking-widest">Unhas</span>
-            <span class="text-2xl font-black text-white">{{ servicos.filter(s => s.categoria === 'unhas').length }}</span>
-          </div>
+
         </div>
       </div>
     </div>
@@ -187,7 +180,7 @@
               <input
                 v-model="form.nome"
                 type="text"
-                placeholder="Ex: Volume Russo"
+                placeholder="Nome do Serviço"
                 class="w-full rounded-xl border px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
                 :class="formErrors.nome ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-gray-50'"
               />
@@ -207,15 +200,12 @@
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-semibold text-gray-600 uppercase tracking-widest mb-1.5">Categoria <span class="text-red-500">*</span></label>
-                <select
+                <input
                   v-model="form.categoria"
-                  class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
-                >
-                  <option value="cilios">Cílios</option>
-                  <option value="unhas">Unhas</option>
-                  <option value="combo">Combo</option>
-                  <option value="outro">Outro</option>
-                </select>
+                  type="text"
+                  placeholder="Nome da Categoria"
+                  class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)]"
+                />
               </div>
               <div>
                 <label class="block text-xs font-semibold text-gray-600 uppercase tracking-widest mb-1.5">Duração (min) <span class="text-red-500">*</span></label>
@@ -312,7 +302,7 @@ interface Servico {
   id: number
   nome: string
   descricao: string | null
-  categoria: 'cilios' | 'unhas' | 'combo' | 'outro'
+  categoria: string
   duracao_min: number
   preco: number
   ativo: boolean
@@ -342,7 +332,7 @@ const filtro = reactive({ busca: '', categoria: '', ativo: '' })
 const form = reactive({
   nome: '',
   descricao: '',
-  categoria: 'cilios' as Servico['categoria'],
+  categoria: '',
   duracao_min: 60,
   preco: 0,
   ativo: true,
@@ -401,7 +391,7 @@ async function fetchServicos() {
 }
 
 function resetForm() {
-  form.nome = ''; form.descricao = ''; form.categoria = 'cilios'
+  form.nome = ''; form.descricao = ''; form.categoria = ''
   form.duracao_min = 60; form.preco = 0; form.ativo = true
   formErrors.nome = ''; formErrors.duracao_min = ''; formErrors.preco = ''
 }

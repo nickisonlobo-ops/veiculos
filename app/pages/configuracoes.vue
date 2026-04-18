@@ -231,6 +231,40 @@
               <input v-model="form.cor_card_texto" type="text" class="w-28 border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-pink-300" maxlength="7" @input="sanitizeHex('cor_card_texto')" />
             </div>
           </div>
+
+          <!-- Cor dos botões -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Cor dos botões</label>
+            <p class="text-xs text-gray-400">Background dos botões de ação (Adicionar, Salvar...)</p>
+            <div class="flex items-center gap-2 mt-2 flex-wrap">
+              <input v-model="form.cor_botao" type="color" class="w-12 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5" />
+              <input v-model="form.cor_botao" type="text" class="w-24 border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-pink-300" maxlength="7" @input="sanitizeHex('cor_botao')" />
+              <div class="h-8 px-3 rounded-lg border border-gray-200 flex items-center text-xs font-bold" :style="{ background: form.cor_botao, color: form.cor_botao_texto }">+ Adicionar</div>
+            </div>
+          </div>
+
+          <!-- Texto dos botões -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Texto dos botões</label>
+            <p class="text-xs text-gray-400">Cor do texto e ícone dentro dos botões</p>
+            <div class="flex items-center gap-2 mt-2">
+              <input v-model="form.cor_botao_texto" type="color" class="w-12 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5" />
+              <input v-model="form.cor_botao_texto" type="text" class="w-28 border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-pink-300" maxlength="7" @input="sanitizeHex('cor_botao_texto')" />
+            </div>
+          </div>
+
+          <!-- Cor dos ícones -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Cor dos ícones / nav</label>
+            <p class="text-xs text-gray-400">Ícones ativos na sidebar e barra de navegação inferior</p>
+            <div class="flex items-center gap-2 mt-2 flex-wrap">
+              <input v-model="form.cor_icone" type="color" class="w-12 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5" />
+              <input v-model="form.cor_icone" type="text" class="w-24 border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-pink-300" maxlength="7" @input="sanitizeHex('cor_icone')" />
+              <div class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center" :style="{ background: hexToRgba(form.cor_icone, 0.12) }">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" :style="{ color: form.cor_icone }"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6z"/></svg>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Direção do degradê -->
@@ -334,6 +368,14 @@ defineOptions({ name: 'ConfiguracoesPage' })
 
 const { config, loading, saving, uploadingLogo, error, loadPersonalizacao, savePersonalizacao, uploadLogo, applyTheme, DEFAULTS } = usePersonalizacao()
 
+function hexToRgba(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return `rgba(107,114,128,${alpha})`
+  return `rgba(${r},${g},${b},${alpha})`
+}
+
 const savedFeedback = ref(false)
 const formLoaded = ref(false)
 
@@ -383,22 +425,22 @@ const previewCardBg = computed(() =>
 )
 
 const temasProntos = [
-  { nome: 'Aurora',       cor_primaria: '#ec4899', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#a855f7', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Oceano',       cor_primaria: '#0ea5e9', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#6366f1', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Esmeralda',    cor_primaria: '#10b981', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#06b6d4', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Sunset',       cor_primaria: '#f43f5e', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#f97316', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '90deg' },
-  { nome: 'Lavanda',      cor_primaria: '#8b5cf6', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#d946ef', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Dourado',      cor_primaria: '#d97706', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#ea580c', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Royal',        cor_primaria: '#4f46e5', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#7c3aed', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Coral',        cor_primaria: '#fb7185', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#f472b6', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Turquesa',     cor_primaria: '#14b8a6', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#0ea5e9', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Cereja',       cor_primaria: '#e11d48', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#db2777', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Menta',        cor_primaria: '#34d399', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#a3e635', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Safira',       cor_primaria: '#2563eb', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#0891b2', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Uva',          cor_primaria: '#7c3aed', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#c026d3', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Canela',       cor_primaria: '#b45309', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#dc2626', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Petróleo',     cor_primaria: '#0d9488', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#4f46e5', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
-  { nome: 'Clean',        cor_primaria: '#3b82f6', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: null, cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg' },
+  { nome: 'Aurora',    cor_primaria: '#ec4899', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#a855f7', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#ec4899', cor_botao_texto: '#ffffff', cor_icone: '#ec4899' },
+  { nome: 'Oceano',    cor_primaria: '#0ea5e9', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#6366f1', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#0ea5e9', cor_botao_texto: '#ffffff', cor_icone: '#0ea5e9' },
+  { nome: 'Esmeralda', cor_primaria: '#10b981', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#06b6d4', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#10b981', cor_botao_texto: '#ffffff', cor_icone: '#10b981' },
+  { nome: 'Sunset',    cor_primaria: '#f43f5e', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#f97316', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '90deg',  cor_botao: '#f43f5e', cor_botao_texto: '#ffffff', cor_icone: '#f43f5e' },
+  { nome: 'Lavanda',   cor_primaria: '#8b5cf6', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#d946ef', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#8b5cf6', cor_botao_texto: '#ffffff', cor_icone: '#8b5cf6' },
+  { nome: 'Dourado',   cor_primaria: '#d97706', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#ea580c', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#d97706', cor_botao_texto: '#ffffff', cor_icone: '#d97706' },
+  { nome: 'Royal',     cor_primaria: '#4f46e5', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#7c3aed', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#4f46e5', cor_botao_texto: '#ffffff', cor_icone: '#4f46e5' },
+  { nome: 'Coral',     cor_primaria: '#fb7185', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#f472b6', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#fb7185', cor_botao_texto: '#ffffff', cor_icone: '#fb7185' },
+  { nome: 'Turquesa',  cor_primaria: '#14b8a6', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#0ea5e9', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#14b8a6', cor_botao_texto: '#ffffff', cor_icone: '#14b8a6' },
+  { nome: 'Cereja',    cor_primaria: '#e11d48', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#db2777', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#e11d48', cor_botao_texto: '#ffffff', cor_icone: '#e11d48' },
+  { nome: 'Menta',     cor_primaria: '#34d399', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#a3e635', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#34d399', cor_botao_texto: '#ffffff', cor_icone: '#34d399' },
+  { nome: 'Safira',    cor_primaria: '#2563eb', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#0891b2', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#2563eb', cor_botao_texto: '#ffffff', cor_icone: '#2563eb' },
+  { nome: 'Uva',       cor_primaria: '#7c3aed', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#c026d3', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#7c3aed', cor_botao_texto: '#ffffff', cor_icone: '#7c3aed' },
+  { nome: 'Canela',    cor_primaria: '#b45309', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#dc2626', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#b45309', cor_botao_texto: '#ffffff', cor_icone: '#b45309' },
+  { nome: 'Petróleo',  cor_primaria: '#0d9488', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: '#4f46e5', cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#0d9488', cor_botao_texto: '#ffffff', cor_icone: '#0d9488' },
+  { nome: 'Clean',     cor_primaria: '#3b82f6', cor_primaria_texto: '#ffffff', cor_fundo: '#ffffff', cor_sidebar: '#ffffff', cor_card: '#ffffff', cor_card_texto: '#374151', cor_primaria_grad: null,     cor_fundo_grad: null, cor_sidebar_grad: null, cor_card_grad: null, grad_direction: '135deg', cor_botao: '#3b82f6', cor_botao_texto: '#ffffff', cor_icone: '#3b82f6' },
 ]
 
 onMounted(async () => {
@@ -439,6 +481,9 @@ function aplicarTema(tema: typeof temasProntos[0]) {
   form.cor_sidebar_grad   = tema.cor_sidebar_grad   ?? null
   form.cor_card_grad      = tema.cor_card_grad      ?? null
   form.grad_direction     = tema.grad_direction     ?? '135deg'
+  form.cor_botao          = tema.cor_botao          ?? tema.cor_primaria
+  form.cor_botao_texto    = tema.cor_botao_texto    ?? '#ffffff'
+  form.cor_icone          = tema.cor_icone          ?? tema.cor_primaria
   usarGradPrimaria.value  = !!tema.cor_primaria_grad
   usarGradFundo.value     = !!tema.cor_fundo_grad
   usarGradSidebar.value   = !!tema.cor_sidebar_grad

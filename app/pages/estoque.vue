@@ -3,8 +3,8 @@
 
     <!-- CABEÇALHO -->
     <div class="relative rounded-3xl overflow-hidden mb-8 shadow-xl">
-      <div class="absolute inset-0 bg-gradient-to-br from-pink-600 via-pink-500 to-rose-400" />
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,70,162,0.18),transparent_60%)]" />
+      <div class="absolute inset-0" :style="{ background: 'var(--color-primary-bg, linear-gradient(135deg, #ec4899, #f43f5e))' }" />
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
       <div class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-white/[0.03] pointer-events-none" />
       <PageLogo />
 
@@ -224,7 +224,7 @@
 
             <div class="overflow-y-auto flex-1 px-6 py-5">
               <div class="flex flex-col gap-4">
-                <AppInput v-model="form.nome" label="Nome *" placeholder="Ex: Cílios fio a fio 0.10" />
+                <AppInput v-model="form.nome" label="Nome *" placeholder="Nome do Produto" />
                 <AppInput v-model="form.descricao" label="Descrição" placeholder="Descrição opcional" />
                 <div class="grid grid-cols-2 gap-3">
                   <AppInput v-model="form.preco" label="Preço (R$) *" type="number" placeholder="0,00" />

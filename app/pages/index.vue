@@ -5,7 +5,7 @@
     <template v-if="!adminLoading && !isAdminOrGerente">
       <!-- Cabeçalho funcionário -->
       <div class="relative rounded-3xl overflow-hidden mb-7 shadow-xl">
-        <div class="absolute inset-0 bg-gradient-to-br from-pink-600 via-pink-500 to-rose-400" />
+        <div class="absolute inset-0" :style="{ background: 'var(--color-primary-bg, linear-gradient(135deg, #ec4899, #f43f5e))' }" />
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
         <PageLogo />
 
@@ -382,9 +382,7 @@
 
 
           <div class="relative flex items-center gap-2 mb-3">
-            <div class="w-8 h-8 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
+            <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Faturamento / Mês</span>
           </div>
           <p class="relative text-lg sm:text-2xl font-black text-gray-900 truncate">{{ resumoLoading ? '...' : formatCurrency(faturamentoMes) }}</p>
@@ -396,9 +394,7 @@
 
 
           <div class="relative flex items-center gap-2 mb-3">
-            <div class="w-8 h-8 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
-            </div>
+            <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
             <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Agendamentos / Mês</span>
           </div>
           <p class="relative text-2xl font-black text-gray-900">{{ resumoLoading ? '...' : agendamentosMes }}</p>
@@ -410,9 +406,7 @@
 
 
           <div class="relative flex items-center gap-2 mb-3">
-            <div class="w-8 h-8 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
-            </div>
+            <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
             <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Contas a Pagar</span>
           </div>
           <p class="relative text-lg sm:text-xl font-black text-gray-900 truncate">{{ resumoLoading ? '...' : formatCurrency(valorContasPagar) }}</p>
@@ -429,9 +423,7 @@
 
 
           <div class="relative flex items-center gap-2 mb-3">
-            <div class="w-8 h-8 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4" :class="contasVencidas > 0 ? 'text-red-400' : 'text-pink-400'" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
-            </div>
+            <svg class="w-5 h-5 shrink-0" :class="contasVencidas > 0 ? 'text-red-400' : ''" :style="contasVencidas > 0 ? {} : { color: 'var(--color-card-texto, #374151)', opacity: '0.5' }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
             <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Vencidas</span>
           </div>
           <p class="relative text-2xl font-black text-gray-900 flex items-center gap-2">
@@ -457,9 +449,7 @@
 
 
           <div class="relative flex items-center gap-2 mb-3">
-            <div class="w-8 h-8 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
-            </div>
+            <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
             <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Ticket Médio</span>
           </div>
           <p class="relative text-lg sm:text-2xl font-black text-gray-900 truncate">{{ resumoLoading ? '...' : formatCurrency(ticketMedio) }}</p>
@@ -471,9 +461,7 @@
 
 
           <div class="relative flex items-center gap-2 mb-3">
-            <div class="w-8 h-8 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
-            </div>
+            <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
             <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Produtos</span>
           </div>
           <p class="relative text-2xl font-black text-gray-900">{{ resumoLoading ? '...' : produtosTotal }}</p>
@@ -490,9 +478,7 @@
 
 
           <div class="relative flex items-center gap-2 mb-3">
-            <div class="w-8 h-8 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
-            </div>
+            <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
             <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Tarefas Hoje</span>
           </div>
           <p class="relative text-2xl font-black text-gray-900">{{ resumoLoading ? '...' : tarefasHoje }}</p>
@@ -504,9 +490,7 @@
 
 
           <div class="relative flex items-center gap-2 mb-3">
-            <div class="w-8 h-8 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
-            </div>
+            <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
             <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Clientes</span>
           </div>
           <p class="relative text-2xl font-black text-gray-900">{{ resumoLoading ? '...' : totalClientes }}</p>
@@ -524,13 +508,15 @@
           v-for="atalho in atalhosVisiveis"
           :key="atalho.to"
           :to="atalho.to"
-          class="group relative overflow-hidden flex flex-col items-center gap-2 py-4 px-2 rounded-2xl bg-white border border-pink-100 hover:shadow-md hover:border-pink-300 transition-all duration-200 hover:-translate-y-0.5"
+          class="group relative overflow-hidden flex flex-col items-center justify-center gap-2.5 py-5 px-2 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+          :style="{ background: 'var(--color-primary-bg, var(--color-primary, #ec4899))' }"
         >
-          <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(236,72,153,0.0),transparent_70%)]" />
-          <div class="relative w-10 h-10 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
-            <AppNavIcon :name="atalho.icon" class="w-5 h-5 text-pink-500" />
-          </div>
-          <span class="relative text-[11px] font-bold text-gray-600 text-center leading-tight group-hover:text-pink-700">{{ atalho.title }}</span>
+          <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_65%)] pointer-events-none" />
+          <AppNavIcon
+            :name="atalho.icon"
+            class="relative w-6 h-6 text-white transition-transform duration-200 group-hover:scale-110"
+          />
+          <span class="relative text-[11px] font-bold text-white/90 text-center leading-tight">{{ atalho.title }}</span>
         </NuxtLink>
       </div>
 

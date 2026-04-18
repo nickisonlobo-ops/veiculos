@@ -20,6 +20,10 @@ export interface PersonalizacaoConfig {
   cor_card_grad: string | null
   // Direção do gradiente
   grad_direction: string
+  // Botão e ícone separados da cor principal
+  cor_botao: string
+  cor_botao_texto: string
+  cor_icone: string
 }
 
 const DEFAULTS: PersonalizacaoConfig = {
@@ -37,6 +41,9 @@ const DEFAULTS: PersonalizacaoConfig = {
   cor_sidebar_grad: null,
   cor_card_grad: null,
   grad_direction: '135deg',
+  cor_botao: '#6b7280',
+  cor_botao_texto: '#ffffff',
+  cor_icone: '#6b7280',
 }
 
 export function usePersonalizacao() {
@@ -80,6 +87,9 @@ export function usePersonalizacao() {
         cor_sidebar_grad:    data.cor_sidebar_grad    ?? null,
         cor_card_grad:       data.cor_card_grad       ?? null,
         grad_direction:      data.grad_direction      ?? DEFAULTS.grad_direction,
+        cor_botao:           data.cor_botao           ?? DEFAULTS.cor_botao,
+        cor_botao_texto:     data.cor_botao_texto     ?? DEFAULTS.cor_botao_texto,
+        cor_icone:           data.cor_icone           ?? DEFAULTS.cor_icone,
       }
     }
 
@@ -112,6 +122,9 @@ export function usePersonalizacao() {
       cor_sidebar_grad:    newConfig.cor_sidebar_grad    ?? null,
       cor_card_grad:       newConfig.cor_card_grad       ?? null,
       grad_direction:      newConfig.grad_direction      ?? DEFAULTS.grad_direction,
+      cor_botao:           newConfig.cor_botao           ?? DEFAULTS.cor_botao,
+      cor_botao_texto:     newConfig.cor_botao_texto     ?? DEFAULTS.cor_botao_texto,
+      cor_icone:           newConfig.cor_icone           ?? DEFAULTS.cor_icone,
       updated_at:          new Date().toISOString(),
     }
 
@@ -230,6 +243,14 @@ export function usePersonalizacao() {
     root.style.setProperty('--color-primary-700', darken(cfg.cor_primaria, 0.20))
     root.style.setProperty('--color-primary-800', darken(cfg.cor_primaria, 0.35))
     root.style.setProperty('--color-primary-900', darken(cfg.cor_primaria, 0.50))
+
+    // ── Botão e ícone separados ──────────────────────────────────
+    root.style.setProperty('--color-btn',          cfg.cor_botao)
+    root.style.setProperty('--color-btn-text',     cfg.cor_botao_texto)
+    root.style.setProperty('--color-icon',         cfg.cor_icone)
+    root.style.setProperty('--color-icon-10',      hexToRgba(cfg.cor_icone, 0.10))
+    root.style.setProperty('--color-icon-light',   hexToRgba(cfg.cor_icone, 0.12))
+    root.style.setProperty('--color-icon-border',  hexToRgba(cfg.cor_icone, 0.30))
 
     // ── Injeta CSS global para sobrescrever classes Tailwind pink ──
     injectGlobalThemeCSS(cfg)
@@ -359,6 +380,77 @@ export function usePersonalizacao() {
       .bg-white.rounded-2xl .border-gray-100 { border-color: ${hexToRgba(cfg.cor_card_texto, 0.08)} !important; }
       .bg-white.rounded-3xl .divide-gray-50 > * + *,
       .bg-white.rounded-2xl .divide-gray-50 > * + * { border-color: ${hexToRgba(cfg.cor_card_texto, 0.05)} !important; }
+
+      /* ══════════════════════════════════════════════════════════
+         Páginas de Veículos — overrides amber → cor primária
+         ══════════════════════════════════════════════════════════ */
+
+      /* Backgrounds amber */
+      .bg-amber-50  { background-color: ${lighten(p, 0.90)} !important; }
+      .bg-amber-100 { background-color: ${lighten(p, 0.80)} !important; }
+      .bg-amber-200 { background-color: ${lighten(p, 0.60)} !important; }
+      .bg-amber-300 { background-color: ${lighten(p, 0.40)} !important; }
+      .bg-amber-400 { background-color: ${lighten(p, 0.20)} !important; }
+      .bg-amber-500 { background-color: ${p} !important; }
+      .bg-amber-600 { background-color: ${darken(p, 0.10)} !important; }
+      .bg-amber-700 { background-color: ${darken(p, 0.20)} !important; }
+
+      /* Textos amber */
+      .text-amber-200 { color: ${lighten(p, 0.60)} !important; }
+      .text-amber-300 { color: ${lighten(p, 0.40)} !important; }
+      .text-amber-400 { color: ${lighten(p, 0.20)} !important; }
+      .text-amber-500 { color: ${p} !important; }
+      .text-amber-600 { color: ${darken(p, 0.10)} !important; }
+      .text-amber-700 { color: ${darken(p, 0.20)} !important; }
+      .text-amber-800 { color: ${darken(p, 0.35)} !important; }
+
+      /* Bordas amber */
+      .border-amber-100 { border-color: ${lighten(p, 0.80)} !important; }
+      .border-amber-200 { border-color: ${lighten(p, 0.60)} !important; }
+      .border-amber-300 { border-color: ${lighten(p, 0.40)} !important; }
+      .border-amber-400 { border-color: ${lighten(p, 0.20)} !important; }
+      .border-amber-500 { border-color: ${p} !important; }
+
+      /* Opacity amber */
+      .bg-amber-400\\/10 { background-color: ${hexToRgba(p, 0.10)} !important; }
+      .bg-amber-400\\/20 { background-color: ${hexToRgba(p, 0.20)} !important; }
+      .bg-amber-500\\/20 { background-color: ${hexToRgba(p, 0.20)} !important; }
+      .border-amber-400\\/20 { border-color: ${hexToRgba(p, 0.20)} !important; }
+      .border-amber-400\\/30 { border-color: ${hexToRgba(p, 0.30)} !important; }
+      .text-amber-300\\/50  { color: ${hexToRgba(p, 0.50)} !important; }
+      .text-amber-400\\/60  { color: ${hexToRgba(p, 0.60)} !important; }
+      .shadow-amber-900\\/30 { --tw-shadow-color: ${hexToRgba(darken(p, 0.50), 0.30)} !important; }
+
+      /* Hover amber */
+      .hover\\:bg-amber-400:hover { background-color: ${lighten(p, 0.20)} !important; }
+      .hover\\:bg-amber-50:hover  { background-color: ${lighten(p, 0.90)} !important; }
+
+      /* Focus amber */
+      .focus\\:ring-amber-500:focus { --tw-ring-color: ${p} !important; }
+      .focus\\:border-amber-500:focus { border-color: ${p} !important; }
+
+      /* Gradientes amber (cabeçalhos das páginas de veículos) */
+      .from-amber-400 { --tw-gradient-from: ${lighten(p, 0.20)} !important; }
+      .from-amber-500 { --tw-gradient-from: ${p} !important; }
+      .from-amber-600 { --tw-gradient-from: ${darken(p, 0.10)} !important; }
+      .to-amber-400   { --tw-gradient-to: ${lighten(p, 0.20)} !important; }
+      .to-amber-500   { --tw-gradient-to: ${p} !important; }
+      .via-amber-500  { --tw-gradient-via: ${p} !important; }
+
+      /* Ring amber */
+      .ring-amber-400\\/20 { --tw-ring-color: ${hexToRgba(p, 0.20)} !important; }
+
+      /* Accent amber (slider de preço no catálogo) */
+      input[type=range].accent-amber-500 { accent-color: ${p} !important; }
+
+      /* ── Botões de ação (+ Adicionar, Nova ...) ── */
+      .inline-flex.rounded-xl.shadow-lg {
+        background-color: ${cfg.cor_botao || p} !important;
+        color: ${cfg.cor_botao_texto || '#ffffff'} !important;
+      }
+      .inline-flex.rounded-xl.shadow-lg:hover {
+        background-color: ${darken(cfg.cor_botao || p, 0.08)} !important;
+      }
     `
   }
 
@@ -396,6 +488,50 @@ export function usePersonalizacao() {
     applyTheme(config.value)
   }
 
+  /** Carrega personalização pelo ID da empresa sem exigir login — para páginas públicas (/loja) */
+  async function loadPersonalizacaoPublic(eId: number) {
+    // Busca personalização e nome da empresa em paralelo
+    const [personalizacaoRes, empresaRes] = await Promise.all([
+      supabase.from('empresa_personalizacao').select('*').eq('empresa_id', eId).maybeSingle(),
+      supabase.from('empresas').select('nome').eq('id', eId).maybeSingle(),
+    ])
+
+    if (personalizacaoRes.error) {
+      console.error('[usePersonalizacao] public load error:', personalizacaoRes.error.message)
+    }
+
+    // Nome da empresa: prioridade para o campo configurado, fallback para empresas.nome
+    const nomeEmpresaFallback = empresaRes.data?.nome ?? DEFAULTS.nome_empresa
+
+    const data = personalizacaoRes.data
+    if (data) {
+      config.value = {
+        cor_primaria:        data.cor_primaria        ?? DEFAULTS.cor_primaria,
+        cor_primaria_texto:  data.cor_primaria_texto  ?? DEFAULTS.cor_primaria_texto,
+        cor_fundo:           data.cor_fundo           ?? DEFAULTS.cor_fundo,
+        cor_sidebar:         data.cor_sidebar         ?? DEFAULTS.cor_sidebar,
+        cor_card:            data.cor_card            ?? DEFAULTS.cor_card,
+        cor_card_texto:      data.cor_card_texto      ?? DEFAULTS.cor_card_texto,
+        nome_empresa:        data.nome_empresa        || nomeEmpresaFallback,
+        logo_url:            data.logo_url            ?? null,
+        logo_size:           data.logo_size           ?? DEFAULTS.logo_size,
+        cor_primaria_grad:   data.cor_primaria_grad   ?? null,
+        cor_fundo_grad:      data.cor_fundo_grad      ?? null,
+        cor_sidebar_grad:    data.cor_sidebar_grad    ?? null,
+        cor_card_grad:       data.cor_card_grad       ?? null,
+        grad_direction:      data.grad_direction      ?? DEFAULTS.grad_direction,
+        cor_botao:           data.cor_botao           ?? DEFAULTS.cor_botao,
+        cor_botao_texto:     data.cor_botao_texto     ?? DEFAULTS.cor_botao_texto,
+        cor_icone:           data.cor_icone           ?? DEFAULTS.cor_icone,
+      }
+    } else {
+      // Sem personalização configurada — usa defaults mas com o nome real da empresa
+      config.value = { ...DEFAULTS, nome_empresa: nomeEmpresaFallback }
+    }
+
+    applyTheme(config.value)
+  }
+
   return {
     config,
     loading,
@@ -403,6 +539,7 @@ export function usePersonalizacao() {
     uploadingLogo,
     error,
     loadPersonalizacao,
+    loadPersonalizacaoPublic,
     savePersonalizacao,
     uploadLogo,
     applyTheme,
