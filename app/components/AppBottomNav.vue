@@ -1,15 +1,20 @@
 ﻿<template>
-  <nav class="fixed bottom-0 inset-x-0 z-40 md:hidden bg-white border-t border-pink-100 flex items-stretch h-16 shadow-2xl">
-    <NuxtLink
-      v-for="item in navItems"
-      :key="item.to"
-      :to="item.to"
-      exact-active-class="nav-item-active"
-      class="flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors text-[10px] font-semibold nav-item"
-    >
-      <AppNavIcon :name="item.icon" class="w-5 h-5" />
-      <span>{{ item.label }}</span>
-    </NuxtLink>
+  <nav
+    class="fixed bottom-0 inset-x-0 z-40 md:hidden border-t shadow-2xl"
+    :style="{ background: 'var(--color-sidebar, #ffffff)', borderColor: 'var(--color-primary-border, rgba(236,72,153,0.3))' }"
+  >
+    <div class="flex items-stretch h-16 overflow-x-auto scrollbar-hide">
+      <NuxtLink
+        v-for="item in navItems"
+        :key="item.to"
+        :to="item.to"
+        exact-active-class="nav-item-active"
+        class="min-w-[64px] flex flex-col items-center justify-center gap-0.5 transition-colors text-[10px] font-semibold nav-item px-1"
+      >
+        <AppNavIcon :name="item.icon" class="w-5 h-5 shrink-0" />
+        <span class="whitespace-nowrap">{{ item.label }}</span>
+      </NuxtLink>
+    </div>
   </nav>
 </template>
 
@@ -23,15 +28,19 @@ defineOptions({ name: 'AppBottomNav' })
 const { isAdminOrGerente } = useAdmin()
 
 const allNavItems = [
-  { to: '/',              icon: 'home',           label: 'Início',    minPerfil: 'all' },
-  { to: '/agendamentos',  icon: 'calendar',       label: 'Agenda',    minPerfil: 'all' },
-  { to: '/veiculos',      icon: 'car',            label: 'Veículos',  minPerfil: 'all' },
-  { to: '/clientes',      icon: 'identification', label: 'Clientes',  minPerfil: 'all' },
-  { to: '/vendas',        icon: 'receipt',        label: 'Vendas',    minPerfil: 'all' },
-  { to: '/estoque',       icon: 'package',        label: 'Estoque',   minPerfil: 'all' },
-  { to: '/funcionarios',  icon: 'users',          label: 'Equipe',    minPerfil: 'manager' },
-  { to: '/contas-pagar',  icon: 'wallet',         label: 'Contas',    minPerfil: 'manager' },
-  { to: '/configuracoes', icon: 'settings',       label: 'Config',    minPerfil: 'manager' },
+  { to: '/',              icon: 'home',           label: 'Início',      minPerfil: 'all' },
+  { to: '/agendamentos',  icon: 'calendar',       label: 'Agenda',      minPerfil: 'all' },
+  { to: '/servicos',      icon: 'sparkles',       label: 'Serviços',    minPerfil: 'all' },
+  { to: '/clientes',      icon: 'identification', label: 'Clientes',    minPerfil: 'all' },
+  { to: '/estoque',       icon: 'package',        label: 'Estoque',     minPerfil: 'all' },
+  { to: '/veiculos',      icon: 'car',            label: 'Veículos',    minPerfil: 'all' },
+  { to: '/catalogo',      icon: 'catalog',        label: 'Catálogo',    minPerfil: 'all' },
+  { to: '/propostas',     icon: 'document',       label: 'Propostas',   minPerfil: 'all' },
+  { to: '/vendas',        icon: 'receipt',        label: 'Vendas',      minPerfil: 'all' },
+  { to: '/funcionarios',  icon: 'users',          label: 'Equipe',      minPerfil: 'manager' },
+  { to: '/atividades',    icon: 'clipboard',      label: 'Atividades',  minPerfil: 'all' },
+  { to: '/contas-pagar',  icon: 'wallet',         label: 'Contas',      minPerfil: 'manager' },
+  { to: '/configuracoes', icon: 'settings',       label: 'Config',      minPerfil: 'manager' },
 ]
 
 const navItems = computed(() =>
@@ -40,17 +49,24 @@ const navItems = computed(() =>
 </script>
 
 <style scoped>
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 .nav-item {
-  color: var(--color-icon, var(--color-primary, #ec4899));
-  opacity: 0.45;
+  color: var(--color-primary-text, #ffffff);
+  opacity: 0.55;
 }
 .nav-item:hover {
-  background: var(--color-icon-10, var(--color-primary-10, rgba(236,72,153,0.1)));
-  opacity: 0.8;
+  background: rgba(255,255,255,0.1);
+  opacity: 0.85;
 }
 .nav-item-active {
-  color: var(--color-icon, var(--color-primary, #ec4899)) !important;
-  background-color: var(--color-icon-10, var(--color-primary-10, rgba(236,72,153,0.1))) !important;
+  color: var(--color-primary-text, #ffffff) !important;
+  background-color: rgba(255,255,255,0.15) !important;
   opacity: 1 !important;
 }
 </style>
