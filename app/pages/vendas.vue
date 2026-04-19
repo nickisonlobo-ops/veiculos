@@ -112,17 +112,10 @@
             </div>
           </div>
           <div class="flex flex-col gap-1.5">
-            <label class="text-xs font-bold text-gray-500 uppercase tracking-widest">Forma de Pagto.</label>
-            <select v-model="filtros.formaPagamento" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
-              <option value="">Todas</option>
-              <option v-for="fp in formasPagamento" :key="fp" :value="fp">{{ fp }}</option>
-            </select>
-          </div>
-          <div class="flex flex-col gap-1.5">
             <label class="text-xs font-bold text-gray-500 uppercase tracking-widest">Status</label>
             <div class="flex gap-2">
               <button
-                v-for="op in [{ label: 'Todos', value: '' }, { label: 'Finalizada', value: 'finalizada' }, { label: 'Pendente', value: 'pendente' }, { label: 'Cancelada', value: 'cancelada' }]"
+                v-for="op in [{ label: 'Todos', value: '' }, { label: 'Concluída', value: 'concluida' }, { label: 'Pendente', value: 'pendente' }, { label: 'Cancelada', value: 'cancelada' }]"
                 :key="op.value"
                 type="button"
                 class="flex-1 text-xs font-bold py-2 rounded-xl border transition-colors"
@@ -170,7 +163,7 @@
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Cliente</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Item</th>
               <th class="text-right px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Subtotal</th>
-              <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Pagamento / Status</th>
+              <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Status</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest whitespace-nowrap">Data</th>
               <th class="px-6 py-4 text-right text-xs font-extrabold text-gray-400 uppercase tracking-widest sm:sticky sm:right-0 bg-gray-50 w-24">Ações</th>
             </tr>
@@ -243,19 +236,12 @@
                 </div>
               </td>
 
-              <!-- Pagamento / Status -->
+              <!-- Status -->
               <td class="px-5 py-4">
-                <div class="flex flex-col gap-1.5">
-                  <span :class="['inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full w-fit', statusBadgeClass(venda.status)]">
-                    <span :class="['w-1.5 h-1.5 rounded-full', statusDotClass(venda.status)]" />
-                    {{ statusLabel(venda.status) }}
-                  </span>
-                  <span v-if="venda.forma_pagamento" class="inline-flex items-center gap-1 text-[11px] font-semibold text-gray-500 whitespace-nowrap">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 21z"/></svg>
-                    {{ venda.forma_pagamento }}
-                  </span>
-                  <span v-else class="text-[11px] text-gray-300">Sem pagamento</span>
-                </div>
+                <span :class="['inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full w-fit', statusBadgeClass(venda.status)]">
+                  <span :class="['w-1.5 h-1.5 rounded-full', statusDotClass(venda.status)]" />
+                  {{ statusLabel(venda.status) }}
+                </span>
               </td>
 
               <!-- Data -->
@@ -374,24 +360,6 @@
                         @click="seletorVeiculoAberto = true"
                       >Trocar</button>
                     </div>
-
-                    <!-- Preço negociado -->
-                    <div class="flex items-center gap-4 bg-gradient-to-r from-gray-950 to-gray-900 rounded-2xl px-5 py-4 border border-amber-500/25 shadow-lg">
-                      <div class="flex flex-col gap-1 flex-1 min-w-0">
-                        <span class="text-[10px] font-black text-amber-400 uppercase tracking-[0.2em]">Preço negociado</span>
-                        <div class="flex items-baseline gap-1.5">
-                          <span class="text-sm font-bold text-gray-500">R$</span>
-                          <input
-                            type="text"
-                            inputmode="numeric"
-                            :value="precoVeiculoDisplay"
-                            placeholder="0,00"
-                            class="flex-1 bg-transparent text-2xl font-black text-white placeholder:text-gray-700 focus:outline-none min-w-0"
-                            @input="onPrecoVeiculoInput"
-                          />
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </Transition>
 
@@ -414,46 +382,42 @@
                 </p>
               </div>
 
-              <!-- Forma de pagamento (chips) + Status -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-
-                <!-- Pagamento -->
-                <div class="flex flex-col gap-2.5">
-                  <label class="text-[10px] font-black text-gray-400 uppercase tracking-[0.15em]">Forma de Pagamento</label>
-                  <div class="flex flex-wrap gap-2">
-                    <button
-                      v-for="fp in formasPagamento"
-                      :key="fp"
-                      type="button"
-                      class="text-xs font-bold px-3 py-2 rounded-xl border-2 transition-all"
-                      :class="form.forma_pagamento === fp
-                        ? 'bg-gray-900 border-gray-900 text-white shadow-md'
-                        : 'bg-white border-gray-200 text-gray-500 hover:border-gray-400 hover:text-gray-700'"
-                      @click="form.forma_pagamento = form.forma_pagamento === fp ? '' : fp"
-                    >
-                      {{ fp }}
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Status -->
-                <div class="flex flex-col gap-2.5">
-                  <label class="text-[10px] font-black text-gray-400 uppercase tracking-[0.15em]">Status</label>
-                  <div class="flex flex-col gap-2">
-                    <button
-                      v-for="op in statusOpcoes"
-                      :key="op.value"
-                      type="button"
-                      class="flex items-center gap-2.5 text-sm font-bold py-2.5 px-4 rounded-xl border-2 transition-all text-left"
-                      :class="form.status === op.value ? op.activeClass : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300 hover:text-gray-600'"
-                      @click="form.status = op.value"
-                    >
-                      <span class="w-2 h-2 rounded-full shrink-0" :class="op.dotClass" />
-                      {{ op.label }}
-                    </button>
-                  </div>
+              <!-- Status -->
+              <div class="flex flex-col gap-2.5">
+                <label class="text-[10px] font-black text-gray-400 uppercase tracking-[0.15em]">Status</label>
+                <div class="flex flex-col gap-2">
+                  <button
+                    v-for="op in statusOpcoes"
+                    :key="op.value"
+                    type="button"
+                    class="flex items-center gap-2.5 text-sm font-bold py-2.5 px-4 rounded-xl border-2 transition-all text-left"
+                    :class="form.status === op.value ? op.activeClass : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300 hover:text-gray-600'"
+                    @click="form.status = op.value"
+                  >
+                    <span class="w-2 h-2 rounded-full shrink-0" :class="op.dotClass" />
+                    {{ op.label }}
+                  </button>
                 </div>
               </div>
+
+              <!-- Preço negociado -->
+              <Transition name="slide-fade">
+                <div v-if="veiculoSelecionado" class="flex flex-col gap-1.5">
+                  <label class="text-[10px] font-black uppercase tracking-[0.15em]" style="color: var(--color-primary, #ec4899)">Preço Negociado</label>
+                  <div class="flex items-baseline gap-1.5 rounded-xl border-2 px-4 py-3 bg-white transition-colors" style="border-color: var(--color-primary, #ec4899)">
+                    <span class="text-sm font-bold" style="color: var(--color-primary, #ec4899)">R$</span>
+                    <input
+                      type="text"
+                      inputmode="numeric"
+                      :value="precoVeiculoDisplay"
+                      placeholder="0,00"
+                      class="flex-1 bg-transparent text-2xl font-black placeholder:text-gray-300 focus:outline-none min-w-0"
+                      style="color: var(--color-primary, #ec4899)"
+                      @input="onPrecoVeiculoInput"
+                    />
+                  </div>
+                </div>
+              </Transition>
 
               <!-- Data + Observação -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -461,36 +425,20 @@
                   <label class="text-[10px] font-black text-gray-400 uppercase tracking-[0.15em]">Data da Venda</label>
                   <input
                     v-model="form.data_venda"
-                    type="datetime-local"
+                    type="date"
                     class="w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-amber-400 transition-colors"
                   />
                 </div>
                 <div class="flex flex-col gap-2">
                   <label class="text-[10px] font-black text-gray-400 uppercase tracking-[0.15em]">Observação</label>
                   <textarea
-                    v-model="form.observacao"
+                    v-model="form.observacoes"
                     rows="3"
                     placeholder="Informações adicionais..."
                     class="w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50 focus:outline-none focus:border-amber-400 transition-colors resize-none"
                   />
                 </div>
               </div>
-
-              <!-- Banner total -->
-              <Transition name="slide-fade">
-                <div
-                  v-if="form.veiculo_id"
-                  class="flex items-center justify-between bg-gradient-to-r from-amber-500 to-amber-400 rounded-2xl px-6 py-4 shadow-lg shadow-amber-200/60"
-                >
-                  <div>
-                    <p class="text-[10px] font-black text-amber-950/60 uppercase tracking-[0.2em]">Total da venda</p>
-                    <p class="text-2xl font-black text-gray-950 leading-tight">{{ formatCurrency(form.preco_veiculo) }}</p>
-                  </div>
-                  <div class="w-12 h-12 rounded-2xl bg-amber-950/10 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-amber-950/50" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185z"/></svg>
-                  </div>
-                </div>
-              </Transition>
 
               <p v-if="modalError" class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">{{ modalError }}</p>
 
@@ -726,9 +674,8 @@ interface Venda {
   cliente_id: number
   veiculo_id: number | null
   preco_veiculo: number | null
-  forma_pagamento: string | null
   status: string | null
-  observacao: string | null
+  observacoes: string | null
   data_venda: string | null
   created_at: string | null
   clientes: { nome: string } | null
@@ -797,25 +744,22 @@ async function salvarNovoCliente() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const form = reactive({
-  cliente_id:      null as number | null,
-  veiculo_id:      null as number | null,
-  preco_veiculo:   0,
-  forma_pagamento: '',
-  status:          'finalizada',
-  observacao:      '',
-  data_venda:      '',
+  cliente_id:    null as number | null,
+  veiculo_id:    null as number | null,
+  preco_veiculo: 0,
+  status:        'concluida',
+  observacoes:   '',
+  data_venda:    '',
 })
 const precoVeiculoDisplay = ref('')
 const veiculoBusca        = ref('')
 const formErrors = reactive({ cliente_id: '', veiculo: '' })
 
 const filtroAberto = ref(false)
-const filtros = reactive({ busca: '', status: '', formaPagamento: '' })
-
-const formasPagamento = ['Dinheiro', 'Pix', 'Cartão de Débito', 'Cartão de Crédito', 'Boleto', 'Transferência']
+const filtros = reactive({ busca: '', status: '' })
 
 const statusOpcoes = [
-  { label: 'Finalizada', value: 'finalizada', dotClass: 'bg-green-500', activeClass: 'bg-green-50 border-green-400 text-green-800' },
+  { label: 'Concluída', value: 'concluida', dotClass: 'bg-green-500', activeClass: 'bg-green-50 border-green-400 text-green-800' },
   { label: 'Pendente',   value: 'pendente',   dotClass: 'bg-amber-500', activeClass: 'bg-amber-50 border-amber-400 text-amber-800' },
   { label: 'Cancelada',  value: 'cancelada',  dotClass: 'bg-red-500',   activeClass: 'bg-red-50 border-red-400 text-red-800' },
 ]
@@ -886,11 +830,8 @@ const ticketMedio = computed(() =>
 )
 const vendasMes = computed(() => {
   const now = new Date()
-  return vendas.value.filter(v => {
-    if (!v.data_venda) return false
-    const d = new Date(v.data_venda)
-    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()
-  }).length
+  const ym = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+  return vendas.value.filter(v => v.data_venda?.startsWith(ym)).length
 })
 
 // �"?�"? Filtros �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
@@ -898,13 +839,11 @@ const filtrosAtivos = computed(() => {
   let c = 0
   if (filtros.busca) c++
   if (filtros.status) c++
-  if (filtros.formaPagamento) c++
   return c
 })
 const vendasFiltradas = computed(() => {
   return vendas.value.filter(v => {
     if (filtros.status && v.status !== filtros.status) return false
-    if (filtros.formaPagamento && v.forma_pagamento !== filtros.formaPagamento) return false
     if (filtros.busca.trim()) {
       const q = filtros.busca.toLowerCase()
       return (
@@ -916,7 +855,7 @@ const vendasFiltradas = computed(() => {
     return true
   })
 })
-function limparFiltros() { filtros.busca = ''; filtros.status = ''; filtros.formaPagamento = '' }
+function limparFiltros() { filtros.busca = ''; filtros.status = '' }
 
 // �"?�"? Helpers �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
 function formatCurrency(val: number | null | undefined): string {
@@ -927,24 +866,24 @@ function formatDate(iso: string | null): string {
   if (!iso) return '�?"'
   return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
 }
-function toDatetimeLocal(iso: string | null): string {
+function toDateLocal(iso: string | null): string {
   if (!iso) return ''
-  return new Date(iso).toISOString().slice(0, 16)
+  return iso.slice(0, 10)
 }
 function statusLabel(s: string | null): string {
-  if (s === 'finalizada') return 'Finalizada'
+  if (s === 'concluida') return 'Concluída'
   if (s === 'pendente')   return 'Pendente'
   if (s === 'cancelada')  return 'Cancelada'
   return s ?? '�?"'
 }
 function statusBadgeClass(s: string | null): string {
-  if (s === 'finalizada') return 'bg-green-100 text-green-700'
+  if (s === 'concluida') return 'bg-green-100 text-green-700'
   if (s === 'pendente')   return 'bg-amber-100 text-amber-700'
   if (s === 'cancelada')  return 'bg-red-100 text-red-700'
   return 'bg-gray-100 text-gray-500'
 }
 function statusDotClass(s: string | null): string {
-  if (s === 'finalizada') return 'bg-green-500'
+  if (s === 'concluida') return 'bg-green-500'
   if (s === 'pendente')   return 'bg-amber-500'
   if (s === 'cancelada')  return 'bg-red-500'
   return 'bg-gray-400'
@@ -1031,8 +970,8 @@ function abrirAdicionar() {
   veiculoEdicaoExtra.value = null
   veiculoBusca.value = ''
   seletorVeiculoAberto.value = false
-  form.forma_pagamento = ''; form.status = 'finalizada'
-  form.observacao = ''; form.data_venda = toDatetimeLocal(new Date().toISOString())
+  form.status = 'concluida'
+  form.observacoes = ''; form.data_venda = new Date().toISOString().slice(0, 10)
 }
 
 function fecharModal() {
@@ -1065,10 +1004,9 @@ function editVenda(v: Venda) {
   } else {
     veiculoEdicaoExtra.value = null
   }
-  form.forma_pagamento = v.forma_pagamento ?? ''
-  form.status          = v.status ?? 'finalizada'
-  form.observacao      = v.observacao ?? ''
-  form.data_venda      = toDatetimeLocal(v.data_venda)
+  form.status      = v.status ?? 'concluida'
+  form.observacoes = v.observacoes ?? ''
+  form.data_venda  = toDateLocal(v.data_venda)
   veiculoBusca.value   = ''
   seletorVeiculoAberto.value = false
 }
@@ -1091,13 +1029,12 @@ async function salvarEdicao() {
   const { error: updateError } = await supabase
     .from('vendas')
     .update({
-      cliente_id:      form.cliente_id!,
-      veiculo_id:      form.veiculo_id || null,
-      preco_veiculo:   form.veiculo_id ? form.preco_veiculo : null,
-      forma_pagamento: form.forma_pagamento || null,
-      status:          form.status,
-      observacao:      form.observacao.trim() || null,
-      data_venda:      form.data_venda || null,
+      cliente_id:    form.cliente_id!,
+      veiculo_id:    form.veiculo_id || null,
+      preco_veiculo: form.veiculo_id ? form.preco_veiculo : null,
+      status:        form.status,
+      observacoes:   form.observacoes.trim() || null,
+      data_venda:    form.data_venda || null,
     })
     .eq('id', editando.value.id)
 
@@ -1105,13 +1042,13 @@ async function salvarEdicao() {
 
   // Gerencia status do veículo
   // Reverte o veículo antigo se necessário
-  if (oldVeiculoId && oldStatus === 'finalizada' &&
-      (oldVeiculoId !== form.veiculo_id || form.status !== 'finalizada')) {
+  if (oldVeiculoId && oldStatus === 'concluida' &&
+      (oldVeiculoId !== form.veiculo_id || form.status !== 'concluida')) {
     await supabase.from('veiculos').update({ status: 'disponivel' }).eq('id', oldVeiculoId)
     await fetchOpcoes()
   }
   // Marca o novo veículo como vendido
-  if (form.status === 'finalizada' && form.veiculo_id) {
+  if (form.status === 'concluida' && form.veiculo_id) {
     await supabase.from('veiculos').update({ status: 'vendido' }).eq('id', form.veiculo_id)
     veiculosOpcoes.value = veiculosOpcoes.value.filter(v => v.id !== form.veiculo_id)
   }
@@ -1128,14 +1065,13 @@ async function salvarAdicao() {
   const { data: vendaData, error: insertVendaError } = await supabase
     .from('vendas')
     .insert({
-      cliente_id:      form.cliente_id!,
-      veiculo_id:      form.veiculo_id || null,
-      preco_veiculo:   form.veiculo_id ? form.preco_veiculo : null,
-      forma_pagamento: form.forma_pagamento || null,
-      status:          form.status,
-      observacao:      form.observacao.trim() || null,
-      data_venda:      form.data_venda || null,
-      empresa_id:      empresaId.value!,
+      cliente_id:    form.cliente_id!,
+      veiculo_id:    form.veiculo_id || null,
+      preco_veiculo: form.veiculo_id ? form.preco_veiculo : null,
+      status:        form.status,
+      observacoes:   form.observacoes.trim() || null,
+      data_venda:    form.data_venda || null,
+      empresa_id:    empresaId.value!,
     })
     .select('id')
     .single()
@@ -1143,7 +1079,7 @@ async function salvarAdicao() {
   if (insertVendaError) { modalError.value = insertVendaError.message; saving.value = false; return }
 
   // Marca o veículo como vendido quando a venda é finalizada
-  if (form.status === 'finalizada' && form.veiculo_id) {
+  if (form.status === 'concluida' && form.veiculo_id) {
     await supabase.from('veiculos').update({ status: 'vendido' }).eq('id', form.veiculo_id)
     veiculosOpcoes.value = veiculosOpcoes.value.filter(v => v.id !== form.veiculo_id)
   }
@@ -1163,7 +1099,7 @@ async function executarExclusao() {
   deleting.value = false
   if (deleteErr) { deleteError.value = deleteErr.message; return }
   // Reverte o veículo para disponível se a venda era finalizada
-  if (vendaParaExcluir.veiculo_id && vendaParaExcluir.status === 'finalizada') {
+  if (vendaParaExcluir.veiculo_id && vendaParaExcluir.status === 'concluida') {
     await supabase.from('veiculos').update({ status: 'disponivel' }).eq('id', vendaParaExcluir.veiculo_id)
     await fetchOpcoes()
   }

@@ -82,7 +82,15 @@ const allNavSections = [
       { to: '/agendamentos', icon: 'calendar', label: 'Agendamentos', minPerfil: 'all' },
       { to: '/servicos', icon: 'sparkles', label: 'Serviços', minPerfil: 'all' },
       { to: '/clientes', icon: 'identification', label: 'Clientes', minPerfil: 'all' },
-      { to: '/estoque', icon: 'package', label: 'Estoque', minPerfil: 'all' },
+    ],
+  },
+  {
+    title: 'Veículos',
+    items: [
+      { to: '/veiculos', icon: 'car', label: 'Veículos', minPerfil: 'all' },
+      { to: '/catalogo', icon: 'catalog', label: 'Catálogo', minPerfil: 'all' },
+      { to: '/propostas', icon: 'document', label: 'Propostas', minPerfil: 'all' },
+      { to: '/vendas', icon: 'receipt', label: 'Vendas', minPerfil: 'manager' },
     ],
   },
   {

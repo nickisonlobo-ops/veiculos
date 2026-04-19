@@ -380,26 +380,22 @@
 
         <!-- Faturamento -->
         <div class="relative overflow-hidden rounded-2xl bg-white border border-pink-100 p-4 shadow-sm">
-
-
           <div class="relative flex items-center gap-2 mb-3">
             <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Faturamento / Mês</span>
+            <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Faturamento Vendas</span>
           </div>
           <p class="relative text-lg sm:text-2xl font-black text-gray-900 truncate">{{ resumoLoading ? '...' : formatCurrency(faturamentoMes) }}</p>
-          <p class="relative text-[11px] text-gray-500 mt-1">agendamentos confirmados</p>
+          <p class="relative text-[11px] text-gray-500 mt-1">vendas de veículos</p>
         </div>
 
-        <!-- Agendamentos do mês -->
+        <!-- Veículos Vendidos -->
         <div class="relative overflow-hidden rounded-2xl bg-white border border-pink-100 p-4 shadow-sm">
-
-
           <div class="relative flex items-center gap-2 mb-3">
-            <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
-            <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Agendamentos / Mês</span>
+            <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+            <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Veículos Vendidos</span>
           </div>
-          <p class="relative text-2xl font-black text-gray-900">{{ resumoLoading ? '...' : agendamentosMes }}</p>
-          <p class="relative text-[11px] text-gray-500 mt-1">este mês</p>
+          <p class="relative text-2xl font-black text-gray-900">{{ resumoLoading ? '...' : vendasCount }}</p>
+          <p class="relative text-[11px] text-gray-500 mt-1">este período</p>
         </div>
 
         <!-- Contas a pagar -->
@@ -447,30 +443,26 @@
 
         <!-- Ticket Médio -->
         <div class="relative overflow-hidden rounded-2xl bg-white border border-pink-100 p-4 shadow-sm">
-
-
           <div class="relative flex items-center gap-2 mb-3">
             <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
             <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Ticket Médio</span>
           </div>
           <p class="relative text-lg sm:text-2xl font-black text-gray-900 truncate">{{ resumoLoading ? '...' : formatCurrency(ticketMedio) }}</p>
-          <p class="relative text-[11px] text-gray-500 mt-1">por agendamento este mês</p>
+          <p class="relative text-[11px] text-gray-500 mt-1">por venda este período</p>
         </div>
 
-        <!-- Produtos em estoque -->
+        <!-- Veículos Disponíveis -->
         <div class="relative overflow-hidden rounded-2xl bg-white border border-pink-100 p-4 shadow-sm">
-
-
           <div class="relative flex items-center gap-2 mb-3">
-            <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
-            <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Produtos</span>
+            <svg class="w-5 h-5 shrink-0" style="color: var(--color-card-texto, #374151); opacity: 0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+            <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Veículos</span>
           </div>
-          <p class="relative text-2xl font-black text-gray-900">{{ resumoLoading ? '...' : produtosTotal }}</p>
+          <p class="relative text-2xl font-black text-gray-900">{{ resumoLoading ? '...' : veiculosDisponiveis }}</p>
           <div class="relative flex items-center gap-2 mt-1 flex-wrap">
-            <span v-if="produtosBaixoEstoque > 0" class="inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-pink-100 text-pink-700">
-              <span class="w-1.5 h-1.5 rounded-full bg-pink-400" />{{ produtosBaixoEstoque }} estoque baixo
+            <span v-if="veiculosReservados > 0" class="inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400" />{{ veiculosReservados }} reservado(s)
             </span>
-            <span v-else class="text-[11px] text-gray-500">todos ok</span>
+            <span v-else class="text-[11px] text-gray-500">disponíveis</span>
           </div>
         </div>
 
@@ -544,17 +536,16 @@ const { empresaId, userPerfil, loadEmpresa } = useEmpresa()
 // �"?�"? ADMIN: resumo �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
 const resumoLoading      = ref(true)
 const totalClientes      = ref(0)
-const clientesAtivos     = ref(0)
-const agendamentosMes    = ref(0)
 const faturamentoMes     = ref(0)
+const vendasCount        = ref(0)
 const totalContasPagar   = ref(0)
 const valorContasPagar   = ref(0)
 const contasVencidas     = ref(0)
 const tarefasHoje           = ref(0)
 const tarefasConcluidasHoje = ref(0)
 const tarefasPendentes      = ref(0)
-const produtosTotal         = ref(0)
-const produtosBaixoEstoque  = ref(0)
+const veiculosDisponiveis   = ref(0)
+const veiculosReservados    = ref(0)
 const ticketMedio           = ref(0)
 
 // ── Filtros painel admin ────────────────────────────────────────────────────
@@ -562,7 +553,7 @@ const filtroAberto = ref(false)
 const filtroPeriodo = ref<'mes_atual' | 'semana_atual' | 'trimestre' | 'ano_atual' | 'personalizado'>('mes_atual')
 const filtroMes = ref(new Date().getMonth() + 1)
 const filtroAno = ref(new Date().getFullYear())
-const filtroOp = reactive({ agendamentos: true, contas: true, estoque: true, tarefas: true })
+const filtroOp = reactive({ vendas: true, contas: true, tarefas: true })
 
 const periodoOpcoes = [
   { value: 'mes_atual',    label: 'Mes Atual' },
@@ -635,10 +626,10 @@ async function aplicarFiltros() {
   const { inicio, fim } = getPeriodoRange()
   const todayIso = new Date().toISOString().slice(0, 10)
 
-  const [clientesResp, agendamentosResp, contasResp, tarefasResp, produtosResp] = await Promise.all([
-    supabase.from('clientes').select('ativo').eq('empresa_id', empresaId.value!),
-    filtroOp.agendamentos
-      ? supabase.from('agendamentos').select('valor_total, data_hora, status').eq('empresa_id', empresaId.value!).gte('data_hora', inicio).lte('data_hora', fim + 'T23:59:59')
+  const [clientesResp, vendasResp, contasResp, tarefasResp, veiculosResp] = await Promise.all([
+    supabase.from('clientes').select('id').eq('empresa_id', empresaId.value!),
+    filtroOp.vendas
+      ? supabase.from('vendas').select('preco_veiculo, status, vendas_itens(valor_total, quantidade, preco_unitario)').eq('empresa_id', empresaId.value!).gte('data_venda', inicio).lte('data_venda', fim)
       : Promise.resolve({ data: [], error: null }),
     filtroOp.contas
       ? supabase.from('contas_pagar').select('valor, data_vencimento, status').eq('empresa_id', empresaId.value!).gte('data_vencimento', inicio).lte('data_vencimento', fim)
@@ -646,20 +637,18 @@ async function aplicarFiltros() {
     filtroOp.tarefas
       ? supabase.from('atividades_funcionarios').select('status, data_atividade').eq('empresa_id', empresaId.value!).gte('data_atividade', inicio).lte('data_atividade', fim)
       : Promise.resolve({ data: [], error: null }),
-    filtroOp.estoque
-      ? supabase.from('produtos_casa_racao').select('estoque, ativo').eq('empresa_id', empresaId.value!)
-      : Promise.resolve({ data: [], error: null }),
+    supabase.from('veiculos').select('status').eq('empresa_id', empresaId.value!),
   ])
 
-  const clientes = clientesResp.data ?? []
-  totalClientes.value = clientes.length
-  clientesAtivos.value = clientes.filter((c: any) => c.ativo !== false).length
+  totalClientes.value = (clientesResp.data ?? []).length
 
-  const agendamentos = agendamentosResp.data ?? []
-  const confirmados = agendamentos.filter((a: any) => a.status !== 'cancelado')
-  agendamentosMes.value = agendamentos.length
-  faturamentoMes.value = confirmados.reduce((sum: number, a: any) => sum + Number(a.valor_total ?? 0), 0)
-  ticketMedio.value = confirmados.length > 0 ? faturamentoMes.value / confirmados.length : 0
+  const vendas = (vendasResp.data ?? []).filter((v: any) => v.status !== 'cancelada')
+  vendasCount.value = vendas.length
+  faturamentoMes.value = vendas.reduce((sum: number, v: any) => {
+    const itens = (v.vendas_itens ?? []).reduce((s: number, i: any) => s + Number(i.valor_total ?? i.quantidade * i.preco_unitario ?? 0), 0)
+    return sum + Number(v.preco_veiculo ?? 0) + itens
+  }, 0)
+  ticketMedio.value = vendas.length > 0 ? faturamentoMes.value / vendas.length : 0
 
   const contas = (contasResp.data ?? []).filter((c: any) => c.status !== 'pago' && c.status !== 'cancelado')
   totalContasPagar.value = contas.length
@@ -671,9 +660,9 @@ async function aplicarFiltros() {
   tarefasConcluidasHoje.value = tf.filter((t: any) => t.status === 'concluida').length
   tarefasPendentes.value = tf.filter((t: any) => t.status === 'pendente').length
 
-  const prods = (produtosResp.data ?? []).filter((p: any) => p.ativo !== false)
-  produtosTotal.value = prods.length
-  produtosBaixoEstoque.value = prods.filter((p: any) => p.estoque <= 5).length
+  const veics = veiculosResp.data ?? []
+  veiculosDisponiveis.value = veics.filter((v: any) => v.status === 'disponivel').length
+  veiculosReservados.value = veics.filter((v: any) => v.status === 'reservado').length
 
   resumoLoading.value = false
 }
@@ -918,7 +907,10 @@ const atalhos = [
   { to: '/agendamentos',  icon: 'calendar',       title: 'Agendamentos',  minPerfil: 'all'     },
   { to: '/servicos',      icon: 'sparkles',       title: 'Serviços',      minPerfil: 'all'     },
   { to: '/clientes',      icon: 'identification', title: 'Clientes',      minPerfil: 'all'     },
-  { to: '/estoque',       icon: 'package',        title: 'Estoque',       minPerfil: 'all'     },
+  { to: '/veiculos',      icon: 'car',            title: 'Veículos',      minPerfil: 'all'     },
+  { to: '/catalogo',      icon: 'catalog',        title: 'Catálogo',      minPerfil: 'all'     },
+  { to: '/propostas',     icon: 'document',       title: 'Propostas',     minPerfil: 'all'     },
+  { to: '/vendas',        icon: 'receipt',        title: 'Vendas',        minPerfil: 'manager' },
   { to: '/funcionarios',  icon: 'users',          title: 'Funcionários',  minPerfil: 'manager' },
   { to: '/atividades',    icon: 'clipboard',      title: 'Atividades',    minPerfil: 'all'     },
   { to: '/contas-pagar',  icon: 'wallet',         title: 'Contas a Pagar', minPerfil: 'manager' },
