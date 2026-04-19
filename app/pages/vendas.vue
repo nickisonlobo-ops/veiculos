@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="min-h-full bg-gray-50/60 p-3 sm:p-8">
+  <div class="min-h-full p-3 sm:p-8">
 
     <!-- �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� CABE�?ALHO �.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.��.� -->
     <div class="relative rounded-3xl overflow-hidden mb-8 shadow-xl">
@@ -18,7 +18,7 @@
               <div class="flex items-center gap-2 mb-1">
                 <span class="text-xs font-semibold text-white/80 uppercase tracking-widest">Financeiro</span>
                 <span class="w-1 h-1 rounded-full bg-white/40" />
-                <span class="text-xs text-white/50 hidden sm:inline">Auto Gestão</span>
+                <span class="text-xs text-white/50 hidden sm:inline">AutoFlow</span>
               </div>
               <h1 class="text-xl sm:text-3xl font-bold text-white tracking-tight leading-none">Vendas</h1>
               <p class="text-sm text-gray-300/80 mt-1.5">

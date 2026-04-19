@@ -27,22 +27,22 @@ export interface PersonalizacaoConfig {
 }
 
 const DEFAULTS: PersonalizacaoConfig = {
-  cor_primaria: '#1d4ed8',
+  cor_primaria: '#ec4899',
   cor_primaria_texto: '#ffffff',
-  cor_fundo: '#f8fafc',
-  cor_sidebar: '#0f172a',
+  cor_fundo: '#f9fafb',
+  cor_sidebar: '#ec4899',
   cor_card: '#ffffff',
-  cor_card_texto: '#1e293b',
+  cor_card_texto: '#374151',
   nome_empresa: '',
   logo_url: null,
   logo_size: 'md',
-  cor_primaria_grad: '#38bdf8',
+  cor_primaria_grad: '#a855f7',
   cor_fundo_grad: null,
-  cor_sidebar_grad: '#1e3a8a',
+  cor_sidebar_grad: '#a855f7',
   cor_card_grad: null,
   grad_direction: '135deg',
-  cor_botao: '#1d4ed8',
-  cor_botao_texto: '#ffffff',
+  cor_botao: '#ffffff',
+  cor_botao_texto: '#ec4899',
   cor_icone: '#ffffff',
 }
 
@@ -260,6 +260,7 @@ export function usePersonalizacao() {
     root.style.setProperty('--color-icon-10',      hexToRgba(cfg.cor_icone, 0.10))
     root.style.setProperty('--color-icon-light',   hexToRgba(cfg.cor_icone, 0.12))
     root.style.setProperty('--color-icon-border',  hexToRgba(cfg.cor_icone, 0.30))
+    root.style.setProperty('--color-card-texto',   cfg.cor_card_texto)
 
     // ── Injeta CSS global para sobrescrever classes Tailwind pink ──
     injectGlobalThemeCSS(cfg)
