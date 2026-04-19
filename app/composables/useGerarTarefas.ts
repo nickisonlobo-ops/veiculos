@@ -6,13 +6,20 @@ export interface ResultadoGeracao {
   erro: string | null
 }
 
+// Mapeamento JS getDay() -> abreviação PT
+// 0=dom, 1=seg, 2=ter, 3=qua, 4=qui, 5=sex, 6=sab
+const DIAS_SEMANA = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab']
+
 /**
  * Gera instâncias de atividades a partir dos modelos (registros sem data_atividade).
  *
  * Regras de periodicidade:
- *  - diaria    �?' gera toda vez que chamado (dia de hoje)
- *  - quinzenal �?' gera nos dias 1 e 16 do mês
- *  - mensal    �?' gera no dia 1 do mês
+ *  - diaria    -> gera toda vez que chamado (dia de hoje)
+ *  - quinzenal -> gera nos dias 1 e 16 do mês
+ *  - mensal    -> gera no dia 1 do mês
+ *
+ * Dias da semana: se o modelo tiver dias_semana preenchido, só gera
+ * se o dia de hoje estiver na lista. Vazio/null = todos os dias.
  *
  * Deduplicação: não cria se já existe registro com o mesmo
  * funcionario_id + titulo + data_atividade para hoje.
@@ -22,11 +29,12 @@ export async function gerarTarefasDiarias(empresaId: number): Promise<ResultadoG
   const hoje = new Date()
   const todayIso = hoje.toISOString().slice(0, 10)
   const diaDoMes = hoje.getDate()
+  const diaSemanaHoje = DIAS_SEMANA[hoje.getDay()]
 
   // Buscar todos os modelos (sem data_atividade)
   const { data: modelos, error: fetchErr } = await supabase
     .from('atividades_funcionarios')
-    .select('id, funcionario_id, titulo, descricao, prioridade, periodicidade, hora_inicio, hora_fim, observacao')
+    .select('id, funcionario_id, titulo, descricao, prioridade, periodicidade, dias_semana, hora_inicio, hora_fim, observacao')
     .eq('empresa_id', empresaId)
     .is('data_atividade', null)
 
@@ -59,6 +67,12 @@ export async function gerarTarefasDiarias(empresaId: number): Promise<ResultadoG
     }
 
     if (!deveGerar) { ignoradas++; continue }
+
+    // Verifica restrição de dias da semana
+    const diasPermitidos: string[] | null = m.dias_semana
+    if (diasPermitidos && diasPermitidos.length > 0) {
+      if (!diasPermitidos.includes(diaSemanaHoje)) { ignoradas++; continue }
+    }
 
     // Verifica duplicata
     if (jaExiste.has(`${m.funcionario_id}::${m.titulo}`)) { ignoradas++; continue }

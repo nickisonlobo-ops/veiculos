@@ -964,13 +964,51 @@ async function fetchVendas() {
   loading.value = true
   const { data, error: fetchError } = await supabase
     .from('vendas')
-    .select('*, clientes(nome), veiculos(marca, modelo, ano_fabricacao, ano_modelo), vendas_itens(id, produto_id, quantidade, preco_unitario, valor_total, produtos_casa_racao(nome))')
+    .select('*, clientes(nome), vendas_itens(id, produto_id, quantidade, preco_unitario, valor_total)')
     .eq('empresa_id', empresaId.value!)
     .order('data_venda', { ascending: false })
 
   loading.value = false
   if (fetchError) { error.value = fetchError.message; return }
-  vendas.value = (data ?? []) as Venda[]
+
+  const rows = (data ?? []) as Venda[]
+
+  // Enriquece com dados dos veículos via query separada (sem depender de FK no schema cache)
+  const veiculoIds = [...new Set(rows.map(v => v.veiculo_id).filter(Boolean))] as number[]
+  let veiculosMap: Record<number, { marca: string; modelo: string; ano_fabricacao: number | null; ano_modelo: number | null }> = {}
+  if (veiculoIds.length > 0) {
+    const { data: veics } = await supabase
+      .from('veiculos')
+      .select('id, marca, modelo, ano_fabricacao, ano_modelo')
+      .in('id', veiculoIds)
+    for (const veic of veics ?? []) {
+      veiculosMap[veic.id] = { marca: veic.marca, modelo: veic.modelo, ano_fabricacao: veic.ano_fabricacao, ano_modelo: veic.ano_modelo }
+    }
+  }
+  for (const v of rows) {
+    v.veiculos = v.veiculo_id ? (veiculosMap[v.veiculo_id] ?? null) : null
+  }
+
+  // Enriquece itens com nome do produto via query separada (sem depender de FK)
+  const produtoIds = [...new Set(
+    rows.flatMap(v => (v.vendas_itens ?? []).map(i => i.produto_id).filter(Boolean))
+  )]
+  let nomesMap: Record<number, string> = {}
+  if (produtoIds.length > 0) {
+    const { data: prods } = await supabase
+      .from('produtos_casa_racao')
+      .select('id, nome')
+      .in('id', produtoIds)
+    for (const p of prods ?? []) nomesMap[p.id] = p.nome
+  }
+
+  for (const v of rows) {
+    for (const item of v.vendas_itens ?? []) {
+      item.produtos_casa_racao = item.produto_id ? { nome: nomesMap[item.produto_id] ?? '?' } : null
+    }
+  }
+
+  vendas.value = rows
 }
 
 async function fetchOpcoes() {

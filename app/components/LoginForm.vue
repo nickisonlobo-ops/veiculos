@@ -2,25 +2,22 @@
   <div class="w-full max-w-md">
     <!-- Cabeçalho fora do card -->
     <div class="flex flex-col items-center gap-3 mb-8">
-      <!-- Ícone de gestão -->
-      <div class="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-900/40" style="background: linear-gradient(135deg, #059669, #10b981, #34d399)">
-        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <!-- Barras de gráfico crescentes, estilo arredondado -->
-          <rect x="3" y="14" width="4" height="7" rx="1.5" opacity="0.85"/>
-          <rect x="10" y="9" width="4" height="12" rx="1.5" opacity="0.92"/>
-          <rect x="17" y="4" width="4" height="17" rx="1.5"/>
+      <!-- Ícone Aurora -->
+      <div class="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-900/40" style="background: linear-gradient(135deg, #ec4899, #a855f7)">
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/>
         </svg>
       </div>
       <div class="text-center">
-        <h1 class="text-2xl font-black text-white tracking-tight">Sistema Avançado</h1>
-        <p class="text-sm text-gray-400 mt-0.5">Plataforma de Gestão</p>
+        <h1 class="text-2xl font-black tracking-tight" style="background: linear-gradient(135deg, #ec4899, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text">Glow Up Gestão</h1>
+        <p class="text-sm text-gray-500 mt-0.5">Plataforma de Gestão</p>
       </div>
     </div>
 
     <!-- Card -->
-    <div class="rounded-2xl border border-gray-700/60 shadow-2xl shadow-black/40 p-8" style="background: #111827">
+    <div class="rounded-2xl border border-pink-100 shadow-xl shadow-pink-100/60 p-8" style="background: #ffffff">
       <!-- Abas -->
-      <div class="flex rounded-xl p-1 mb-6" style="background: #1f2937">
+      <div class="flex rounded-xl p-1 mb-6" style="background: #fdf2f8">
         <button
           v-for="tab in tabs"
           :key="tab.key"
@@ -29,9 +26,10 @@
             'flex-1 py-2 text-sm font-semibold rounded-lg transition-all duration-200',
             activeTab === tab.key
               ? 'text-white shadow-sm'
-              : 'text-gray-400 hover:text-gray-200',
+              : 'text-gray-400 hover:text-gray-600',
           activeTab === tab.key ? '' : '',
           ]"
+          :style="activeTab === tab.key ? 'background: linear-gradient(135deg, #ec4899, #a855f7)' : ''"
           @click="activeTab = tab.key"
         >
           {{ tab.label }}
@@ -39,12 +37,12 @@
       </div>
 
       <!-- Título dinâmico -->
-      <p class="text-base font-semibold text-gray-200 text-center mb-6">
+      <p class="text-base font-semibold text-gray-700 text-center mb-6">
         {{ activeTab === 'login' ? 'Entre na sua conta' : 'Crie sua conta' }}
       </p>
 
     <!-- Entrar -->
-    <form v-if="activeTab === 'login'" class="flex flex-col gap-5 text-white" @submit.prevent="handleLogin">
+    <form v-if="activeTab === 'login'" class="flex flex-col gap-5 text-gray-800" @submit.prevent="handleLogin">
       <AppInput
         v-model="login.email"
         label="E-mail"
@@ -71,13 +69,13 @@
       <p v-if="authError" class="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2.5 text-center">
         {{ authError }}
       </p>
-      <AppButton variant="secondary" size="lg" type="submit" :loading="authLoading" class="mt-2 w-full font-bold !text-white !border-0" style="background: linear-gradient(135deg, #059669, #10b981, #34d399)">
+      <AppButton variant="secondary" size="lg" type="submit" :loading="authLoading" class="mt-2 w-full font-bold !text-white !border-0" style="background: linear-gradient(135deg, #ec4899, #a855f7)">
         Entrar
       </AppButton>
     </form>
 
     <!-- Criar conta -->
-    <form v-else class="flex flex-col gap-5 text-white" @submit.prevent="handleRegister">
+    <form v-else class="flex flex-col gap-5 text-gray-800" @submit.prevent="handleRegister">
       <AppInput
         v-model="register.name"
         label="Nome"
@@ -131,7 +129,7 @@
       <p v-if="registerSuccess" class="text-sm text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-4 py-2.5 text-center">
         Cadastro realizado! Verifique seu e-mail para confirmar a conta.
       </p>
-      <AppButton variant="secondary" size="lg" type="submit" :loading="authLoading" class="mt-2 w-full font-bold !text-white !border-0" style="background: linear-gradient(135deg, #059669, #10b981, #34d399)">
+      <AppButton variant="secondary" size="lg" type="submit" :loading="authLoading" class="mt-2 w-full font-bold !text-white !border-0" style="background: linear-gradient(135deg, #ec4899, #a855f7)">
         Criar conta
       </AppButton>
     </form>

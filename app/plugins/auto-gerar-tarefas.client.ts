@@ -20,17 +20,17 @@ export default defineNuxtPlugin(async () => {
 
   if (!session) return
 
-  // Somente admin dispara a geração automática
-  if (session.user?.email !== 'admin@zoocultura.com') return
-
-  // Busca empresa_id do admin
+  // Busca empresa_id e perfil do usuário
   const { data: profile } = await supabase
     .from('profiles')
-    .select('empresa_id')
+    .select('empresa_id, perfil')
     .eq('id', session.user.id)
     .single()
 
   if (!profile?.empresa_id) return
+
+  // Somente admin ou gerente dispara a geração automática
+  if (profile.perfil !== 'admin' && profile.perfil !== 'gerente') return
 
   const resultado = await gerarTarefasDiarias(profile.empresa_id)
 

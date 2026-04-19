@@ -1,5 +1,5 @@
 ﻿<template>
-  <header class="border-b flex items-center justify-between px-6 shrink-0 shadow-lg" :class="headerHeight" :style="{ background: 'var(--color-sidebar, #ffffff)', borderColor: 'var(--color-primary-border, rgba(236,72,153,0.3))' }">
+  <header class="border-b flex items-center justify-between px-6 shrink-0 shadow-lg sticky top-0 z-30" :class="headerHeight" :style="{ background: 'var(--color-sidebar, #ffffff)', borderColor: 'var(--color-primary-border, rgba(236,72,153,0.3))' }">
     <!-- Logo -->
     <div class="flex items-center gap-2.5">
       <div
@@ -15,7 +15,7 @@
 
     <!-- Ações -->
     <div class="flex items-center gap-3">
-      <span class="text-sm text-gray-500 hidden sm:block">Olá, {{ displayName }}</span>
+      <span class="text-sm hidden sm:block" :style="{ color: 'var(--color-primary-text, #ffffff)' }">Olá, {{ displayName }}</span>
       <div
         class="w-9 h-9 rounded-full flex items-center justify-center font-black text-sm select-none shadow"
         :style="{ background: 'var(--color-primary, #ec4899)', color: 'var(--color-primary-text, #ffffff)' }"
@@ -24,7 +24,8 @@
       </div>
       <button
         type="button"
-        class="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors px-3 py-1.5 rounded-lg hover:bg-black/5"
+        class="flex items-center gap-1.5 text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-black/5"
+        :style="{ color: 'var(--color-primary-text, #ffffff)' }"
         @click="handleLogout"
       >
         <span>Sair</span>

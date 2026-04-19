@@ -27,23 +27,23 @@ export interface PersonalizacaoConfig {
 }
 
 const DEFAULTS: PersonalizacaoConfig = {
-  cor_primaria: '#6b7280',
+  cor_primaria: '#ec4899',
   cor_primaria_texto: '#ffffff',
   cor_fundo: '#f9fafb',
-  cor_sidebar: '#ffffff',
+  cor_sidebar: '#ec4899',
   cor_card: '#ffffff',
   cor_card_texto: '#374151',
-  nome_empresa: 'UpStudio',
+  nome_empresa: '',
   logo_url: null,
   logo_size: 'md',
-  cor_primaria_grad: null,
+  cor_primaria_grad: '#a855f7',
   cor_fundo_grad: null,
-  cor_sidebar_grad: null,
+  cor_sidebar_grad: '#a855f7',
   cor_card_grad: null,
   grad_direction: '135deg',
-  cor_botao: '#6b7280',
-  cor_botao_texto: '#ffffff',
-  cor_icone: '#6b7280',
+  cor_botao: '#ffffff',
+  cor_botao_texto: '#ec4899',
+  cor_icone: '#ffffff',
 }
 
 export function usePersonalizacao() {
@@ -70,7 +70,7 @@ export function usePersonalizacao() {
       return
     }
 
-    const nomeEmpresaFallback = empresaRes.data?.nome ?? DEFAULTS.nome_empresa
+    const nomeEmpresaFallback = empresaRes.data?.nome ?? ''
     const data = personalizacaoRes.data
 
     if (data) {
@@ -81,7 +81,7 @@ export function usePersonalizacao() {
         cor_sidebar:         data.cor_sidebar         ?? DEFAULTS.cor_sidebar,
         cor_card:            data.cor_card            ?? DEFAULTS.cor_card,
         cor_card_texto:      data.cor_card_texto      ?? DEFAULTS.cor_card_texto,
-        nome_empresa:        data.nome_empresa        || nomeEmpresaFallback,
+        nome_empresa:        data.nome_empresa ?? nomeEmpresaFallback,
         logo_url:            data.logo_url            ?? null,
         logo_size:           data.logo_size           ?? DEFAULTS.logo_size,
         cor_primaria_grad:   data.cor_primaria_grad   ?? null,
@@ -99,6 +99,7 @@ export function usePersonalizacao() {
     }
 
     if (apply) applyTheme(config.value)
+
   }
 
   async function savePersonalizacao(newConfig: PersonalizacaoConfig) {
@@ -509,7 +510,7 @@ export function usePersonalizacao() {
     }
 
     // Nome da empresa: prioridade para o campo configurado, fallback para empresas.nome
-    const nomeEmpresaFallback = empresaRes.data?.nome ?? DEFAULTS.nome_empresa
+    const nomeEmpresaFallback = empresaRes.data?.nome ?? ''
 
     const data = personalizacaoRes.data
     if (data) {
@@ -520,7 +521,7 @@ export function usePersonalizacao() {
         cor_sidebar:         data.cor_sidebar         ?? DEFAULTS.cor_sidebar,
         cor_card:            data.cor_card            ?? DEFAULTS.cor_card,
         cor_card_texto:      data.cor_card_texto      ?? DEFAULTS.cor_card_texto,
-        nome_empresa:        data.nome_empresa        || nomeEmpresaFallback,
+        nome_empresa:        data.nome_empresa ?? nomeEmpresaFallback,
         logo_url:            data.logo_url            ?? null,
         logo_size:           data.logo_size           ?? DEFAULTS.logo_size,
         cor_primaria_grad:   data.cor_primaria_grad   ?? null,
@@ -533,7 +534,7 @@ export function usePersonalizacao() {
         cor_icone:           data.cor_icone           ?? DEFAULTS.cor_icone,
       }
     } else {
-      // Sem personalização configurada — usa defaults mas com o nome real da empresa
+      // Sem personalização configurada — usa o nome real da empresa sem fallback fixo
       config.value = { ...DEFAULTS, nome_empresa: nomeEmpresaFallback }
     }
 

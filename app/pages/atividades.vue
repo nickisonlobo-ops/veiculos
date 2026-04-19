@@ -139,7 +139,7 @@
             </div>
           </div>
           <div class="flex flex-col gap-1.5">
-            <label class="text-xs font-bold text-gray-500 uppercase tracking-widest">Funcionário</label>
+              <label class="text-xs font-bold text-gray-500 uppercase tracking-widest">Responsável</label>
             <select v-model="filtros.funcionarioId" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
               <option value="">Todos</option>
               <option v-for="f in funcionariosOpcoes" :key="f.id" :value="String(f.id)">{{ f.nome }}</option>
@@ -216,7 +216,7 @@
           <thead>
             <tr class="bg-gray-50 border-b border-gray-100">
               <th class="text-left px-6 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest w-12">#</th>
-              <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Funcionário</th>
+              <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Responsável</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Título / Descrição</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Periodicidade</th>
               <th class="text-left px-5 py-4 text-xs font-extrabold text-gray-400 uppercase tracking-widest">Prioridade</th>
@@ -256,7 +256,7 @@
                     {{ (at.funcionarios?.nome ?? '?')[0]?.toUpperCase() }}
                   </div>
                   <div class="flex flex-col min-w-0">
-                    <span class="font-semibold text-gray-800 max-w-[140px] block truncate whitespace-nowrap">{{ at.funcionarios?.nome ?? '�?"' }}</span>
+                    <span class="font-semibold text-gray-800 max-w-[140px] block truncate whitespace-nowrap">{{ at.funcionarios?.nome ?? '—' }}</span>
                     <span v-if="at.funcionarios?.cargo" class="text-xs text-gray-400 truncate">{{ at.funcionarios.cargo }}</span>
                   </div>
                 </div>
@@ -302,7 +302,7 @@
                     Recorrente
                   </span>
                   <span v-if="at.hora_inicio || at.hora_fim" class="text-gray-400">
-                    {{ at.hora_inicio ?? '�?"' }}{{ at.hora_fim ? ` �?' ${at.hora_fim}` : '' }}
+                    {{ at.hora_inicio ?? '–' }}{{ at.hora_fim ? ` → ${at.hora_fim}` : '' }}
                   </span>
                 </div>
               </td>
@@ -350,10 +350,10 @@
             <form class="flex flex-col gap-5 px-8 py-7 overflow-y-auto max-h-[75vh]" @submit.prevent="adicionando ? salvarAdicao() : salvarEdicao()">
               <!-- Funcionário -->
               <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-semibold text-gray-700">Funcionário *</label>
+                <label class="text-sm font-semibold text-gray-700">Responsável *</label>
                 <select v-model="form.funcionario_id" required class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)]" :class="formErrors.funcionario_id ? 'border-red-400 ring-1 ring-red-400' : ''">
-                  <option :value="null">Selecione o funcionário</option>
-                  <option v-for="f in funcionariosOpcoes" :key="f.id" :value="f.id">{{ f.nome }}{{ f.cargo ? ` �?" ${f.cargo}` : '' }}</option>
+                  <option :value="null">Selecione o responsável</option>
+                  <option v-for="f in funcionariosOpcoes" :key="f.id" :value="f.id">{{ f.nome }}{{ f.cargo ? ` · ${f.cargo}` : '' }}</option>
                 </select>
                 <p v-if="formErrors.funcionario_id" class="text-xs text-red-500 font-medium">{{ formErrors.funcionario_id }}</p>
               </div>
@@ -380,12 +380,31 @@
                     :key="op.value"
                     type="button"
                     class="flex-1 text-xs font-bold py-2.5 rounded-xl border transition-colors"
-                    :class="form.periodicidade === op.value ? 'text-white border-transparent' : 'border-gray-200 text-gray-500 hover:border-gray-300 bg-white'"
-                    :style="form.periodicidade === op.value ? { background: 'var(--color-btn, var(--color-primary, #6b7280))' } : {}"
+                    :class="form.periodicidade === op.value ? 'border-transparent' : 'border-gray-200 text-gray-500 hover:border-gray-300 bg-white'"
+                    :style="form.periodicidade === op.value ? { background: 'var(--color-btn, var(--color-primary, #6b7280))', color: 'var(--color-btn-text, #ffffff)', boxShadow: '0 0 0 2px var(--color-primary, #6b7280)' } : {}"
                     @click="form.periodicidade = op.value"
                   >
                     {{ op.label }}
                   </button>
+                </div>
+              </div>
+
+              <!-- Dias da Semana (só em modelos) -->
+              <div v-if="viewMode === 'modelos'" class="flex flex-col gap-1.5">
+                <label class="text-sm font-semibold text-gray-700">
+                  Dias da Semana
+                  <span class="ml-1 text-xs font-normal text-gray-400">(vazio = todos os dias)</span>
+                </label>
+                <div class="flex gap-1.5">
+                  <button
+                    v-for="dia in [{ label: 'Dom', value: 'dom' }, { label: 'Seg', value: 'seg' }, { label: 'Ter', value: 'ter' }, { label: 'Qua', value: 'qua' }, { label: 'Qui', value: 'qui' }, { label: 'Sex', value: 'sex' }, { label: 'Sáb', value: 'sab' }]"
+                    :key="dia.value"
+                    type="button"
+                    class="flex-1 text-xs font-bold py-2 rounded-xl border transition-colors"
+                    :class="form.dias_semana.includes(dia.value) ? 'border-transparent' : 'border-gray-200 text-gray-500 hover:border-gray-300 bg-white'"
+                    :style="form.dias_semana.includes(dia.value) ? { background: 'var(--color-btn, var(--color-primary, #6b7280))', color: 'var(--color-btn-text, #ffffff)', boxShadow: '0 0 0 2px var(--color-primary, #6b7280)' } : {}"
+                    @click="toggleDia(dia.value)"
+                  >{{ dia.label }}</button>
                 </div>
               </div>
 
@@ -415,7 +434,7 @@
               <div class="flex flex-col gap-1.5">
                 <label class="text-sm font-semibold text-gray-700">
                   Data da Atividade
-                  <span v-if="viewMode === 'modelos'" class="ml-1 text-xs font-normal text-pink-600">(deixe em branco para modelo recorrente)</span>
+
                 </label>
                 <input v-model="form.data_atividade" type="date" class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-800 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary,#6b7280)] focus:border-[var(--color-primary,#6b7280)]" />
               </div>
@@ -445,7 +464,7 @@
                   Cancelar
                 </button>
                 <AppButton variant="primary" size="md" type="submit" :loading="saving" class="flex-1">
-                  {{ adicionando ? 'Criar Atividade' : 'Salvar Alterações' }}
+                  {{ adicionando ? (viewMode === 'modelos' ? 'Criar Modelo' : 'Criar Atividade') : 'Salvar Alterações' }}
                 </AppButton>
               </div>
             </form>
@@ -517,6 +536,7 @@ interface Atividade {
   hora_inicio: string | null
   hora_fim: string | null
   observacao: string | null
+  dias_semana: string[] | null
   created_at: string | null
   funcionarios: { nome: string; cargo: string | null } | null
 }
@@ -553,6 +573,7 @@ const form = reactive({
   status:         'pendente',
   prioridade:     'media',
   periodicidade:  'diaria',
+  dias_semana:    [] as string[],
   data_atividade: '',
   hora_inicio:    '',
   hora_fim:       '',
@@ -701,6 +722,7 @@ function resetForm() {
   form.status         = 'pendente'
   form.prioridade     = 'media'
   form.periodicidade  = 'diaria'
+  form.dias_semana    = []
   form.data_atividade = ''
   form.hora_inicio    = ''
   form.hora_fim       = ''
@@ -752,21 +774,29 @@ function editAtividade(at: Atividade) {
   form.status         = at.status ?? 'pendente'
   form.prioridade     = at.prioridade ?? 'media'
   form.periodicidade  = at.periodicidade ?? 'diaria'
+  form.dias_semana    = at.dias_semana ? [...at.dias_semana] : []
   form.data_atividade = at.data_atividade ?? ''
   form.hora_inicio    = at.hora_inicio ?? ''
   form.hora_fim       = at.hora_fim ?? ''
   form.observacao     = at.observacao ?? ''
 }
 
+function toggleDia(dia: string) {
+  const idx = form.dias_semana.indexOf(dia)
+  if (idx >= 0) form.dias_semana.splice(idx, 1)
+  else form.dias_semana.push(dia)
+}
+
 function validateForm(): boolean {
   formErrors.funcionario_id = ''; formErrors.titulo = ''
   let ok = true
-  if (!form.funcionario_id) { formErrors.funcionario_id = 'Selecione o funcionário.'; ok = false }
+  if (!form.funcionario_id) { formErrors.funcionario_id = 'Selecione o responsável.'; ok = false }
   if (!form.titulo.trim())  { formErrors.titulo = 'O título é obrigatório.'; ok = false }
   return ok
 }
 
 function buildPayload() {
+  const isModelo = viewMode.value === 'modelos'
   return {
     funcionario_id: form.funcionario_id!,
     titulo:         form.titulo.trim(),
@@ -774,7 +804,9 @@ function buildPayload() {
     status:         form.status,
     prioridade:     form.prioridade,
     periodicidade:  form.periodicidade,
-    data_atividade: form.data_atividade || null,
+    // Modelos têm data_atividade null (são recorrentes); instâncias precisam de uma data
+    data_atividade: isModelo ? null : (form.data_atividade || new Date().toISOString().slice(0, 10)),
+    dias_semana:    isModelo && form.dias_semana.length > 0 ? form.dias_semana : null,
     hora_inicio:    form.hora_inicio || null,
     hora_fim:       form.hora_fim || null,
     observacao:     form.observacao.trim() || null,
