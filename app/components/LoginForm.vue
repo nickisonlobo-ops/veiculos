@@ -1,147 +1,229 @@
 ﻿<template>
-  <div class="w-full max-w-md">
-    <!-- Cabeçalho fora do card -->
-    <div class="flex flex-col items-center gap-3 mb-8">
-      <!-- Ícone Aurora -->
-      <div class="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-900/40" style="background: linear-gradient(135deg, #ec4899, #a855f7)">
-        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/>
+  <div class="w-full max-w-[420px]">
+
+    <!-- ── Logo / Brand ───────────────────────────────────────── -->
+    <div class="flex items-center gap-4 mb-10">
+      <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0"
+           style="background:linear-gradient(145deg,#1e40af,#0ea5e9);box-shadow:0 0 24px rgba(14,165,233,0.35)">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
         </svg>
       </div>
-      <div class="text-center">
-        <h1 class="text-2xl font-black tracking-tight" style="background: linear-gradient(135deg, #ec4899, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text">Glow Up Gestão</h1>
-        <p class="text-sm text-gray-500 mt-0.5">Plataforma de Gestão</p>
+      <div>
+        <p class="text-xs font-bold tracking-[0.18em] uppercase" style="color:#38bdf8">Auto Gestão</p>
+        <h1 class="text-2xl font-black text-white leading-tight tracking-tight mt-0.5">
+          {{ activeTab === 'login' ? 'Bem-vindo de volta' : 'Criar conta' }}
+        </h1>
       </div>
     </div>
 
-    <!-- Card -->
-    <div class="rounded-2xl border border-pink-100 shadow-xl shadow-pink-100/60 p-8" style="background: #ffffff">
-      <!-- Abas -->
-      <div class="flex rounded-xl p-1 mb-6" style="background: #fdf2f8">
+    <!-- ── Card Glassmorphism ─────────────────────────────────── -->
+    <div class="card-glass rounded-3xl p-8 space-y-6">
+
+      <!-- Tab switcher minimalista -->
+      <div class="flex gap-1 p-1 rounded-xl" style="background:rgba(255,255,255,0.05)">
         <button
           v-for="tab in tabs"
           :key="tab.key"
           type="button"
-          :class="[
-            'flex-1 py-2 text-sm font-semibold rounded-lg transition-all duration-200',
-            activeTab === tab.key
-              ? 'text-white shadow-sm'
-              : 'text-gray-400 hover:text-gray-600',
-          activeTab === tab.key ? '' : '',
-          ]"
-          :style="activeTab === tab.key ? 'background: linear-gradient(135deg, #ec4899, #a855f7)' : ''"
+          class="flex-1 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
+          :style="activeTab === tab.key
+            ? 'background:rgba(14,165,233,0.18);color:#38bdf8;box-shadow:0 0 0 1px rgba(56,189,248,0.3)'
+            : 'color:rgba(148,163,184,0.7)'"
           @click="activeTab = tab.key"
         >
           {{ tab.label }}
         </button>
       </div>
 
-      <!-- Título dinâmico -->
-      <p class="text-base font-semibold text-gray-700 text-center mb-6">
-        {{ activeTab === 'login' ? 'Entre na sua conta' : 'Crie sua conta' }}
-      </p>
+      <!-- ── Form Entrar ── -->
+      <form v-if="activeTab === 'login'" class="space-y-5" @submit.prevent="handleLogin">
+        <div class="space-y-1.5">
+          <label class="field-label">E-mail</label>
+          <input
+            v-model="login.email"
+            type="email"
+            placeholder="seu@email.com"
+            class="field-input"
+            required
+          />
+          <p v-if="formErrors.email" class="text-xs text-red-400 mt-1">{{ formErrors.email }}</p>
+        </div>
 
-    <!-- Entrar -->
-    <form v-if="activeTab === 'login'" class="flex flex-col gap-5 text-gray-800" @submit.prevent="handleLogin">
-      <AppInput
-        v-model="login.email"
-        label="E-mail"
-        type="email"
-        placeholder="Digite seu e-mail"
-        :error="formErrors.email"
-        required
-      />
-      <AppInput
-        v-model="login.password"
-        :type="showPassword ? 'text' : 'password'"
-        label="Senha"
-        placeholder="Digite sua senha"
-        :error="formErrors.password"
-        required
-      >
-        <template #trailing>
-          <button type="button" class="text-gray-400 hover:text-gray-600 transition-colors" @click="showPassword = !showPassword">
-            <svg v-if="showPassword" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
-            <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          </button>
-        </template>
-      </AppInput>
-      <p v-if="authError" class="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2.5 text-center">
-        {{ authError }}
-      </p>
-      <AppButton variant="secondary" size="lg" type="submit" :loading="authLoading" class="mt-2 w-full font-bold !text-white !border-0" style="background: linear-gradient(135deg, #ec4899, #a855f7)">
-        Entrar
-      </AppButton>
-    </form>
+        <div class="space-y-1.5">
+          <label class="field-label">Senha</label>
+          <div class="relative">
+            <input
+              v-model="login.password"
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="••••••••"
+              class="field-input pr-11"
+              required
+            />
+            <button type="button" class="eye-btn" @click="showPassword = !showPassword">
+              <svg v-if="showPassword" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
+              <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </button>
+          </div>
+          <p v-if="formErrors.password" class="text-xs text-red-400 mt-1">{{ formErrors.password }}</p>
+        </div>
 
-    <!-- Criar conta -->
-    <form v-else class="flex flex-col gap-5 text-gray-800" @submit.prevent="handleRegister">
-      <AppInput
-        v-model="register.name"
-        label="Nome"
-        type="text"
-        placeholder="Digite seu nome completo"
-        :error="registerErrors.name"
-        required
-      />
-      <AppInput
-        v-model="register.nomeEmpresa"
-        label="Nome da empresa"
-        type="text"
-        placeholder="Ex: Auto Flow, Studio X..."
-        :error="registerErrors.nomeEmpresa"
-        required
-      />
-      <AppInput
-        v-model="register.email"
-        label="E-mail"
-        type="email"
-        placeholder="Digite seu e-mail"
-        :error="registerErrors.email"
-        required
-      />
-      <AppInput
-        v-model="register.password"
-        :type="showRegisterPassword ? 'text' : 'password'"
-        label="Senha"
-        placeholder="Digite sua senha"
-        :error="registerErrors.password"
-        required
-      >
-        <template #trailing>
-          <button type="button" class="text-gray-400 hover:text-gray-600 transition-colors" @click="showRegisterPassword = !showRegisterPassword">
-            <svg v-if="showRegisterPassword" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
-            <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          </button>
-        </template>
-      </AppInput>
-      <AppInput
-        v-model="register.confirmPassword"
-        :type="showRegisterPassword ? 'text' : 'password'"
-        label="Confirmar Senha"
-        placeholder="Confirme sua senha"
-        :error="registerErrors.confirmPassword"
-        required
-      />
-      <p v-if="authError" class="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2.5 text-center">
-        {{ authError }}
-      </p>
-      <p v-if="registerSuccess" class="text-sm text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-4 py-2.5 text-center">
-        Cadastro realizado! Verifique seu e-mail para confirmar a conta.
-      </p>
-      <AppButton variant="secondary" size="lg" type="submit" :loading="authLoading" class="mt-2 w-full font-bold !text-white !border-0" style="background: linear-gradient(135deg, #ec4899, #a855f7)">
-        Criar conta
-      </AppButton>
-    </form>
+        <p v-if="authError" class="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2.5 text-center">
+          {{ authError }}
+        </p>
+
+        <button type="submit" class="submit-btn" :disabled="authLoading">
+          <svg v-if="authLoading" class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+          </svg>
+          <span>{{ authLoading ? 'Entrando…' : 'Entrar' }}</span>
+          <svg v-if="!authLoading" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+          </svg>
+        </button>
+      </form>
+
+      <!-- ── Form Criar Conta ── -->
+      <form v-else class="space-y-4" @submit.prevent="handleRegister">
+        <div class="space-y-1.5">
+          <label class="field-label">Nome completo</label>
+          <input v-model="register.name" type="text" placeholder="João da Silva" class="field-input" required />
+          <p v-if="registerErrors.name" class="text-xs text-red-400 mt-1">{{ registerErrors.name }}</p>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="field-label">Nome da empresa</label>
+          <input v-model="register.nomeEmpresa" type="text" placeholder="Minha Concessionária" class="field-input" required />
+          <p v-if="registerErrors.nomeEmpresa" class="text-xs text-red-400 mt-1">{{ registerErrors.nomeEmpresa }}</p>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="field-label">E-mail</label>
+          <input v-model="register.email" type="email" placeholder="seu@email.com" class="field-input" required />
+          <p v-if="registerErrors.email" class="text-xs text-red-400 mt-1">{{ registerErrors.email }}</p>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="field-label">Senha</label>
+          <div class="relative">
+            <input v-model="register.password" :type="showRegisterPassword ? 'text' : 'password'" placeholder="••••••••" class="field-input pr-11" required />
+            <button type="button" class="eye-btn" @click="showRegisterPassword = !showRegisterPassword">
+              <svg v-if="showRegisterPassword" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
+              <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </button>
+          </div>
+          <p v-if="registerErrors.password" class="text-xs text-red-400 mt-1">{{ registerErrors.password }}</p>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="field-label">Confirmar senha</label>
+          <input v-model="register.confirmPassword" :type="showRegisterPassword ? 'text' : 'password'" placeholder="••••••••" class="field-input" required />
+          <p v-if="registerErrors.confirmPassword" class="text-xs text-red-400 mt-1">{{ registerErrors.confirmPassword }}</p>
+        </div>
+
+        <p v-if="authError" class="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2.5 text-center">
+          {{ authError }}
+        </p>
+        <p v-if="registerSuccess" class="text-sm text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-4 py-2.5 text-center">
+          Cadastro realizado! Verifique seu e-mail.
+        </p>
+
+        <button type="submit" class="submit-btn" :disabled="authLoading">
+          <svg v-if="authLoading" class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+          </svg>
+          <span>{{ authLoading ? 'Criando conta…' : 'Criar conta' }}</span>
+          <svg v-if="!authLoading" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+          </svg>
+        </button>
+      </form>
     </div>
+
+    <!-- rodapé -->
+    <p class="text-center text-xs mt-6" style="color:rgba(100,116,139,0.7)">
+      Plataforma de Gestão Automotiva
+    </p>
   </div>
 </template>
+
+<style scoped>
+.card-glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 32px 64px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,0.8);
+}
+
+.field-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 0.75rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  color: #f1f5f9;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.field-input::placeholder { color: rgba(100,116,139,0.55); }
+.field-input:focus {
+  border-color: rgba(56,189,248,0.5);
+  box-shadow: 0 0 0 3px rgba(56,189,248,0.08);
+}
+
+.eye-btn {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(100,116,139,0.6);
+  transition: color 0.15s;
+}
+.eye-btn:hover { color: #94a3b8; }
+
+.submit-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.875rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #1e40af, #0ea5e9);
+  box-shadow: 0 4px 24px rgba(14,165,233,0.3);
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  margin-top: 0.5rem;
+}
+.submit-btn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 32px rgba(14,165,233,0.4);
+}
+.submit-btn:active:not(:disabled) { transform: translateY(0); }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import AppInput from '~/components/AppInput.vue'
-import AppButton from '~/components/AppButton.vue'
 import { useAuth } from '~/composables/useAuth'
 
 defineOptions({ name: 'LoginForm' })

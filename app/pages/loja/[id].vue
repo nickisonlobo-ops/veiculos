@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full p-3 sm:p-8">
+  <div class="min-h-full bg-gray-50/60 p-3 sm:p-8">
     <div v-if="loading" class="flex items-center justify-center py-32">
       <span class="inline-block w-10 h-10 border-4 border-t-transparent rounded-full animate-spin" :style="{ borderColor: `var(--color-primary, #6b7280)`, borderTopColor: `transparent` }" />
     </div>

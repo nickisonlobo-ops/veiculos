@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full p-3 sm:p-8">
+  <div class="min-h-full bg-gray-50/60 p-3 sm:p-8">
 
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-32">

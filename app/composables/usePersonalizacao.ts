@@ -260,7 +260,6 @@ export function usePersonalizacao() {
     root.style.setProperty('--color-icon-10',      hexToRgba(cfg.cor_icone, 0.10))
     root.style.setProperty('--color-icon-light',   hexToRgba(cfg.cor_icone, 0.12))
     root.style.setProperty('--color-icon-border',  hexToRgba(cfg.cor_icone, 0.30))
-    root.style.setProperty('--color-card-texto',   cfg.cor_card_texto)
 
     // ── Injeta CSS global para sobrescrever classes Tailwind pink ──
     injectGlobalThemeCSS(cfg)
