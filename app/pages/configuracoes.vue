@@ -88,7 +88,7 @@
           <input
             type="range"
             min="20"
-            max="128"
+            max="300"
             step="2"
             :value="logoSizePx"
             class="w-full h-2 rounded-full cursor-pointer"
@@ -97,8 +97,8 @@
           />
           <div class="flex justify-between text-[10px] text-gray-400 font-semibold select-none">
             <span>20px</span>
-            <span>64px</span>
-            <span>128px</span>
+            <span>150px</span>
+            <span>300px</span>
           </div>
         </div>
       </section>
@@ -113,7 +113,7 @@
             type="text"
             maxlength="60"
             class="w-full max-w-sm border border-pink-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300"
-            placeholder="UpStudio"
+            placeholder=""
           />
         </div>
       </section>
@@ -314,7 +314,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
                 </svg>
               </div>
-              <span class="text-xs font-bold" :style="{ color: form.cor_card_texto }">{{ form.nome_empresa || 'UpStudio' }}</span>
+              <span class="text-xs font-bold" :style="{ color: form.cor_card_texto }">{{ form.nome_empresa }}</span>
             </div>
             <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black" :style="{ background: previewPrimaryBg, color: form.cor_primaria_texto }">A</div>
           </div>

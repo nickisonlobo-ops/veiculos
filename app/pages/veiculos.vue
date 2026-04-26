@@ -445,7 +445,7 @@
                   Selecionar fotos
                   <input type="file" accept="image/*" multiple class="hidden" @change="handleFotoInput" />
                 </label>
-                <p class="text-xs text-gray-400">JPEG, PNG, WEBP — máx. 5 MB por foto. Borda âmbar = nova foto pendente de salvar.</p>
+                <p class="text-xs text-gray-400">JPEG, PNG, WEBP — máx. 5 MB por foto. Cole com <kbd class="px-1 py-0.5 rounded bg-gray-100 border border-gray-300 font-mono text-[11px]">Ctrl+V</kbd> ou selecione. Borda âmbar = nova foto pendente de salvar.</p>
               </div>
 
               <!-- Observação -->
@@ -503,7 +503,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, watch } from 'vue'
 import { createSupabaseClient } from '~/lib/supabase'
 import { useAdmin } from '~/composables/useAdmin'
 import { useEmpresa } from '~/composables/useEmpresa'
@@ -586,6 +586,24 @@ function handleFotoInput(e: Event) {
   }
   ;(e.target as HTMLInputElement).value = ''
 }
+function handlePasteGlobal(e: ClipboardEvent) {
+  const items = e.clipboardData?.items
+  if (!items) return
+  for (const item of Array.from(items)) {
+    if (!item.type.startsWith('image/')) continue
+    const file = item.getAsFile()
+    if (!file) continue
+    novosArquivos.value.push(file)
+    fotoPreviewUrls.value.push(URL.createObjectURL(file))
+  }
+}
+
+const modalAberto = computed(() => adicionando.value || editando.value !== null)
+watch(modalAberto, (aberto) => {
+  if (aberto) document.addEventListener('paste', handlePasteGlobal)
+  else document.removeEventListener('paste', handlePasteGlobal)
+})
+
 function removerFotoExistente(i: number) {
   fotosExistentes.value.splice(i, 1)
 }

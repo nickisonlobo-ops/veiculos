@@ -1,0 +1,930 @@
+{
+  "name": "Agente IA - Revenda de Veiculos",
+  "nodes": [
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000001",
+      "name": "Chat",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "a1b2c3d4-e5f6-4789-8abc-000000000099",
+      "parameters": {
+        "options": {}
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000002",
+      "name": "Agente IA",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        500,
+        300
+      ],
+      "parameters": {
+        "options": {
+          "systemMessage": "Voce e um assistente especializado em revenda de veiculos.\nTem acesso ao banco de dados e pode consultar estoque, clientes, vendas, propostas e financas.\n\nRegras:\n- Responda sempre em portugues\n- Seja objetivo e organize em listas\n- Para valores monetarios use R$ X.XXX,XX\n- O empresa_id ja esta configurado, nao peca ao usuario\n- Antes de registrar venda ou proposta, confirme os dados\n- Para parametros string opcionais sem filtro, envie string vazia \"\"\n- Para parametros numericos opcionais sem filtro, envie 0",
+          "maxIterations": 10
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000003",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        200,
+        600
+      ],
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "credentials": {
+        "openAiApi": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_OPENAI",
+          "name": "OpenAI"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000004",
+      "name": "Memoria",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        500,
+        600
+      ],
+      "parameters": {
+        "contextWindowLength": 10
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000005",
+      "name": "Dashboard Geral",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        0
+      ],
+      "parameters": {
+        "name": "dashboard_geral",
+        "description": "Retorna resumo geral: veiculos disponiveis/reservados, vendas do mes, propostas abertas, agendamentos de hoje e receita. Use para status geral ou indicadores.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_dashboard",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000006",
+      "name": "Buscar Veiculos",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        140
+      ],
+      "parameters": {
+        "name": "buscar_veiculos",
+        "description": "Busca veiculos no estoque com filtros opcionais. Para nao filtrar string use vazia, para numero use 0.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_buscar_veiculos",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            },
+            {
+              "name": "p_status",
+              "value": "={{ $fromAI('status', 'Status: disponivel, reservado, vendido ou inativo. String vazia para todos.', 'string') }}"
+            },
+            {
+              "name": "p_marca",
+              "value": "={{ $fromAI('marca', 'Marca do veiculo ex: Toyota. String vazia para todas.', 'string') }}"
+            },
+            {
+              "name": "p_modelo",
+              "value": "={{ $fromAI('modelo', 'Modelo do veiculo ex: Corolla. String vazia para todos.', 'string') }}"
+            },
+            {
+              "name": "p_preco_min",
+              "value": "={{ $fromAI('preco_min', 'Preco minimo em reais. Use 0 para sem limite.', 'number') }}"
+            },
+            {
+              "name": "p_preco_max",
+              "value": "={{ $fromAI('preco_max', 'Preco maximo em reais. Use 0 para sem limite.', 'number') }}"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000007",
+      "name": "Resumo do Estoque",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        280
+      ],
+      "parameters": {
+        "name": "resumo_estoque",
+        "description": "Resumo do estoque: total por status, valor total disponivel e quantidade por marca.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_resumo_estoque",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000008",
+      "name": "Buscar Clientes",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        420
+      ],
+      "parameters": {
+        "name": "buscar_clientes",
+        "description": "Busca clientes por nome, email, CPF ou telefone. String vazia lista todos.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_buscar_clientes",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            },
+            {
+              "name": "p_busca",
+              "value": "={{ $fromAI('busca', 'Nome, email, CPF ou telefone. String vazia lista todos.', 'string') }}"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000009",
+      "name": "Criar Cliente",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        560
+      ],
+      "parameters": {
+        "name": "criar_cliente",
+        "description": "Cadastra novo cliente. Apenas nome e obrigatorio. String vazia para campos nao informados.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_criar_cliente",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            },
+            {
+              "name": "p_nome",
+              "value": "={{ $fromAI('nome', 'Nome completo do cliente. Obrigatorio.', 'string') }}"
+            },
+            {
+              "name": "p_email",
+              "value": "={{ $fromAI('email', 'Email do cliente. String vazia se nao informado.', 'string') }}"
+            },
+            {
+              "name": "p_telefone",
+              "value": "={{ $fromAI('telefone', 'Telefone do cliente. String vazia se nao informado.', 'string') }}"
+            },
+            {
+              "name": "p_cpf",
+              "value": "={{ $fromAI('cpf', 'CPF do cliente. String vazia se nao informado.', 'string') }}"
+            },
+            {
+              "name": "p_endereco",
+              "value": "={{ $fromAI('endereco', 'Endereco do cliente. String vazia se nao informado.', 'string') }}"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000010",
+      "name": "Registrar Venda",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        700
+      ],
+      "parameters": {
+        "name": "registrar_venda",
+        "description": "Registra venda e muda status do veiculo para vendido. Use SOMENTE apos confirmacao explicita.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_registrar_venda",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            },
+            {
+              "name": "p_veiculo_id",
+              "value": "={{ $fromAI('veiculo_id', 'ID numerico do veiculo.', 'number') }}"
+            },
+            {
+              "name": "p_cliente_id",
+              "value": "={{ $fromAI('cliente_id', 'ID numerico do cliente.', 'number') }}"
+            },
+            {
+              "name": "p_preco_venda",
+              "value": "={{ $fromAI('preco_venda', 'Valor final da venda em reais.', 'number') }}"
+            },
+            {
+              "name": "p_observacoes",
+              "value": "={{ $fromAI('observacoes', 'Observacoes. String vazia se nao houver.', 'string') }}"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000011",
+      "name": "Listar Vendas",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        840
+      ],
+      "parameters": {
+        "name": "listar_vendas",
+        "description": "Lista vendas com detalhes do cliente e veiculo. Filtra por mes (1-12) e ano. Use 0 para nao filtrar.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_listar_vendas",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            },
+            {
+              "name": "p_mes",
+              "value": "={{ $fromAI('mes', 'Mes de 1 a 12. Use 0 para nao filtrar.', 'number') }}"
+            },
+            {
+              "name": "p_ano",
+              "value": "={{ $fromAI('ano', 'Ano com 4 digitos ex 2026. Use 0 para nao filtrar.', 'number') }}"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000012",
+      "name": "Criar Proposta",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        980
+      ],
+      "parameters": {
+        "name": "criar_proposta",
+        "description": "Cria proposta de venda. Requer id do cliente, id do veiculo e valor proposto.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_criar_proposta",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            },
+            {
+              "name": "p_cliente_id",
+              "value": "={{ $fromAI('cliente_id', 'ID numerico do cliente.', 'number') }}"
+            },
+            {
+              "name": "p_veiculo_id",
+              "value": "={{ $fromAI('veiculo_id', 'ID numerico do veiculo.', 'number') }}"
+            },
+            {
+              "name": "p_valor",
+              "value": "={{ $fromAI('valor', 'Valor da proposta em reais.', 'number') }}"
+            },
+            {
+              "name": "p_observacoes",
+              "value": "={{ $fromAI('observacoes', 'Observacoes. String vazia se nao houver.', 'string') }}"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000013",
+      "name": "Listar Propostas",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        1120
+      ],
+      "parameters": {
+        "name": "listar_propostas",
+        "description": "Lista propostas com dados do cliente e veiculo. Status: aberta, aceita, recusada ou expirada. String vazia lista todas.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_listar_propostas",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            },
+            {
+              "name": "p_status",
+              "value": "={{ $fromAI('status', 'Status: aberta, aceita, recusada ou expirada. String vazia para todas.', 'string') }}"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000014",
+      "name": "Resumo Financeiro",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        1260
+      ],
+      "parameters": {
+        "name": "resumo_financeiro",
+        "description": "Resumo financeiro do mes: receita, despesas e lucro estimado. Tambem lista contas vencidas. Use 0 para mes/ano atual.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_resumo_financeiro",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            },
+            {
+              "name": "p_mes",
+              "value": "={{ $fromAI('mes', 'Mes de 1 a 12. Use 0 para mes atual.', 'number') }}"
+            },
+            {
+              "name": "p_ano",
+              "value": "={{ $fromAI('ano', 'Ano com 4 digitos. Use 0 para ano atual.', 'number') }}"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000015",
+      "name": "Contas a Pagar",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        1400
+      ],
+      "parameters": {
+        "name": "contas_a_pagar",
+        "description": "Lista contas a pagar. Status: pendente, pago, vencido ou cancelado. String vazia lista todas.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_listar_contas_pagar",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            },
+            {
+              "name": "p_status",
+              "value": "={{ $fromAI('status', 'Status: pendente, pago, vencido ou cancelado. String vazia para todas.', 'string') }}"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-8abc-000000000016",
+      "name": "Agendamentos",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        1540
+      ],
+      "parameters": {
+        "name": "buscar_agendamentos",
+        "description": "Busca agendamentos por intervalo de datas YYYY-MM-DD. Status: agendado, confirmado, concluido, cancelado ou faltou. String vazia para todos.",
+        "method": "POST",
+        "url": "https://SEU_PROJECT_ID.supabase.co/rest/v1/rpc/agente_buscar_agendamentos",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SUA_SERVICE_ROLE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_empresa_id",
+              "value": "1"
+            },
+            {
+              "name": "p_data_inicio",
+              "value": "={{ $fromAI('data_inicio', 'Data de inicio no formato YYYY-MM-DD.', 'string') }}"
+            },
+            {
+              "name": "p_data_fim",
+              "value": "={{ $fromAI('data_fim', 'Data de fim no formato YYYY-MM-DD.', 'string') }}"
+            },
+            {
+              "name": "p_status",
+              "value": "={{ $fromAI('status', 'Status do agendamento. String vazia para todos.', 'string') }}"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SUBSTITUA_ID_CREDENCIAL_SUPABASE",
+          "name": "Supabase apikey"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Chat": {
+      "main": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memoria": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dashboard Geral": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Veiculos": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resumo do Estoque": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Clientes": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Cliente": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar Venda": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listar Vendas": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Proposta": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listar Propostas": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resumo Financeiro": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contas a Pagar": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agendamentos": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": []
+}

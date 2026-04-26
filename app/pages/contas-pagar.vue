@@ -19,8 +19,7 @@
             <div>
               <div class="flex items-center gap-2 mb-1">
                 <span class="text-xs font-semibold text-white/80 uppercase tracking-widest">Financeiro</span>
-                <span class="w-1 h-1 rounded-full bg-white/40" />
-                <span class="text-xs text-white/70 hidden sm:inline">UpStudio</span>
+
               </div>
               <h1 class="text-xl sm:text-3xl font-bold text-white tracking-tight leading-none">Contas a Pagar</h1>
               <p class="text-sm text-white/80 mt-1.5">

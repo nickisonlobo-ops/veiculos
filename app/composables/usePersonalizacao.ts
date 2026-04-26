@@ -178,6 +178,12 @@ export function usePersonalizacao() {
       return null
     }
 
+    // Garante que o bucket existe (cria se não existir)
+    const { error: bucketErr } = await supabase.storage.createBucket('empresa-assets', { public: true })
+    if (bucketErr && !bucketErr.message.includes('already exists') && !bucketErr.message.includes('Duplicate')) {
+      console.warn('[uploadLogo] aviso ao criar bucket:', bucketErr.message)
+    }
+
     const ext = file.name.split('.').pop()
     const path = `logos/${empresaId.value}/logo.${ext}`
 
@@ -188,7 +194,11 @@ export function usePersonalizacao() {
     uploadingLogo.value = false
 
     if (uploadErr) {
-      error.value = 'Erro ao enviar logo: ' + uploadErr.message
+      if (uploadErr.message === 'Failed to fetch') {
+        error.value = 'Erro de conexão com o Storage. Verifique se o bucket "empresa-assets" existe no painel do Supabase.'
+      } else {
+        error.value = 'Erro ao enviar logo: ' + uploadErr.message
+      }
       return null
     }
 
@@ -266,7 +276,7 @@ export function usePersonalizacao() {
   }
 
   function injectGlobalThemeCSS(cfg: PersonalizacaoConfig) {
-    const styleId = 'upstudio-theme-override'
+    const styleId = 'app-theme-override'
     let el = document.getElementById(styleId) as HTMLStyleElement | null
     if (!el) {
       el = document.createElement('style')
