@@ -397,6 +397,16 @@
           <p class="relative text-[11px] text-gray-500 mt-1">este período</p>
         </div>
 
+        <!-- Lucro Líquido -->
+        <div class="relative overflow-hidden rounded-2xl bg-white border border-emerald-100 p-4 shadow-sm">
+          <div class="relative flex items-center gap-2 mb-3">
+            <svg class="w-5 h-5 shrink-0" :style="{ color: lucroLiquido >= 0 ? '#10b981' : '#ef4444', opacity: '0.8' }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
+            <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Lucro Líquido</span>
+          </div>
+          <p class="relative text-lg sm:text-2xl font-black truncate" :class="lucroLiquido >= 0 ? 'text-emerald-600' : 'text-red-500'">{{ resumoLoading ? '...' : formatCurrency(lucroLiquido) }}</p>
+          <p class="relative text-[11px] text-gray-500 mt-1">venda − custo − contas pagas</p>
+        </div>
+
         <!-- Contas a pagar -->
         <div class="relative overflow-hidden rounded-2xl bg-white border border-pink-100 p-4 shadow-sm">
 
@@ -536,6 +546,7 @@ const { empresaId, userPerfil, loadEmpresa } = useEmpresa()
 const resumoLoading      = ref(true)
 const totalClientes      = ref(0)
 const faturamentoMes     = ref(0)
+const lucroLiquido       = ref(0)
 const vendasCount        = ref(0)
 const totalContasPagar   = ref(0)
 const valorContasPagar   = ref(0)
@@ -628,7 +639,7 @@ async function aplicarFiltros() {
   const [clientesResp, vendasResp, contasResp, tarefasResp, veiculosResp] = await Promise.all([
     supabase.from('clientes').select('id').eq('empresa_id', empresaId.value!),
     filtroOp.vendas
-      ? supabase.from('vendas').select('preco_veiculo, status, vendas_itens(valor_total, quantidade, preco_unitario)').eq('empresa_id', empresaId.value!).gte('data_venda', inicio).lte('data_venda', fim)
+      ? supabase.from('vendas').select('preco_veiculo, status, veiculos(preco_custo), vendas_itens(valor_total, quantidade, preco_unitario)').eq('empresa_id', empresaId.value!).gte('data_venda', inicio).lte('data_venda', fim)
       : Promise.resolve({ data: [], error: null }),
     filtroOp.contas
       ? supabase.from('contas_pagar').select('valor, data_vencimento, status').eq('empresa_id', empresaId.value!).gte('data_vencimento', inicio).lte('data_vencimento', fim)
@@ -647,6 +658,16 @@ async function aplicarFiltros() {
     const itens = (v.vendas_itens ?? []).reduce((s: number, i: any) => s + Number(i.valor_total ?? i.quantidade * i.preco_unitario ?? 0), 0)
     return sum + Number(v.preco_veiculo ?? 0) + itens
   }, 0)
+  lucroLiquido.value = vendas.reduce((sum: number, v: any) => {
+    const receita = Number(v.preco_veiculo ?? 0)
+    const custo   = Number(v.veiculos?.preco_custo ?? 0)
+    const itens   = (v.vendas_itens ?? []).reduce((s: number, i: any) => s + Number(i.valor_total ?? i.quantidade * i.preco_unitario ?? 0), 0)
+    return sum + (receita - custo) + itens
+  }, 0)
+  // Deduz contas pagas no período
+  const contasPagas = (contasResp.data ?? []).filter((c: any) => c.status === 'pago')
+  const totalContasPagasValor = contasPagas.reduce((sum: number, c: any) => sum + Number(c.valor ?? 0), 0)
+  lucroLiquido.value -= totalContasPagasValor
   ticketMedio.value = vendas.length > 0 ? faturamentoMes.value / vendas.length : 0
 
   const contas = (contasResp.data ?? []).filter((c: any) => c.status !== 'pago' && c.status !== 'cancelado')
